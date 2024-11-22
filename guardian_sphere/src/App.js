@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from "./layouts/Layout.js";
 import Loader from "./components/Loader/Loader.js";
 import Login from './Pages/Login/Login';
+import Home from './Pages/Home/Home';
 
 
 function App() {
@@ -16,8 +17,15 @@ function App() {
         <BrowserRouter>
           {/* <Layout> */}
             <Routes>
+              {/* Redirect to login page if no route match */}
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
+
+              {/* Home */}
+              <Route path="/home" element={<Home />} />
+
+
+              
             </Routes>
           {/* </Layout> */}
         </BrowserRouter>

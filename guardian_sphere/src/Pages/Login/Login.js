@@ -1,16 +1,24 @@
+import './Login.css';
 import React, { useState } from 'react';
-import './Login.css'; // Importez le fichier CSS
+import { useNavigate } from 'react-router-dom'; 
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate(); 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Vous pouvez ajouter une logique pour l'authentification ici
+
     console.log('Email:', email);
     console.log('Password:', password);
+  
+
+    navigate('/home');
   };
+  
 
   return (
     <div className="login-container">

@@ -13,7 +13,6 @@ i18n
       loadPath: "/assets/i18n/{{ns}}/{{lng}}.json",
     },
     fallbackLng: "en",
-    debug: true, // Activer le débogage pour tester
     ns: ["App", "Home", "Login"], 
     interpolation: {
       escapeValue: false, // React gère l'échappement

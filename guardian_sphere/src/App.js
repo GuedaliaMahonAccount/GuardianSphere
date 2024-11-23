@@ -14,8 +14,8 @@ function App() {
     <Provider store={store}>
     <GoogleOAuthProvider clientId="694902841176-5v6uv9tbmla2qeip29r5u86kqsbhpkcn.apps.googleusercontent.com">
       <Suspense fallback={<Loader />}>
-        <BrowserRouter>
-          {/* <Layout> */}
+      <BrowserRouter>
+        <Layout>
             <Routes>
               {/* Redirect to login page if no route match */}
               <Route path="/" element={<Navigate to="/login" replace />} />
@@ -24,11 +24,10 @@ function App() {
               {/* Home */}
               <Route path="/home" element={<Home />} />
 
-
               
             </Routes>
-          {/* </Layout> */}
-        </BrowserRouter>
+            </Layout>
+          </BrowserRouter>
       </Suspense>
     </GoogleOAuthProvider>
   </Provider>

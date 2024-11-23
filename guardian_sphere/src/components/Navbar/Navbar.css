@@ -1,0 +1,67 @@
+.nav {
+    width: 100%;
+    position: fixed;
+  }
+  
+  .nav-content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 20px;
+    gap: 2%;
+  }
+  
+  .nav-content img {
+    object-fit: contain;
+  }
+  
+  .top_navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 20px;
+    height: 7vh;
+    border-bottom: 1px solid #c9c9c9;
+    gap: 3%;
+    margin: -15px 15px;
+    background-color: white
+  }
+  
+  .video-nav-container {
+    cursor: pointer;
+    color: var(--main-black);
+    background-color: white;
+    border-radius: 8px;
+    border: none;
+    padding: 4px 8px;
+  }
+  
+  .video-nav-container:hover {
+    outline: 1px solid var(--main-purple);
+  }
+  
+  /* .video-nav-container:active {
+      background-color:#aa3596;
+  } */
+  .ai_training {
+    background: transparent;
+    border: none;
+  }
+  .navbar_settings{
+    padding:0 10px;
+  
+  }
+  .border_left_side_menu{
+    border-left: 2px solid lightgray;
+  }
+  .border_right_side_menu{
+    border-right: 2px solid lightgray;
+  }
+  .ai_icon,.video_camera_icon,.settings_icon{
+  margin: auto -25px;
+  cursor: pointer;
+  }
+  .settings_icon,.account_circle{
+    margin-top: 3px;
+  }

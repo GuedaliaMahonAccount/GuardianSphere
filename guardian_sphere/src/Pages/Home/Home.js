@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Home.css'; // Make sure to create this CSS file for styling the page
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation("Home"); 
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -16,7 +18,7 @@ const Home = () => {
       setTimeout(() => {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { sender: 'ai', text: 'I am here to help, how can I assist you today?' },
+          { sender: 'ai', text: t('hello_i_m_here_for_you') },
         ]);
       }, 1000); // AI responds after 1 second
     }
@@ -46,7 +48,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h2>Welcome, you are not alone</h2>
+      <h2>{t("hello_i_m_here_for_you")}</h2>
       <div className="chat-box">
         <div className="messages">
           {messages.map((msg, index) => (
@@ -62,10 +64,10 @@ const Home = () => {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Write here..."
+          placeholder={t("write_here")} // Translated placeholder
           className="message-input"
         />
-        <button type="submit" className="send-button">Send</button>
+        <button type="submit" className="send-button">{t("send")}</button>
       </form>
     </div>
   );

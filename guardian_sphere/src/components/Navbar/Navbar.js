@@ -29,7 +29,7 @@ const Navbar = () => {
       </div> */}
 
       <LanguageSelect />
-      <CurrencySelctor />
+      {/* <CurrencySelctor /> */}
 
 
 

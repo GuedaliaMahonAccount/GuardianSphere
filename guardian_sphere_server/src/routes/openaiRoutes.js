@@ -2,16 +2,19 @@ const express = require("express");
 const router = express.Router();
 const openaiController = require("../controllers/openaiController");
 
-// Nouvelle discussion
+// New chat
 router.post("/new-chat", openaiController.addNewChat);
 
-// Envoyer un message
+// Send message
 router.post("/chat", openaiController.chatWithAI);
 
-// Effacer un chat
+// Delete chat
 router.delete("/delete-chat", openaiController.deleteChat);
 
-// Obtenir l'historique
+// Get chat history
 router.get("/history/:username", openaiController.getChatHistory);
+
+// Update chat title
+router.put("/update-chat-title", openaiController.updateChatTitle);
 
 module.exports = router;

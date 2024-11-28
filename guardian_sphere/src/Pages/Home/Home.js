@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
 import { useTranslation } from "react-i18next";
-import { sendMessageToAI, getChatHistory, addNewChat, deleteChat } from './HomeReq';
+import { sendMessageToAI, getChatHistory, addNewChat, deleteChat, updateChatTitle } from './HomeReq';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Home = () => {
   const { t, i18n } = useTranslation("Home");
@@ -12,6 +14,8 @@ const Home = () => {
   const [chatHistory, setChatHistory] = useState([]); // Global chat history
   const [activeChatId, setActiveChatId] = useState(null); // ID of the active chat
   const [showHistory, setShowHistory] = useState(false); // Toggle for showing/hiding chat history
+  const [editingChatId, setEditingChatId] = useState(null); // ID of the chat being edited
+  const [newTitle, setNewTitle] = useState(''); // New title for the chat
 
   // Load chat history when the component mounts
   useEffect(() => {
@@ -36,18 +40,17 @@ const Home = () => {
   };
   
   // Select a chat from the history
-const handleSelectHistory = (chatId) => {
-  const selectedChat = chatHistory.find((chat) => chat._id === chatId);
-  if (selectedChat) {
-    // Correction du mapping des messages
-    setMessages(selectedChat.messages.map((msg) => ({
-      sender: msg.role === 'user' ? 'user' : 'ai',
-      text: msg.content
-    })));
-    setActiveChatId(chatId);
-    setShowHistory(false);
-  }
-};
+  const handleSelectHistory = (chatId) => {
+    const selectedChat = chatHistory.find((chat) => chat._id === chatId);
+    if (selectedChat) {
+      setMessages(selectedChat.messages.map((msg) => ({
+        sender: msg.role === 'user' ? 'user' : 'ai',
+        text: msg.content
+      })));
+      setActiveChatId(chatId);
+      setShowHistory(false);
+    }
+  };
 
   // Delete a chat from the history
   const handleDeleteChat = async (chatId) => {
@@ -64,7 +67,7 @@ const handleSelectHistory = (chatId) => {
     e.preventDefault();
     if (message.trim() && activeChatId) {
       try {
-        // Ajoutez d'abord le message de l'utilisateur à l'interface
+        // Add the user message to the interface first
         setMessages(prev => [...prev, {
           sender: 'user',
           text: message
@@ -75,7 +78,7 @@ const handleSelectHistory = (chatId) => {
         
         const response = await sendMessageToAI(username, activeChatId, userMessage);
         
-        // Mettre à jour les messages avec la réponse complète
+        // Update messages with the full response
         if (response.messages) {
           setMessages(response.messages.map(msg => ({
             sender: msg.role === 'user' ? 'user' : 'ai',
@@ -84,7 +87,7 @@ const handleSelectHistory = (chatId) => {
         }
       } catch (err) {
         console.error("Error sending message:", err);
-        // Ajouter un message d'erreur à l'interface
+        // Add an error message to the interface
         setMessages(prev => [...prev, {
           sender: 'system',
           text: "Error: Unable to get response from AI."
@@ -92,7 +95,19 @@ const handleSelectHistory = (chatId) => {
       }
     }
   };
-  
+
+  // Update chat title
+  const handleUpdateTitle = async (chatId) => {
+    if (newTitle.trim()) {
+      await updateChatTitle(username, chatId, newTitle);
+      setChatHistory(prevHistory => prevHistory.map(chat => 
+        chat._id === chatId ? { ...chat, title: newTitle } : chat
+      ));
+      setEditingChatId(null);
+      setNewTitle('');
+    }
+  };
+
   return (
     <div className="home-container">
       <h2>{t("hello_i_m_here_for_you")}</h2>
@@ -144,11 +159,30 @@ const handleSelectHistory = (chatId) => {
         <ul>
           {chatHistory.map((chat) => (
             <li key={chat._id}>
-              <strong onClick={() => handleSelectHistory(chat._id)}>
-                {chat.title}
-              </strong>
+              {editingChatId === chat._id ? (
+                <>
+                  <input
+                    type="text"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                  />
+                  <button className="save-button" onClick={() => handleUpdateTitle(chat._id)}>{t("save")}</button>
+                </>
+              ) : (
+                <>
+                  <strong onClick={() => handleSelectHistory(chat._id)}>
+                    {chat.title}
+                  </strong>
+                  <button className="edit-title-button" onClick={() => {
+                    setEditingChatId(chat._id);
+                    setNewTitle(chat.title);
+                  }}>
+                    <FontAwesomeIcon icon={faPen} />
+                  </button>
+                </>
+              )}
               <button className="clear-history-button" onClick={() => handleDeleteChat(chat._id)}>
-                {t("delete")}
+                <FontAwesomeIcon icon={faTrash} />
               </button>
             </li>
           ))}

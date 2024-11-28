@@ -125,3 +125,32 @@ exports.deleteChat = async (req, res) => {
         res.status(500).json({ error: "Internal server error." });
     }
 };
+
+// Update chat title
+exports.updateChatTitle = async (req, res) => {
+    try {
+        const { username, chatId, newTitle } = req.body;
+
+        if (!username || !chatId || !newTitle) {
+            return res.status(400).json({ error: "Username, chatId, and newTitle are required." });
+        }
+
+        const userChat = await OpenAIChat.findOne({ username });
+        if (!userChat) {
+            return res.status(404).json({ error: "No user found." });
+        }
+
+        const chat = userChat.chats.id(chatId);
+        if (!chat) {
+            return res.status(404).json({ error: "Chat not found." });
+        }
+
+        chat.title = newTitle;
+        await userChat.save();
+
+        res.json({ message: "Chat title updated successfully." });
+    } catch (error) {
+        console.error("Error in updateChatTitle:", error.message);
+        res.status(500).json({ error: "Internal server error." });
+    }
+};

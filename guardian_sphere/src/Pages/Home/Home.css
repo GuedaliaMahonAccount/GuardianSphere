@@ -160,13 +160,45 @@
   padding: 0;
 }
 
+
+/* Home.css */
 .history-menu li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   margin-bottom: 10px;
   background-color: #f1f1f1;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+}
+
+.history-menu li strong {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.edit-title-button, .clear-history-button, .save-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.edit-title-button:hover, .clear-history-button:hover, .save-button:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.save-button {
+  background-color: #48525c;
+  color: white;
+  padding: 5px 10px; /* Adjusted padding */
+  border: none;
+  border-radius: 4px; /* Adjusted border-radius */
+  cursor: pointer;
+  margin-top: 0; /* Removed margin-top */
 }
 
 .history-menu li:hover {
@@ -177,6 +209,22 @@
   display: block;
   margin-bottom: 5px;
 }
+
+/* Styling for input fields */
+.history-menu input[type="text"] {
+  flex-grow: 1;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.history-menu input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
 
 /* New Chat Button */
 /* Button to start a new chat */
@@ -192,15 +240,4 @@
 
 .new-chat-button:hover {
   background-color: #218838;
-}
-
-/* Clear History Button */
-/* Button to clear chat history */
-.clear-history-button {
-  background-color: #dc3545;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
 }

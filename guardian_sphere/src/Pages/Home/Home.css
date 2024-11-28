@@ -1,76 +1,206 @@
-/* Home.css */
-
+/* Home Container */
+/* Main container that centers all content on the page and sets the background */
 .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f0f4f8;
-    padding: 20px;
-  }
-  
-  .chat-box {
-    width: 100%;
-    max-width: 600px;
-    height: 400px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-  }
-  
-  .messages {
-    flex: 1;
-  }
-  
-  .user-message, .ai-message {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  
-  .user-message {
-    background-color: #d1e7ff;
-    align-self: flex-end;
-    max-width: 80%;
-  }
-  
-  .ai-message {
-    background-color: #f1f1f1;
-    align-self: flex-start;
-    max-width: 80%;
-  }
-  
-  .message-form {
-    display: flex;
-    width: 100%;
-    max-width: 600px;
-    margin-top: 15px;
-  }
-  
-  .message-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  
-  .send-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .send-button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f4f8;
+  padding: 20px;
+  position: relative; /* Important for positioning the menu */
+}
+
+/* Chat Box */
+/* Chat window where messages are displayed */
+.chat-box {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+/* Messages Container */
+/* Ensures the messages area fills the available space in the chat box */
+.messages {
+  flex: 1;
+}
+
+/* Message Styles */
+/* General styles for user and AI messages */
+.user-message, .ai-message {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* User Message */
+/* Styling for messages sent by the user */
+.user-message {
+  background-color: #d1e7ff;
+  align-self: flex-end; /* Aligns user messages to the right */
+  max-width: 80%;
+}
+
+/* AI Message */
+/* Styling for messages received from AI */
+.ai-message {
+  background-color: #f1f1f1;
+  align-self: flex-start; /* Aligns AI messages to the left */
+  max-width: 80%;
+}
+
+/* Message Form */
+/* Styles for the form where the user writes and sends messages */
+.message-form {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 15px;
+}
+
+/* Message Input */
+/* Input field for writing messages */
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Send Button */
+/* Button to send messages */
+.send-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+/* History Button */
+/* Button to toggle the chat history menu */
+.history-button {
+  margin-top: 30px;
+  position: fixed;
+  top: 20px;
+  right: 20px; /* Positioned in the top-right corner */
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 11; /* Ensures it stays above other content */
+}
+
+.history-button:hover {
+  background-color: #5a6268;
+}
+
+/* History Menu */
+/* Side menu that displays the chat history */
+.history-menu {
+  margin-top: 90px; /* Adjusts spacing for alignment */
+  position: fixed;
+  top: 0;
+  right: 0; /* By default, the menu is on the right */
+  height: 100%;
+  width: 300px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transform: translateX(100%); /* Initially hidden */
+  transition: transform 0.3s ease-in-out; /* Smooth slide-in/out effect */
+  overflow-y: auto; /* Enables scrolling for large histories */
+  z-index: 10;
+}
+
+/* History Menu (Left) */
+/* Position the menu on the left for languages like Hebrew */
+.history-menu.left {
+  right: auto;
+  left: 0; /* Moves the menu to the left */
+  transform: translateX(-100%);
+}
+
+/* Open History Menu */
+/* Makes the history menu visible */
+.history-menu.open {
+  transform: translateX(0); /* Slide-in effect */
+}
+
+/* History Menu Header */
+/* Styling for the history menu title */
+.history-menu h3 {
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #007bff;
+}
+
+/* History Menu List */
+/* Styling for the list of previous chats */
+.history-menu ul {
+  list-style: none; /* Removes default bullet points */
+  padding: 0;
+}
+
+.history-menu li {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.history-menu li:hover {
+  background-color: #d1e7ff; /* Highlight effect on hover */
+}
+
+.history-menu li strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* New Chat Button */
+/* Button to start a new chat */
+.new-chat-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.new-chat-button:hover {
+  background-color: #218838;
+}
+
+/* Clear History Button */
+/* Button to clear chat history */
+.clear-history-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

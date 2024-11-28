@@ -1,5 +1,9 @@
 {
     "hello_i_m_here_for_you": "I am here to help, how can I assist you today?",
     "write_here": "Write here...",
-    "send": "Send"
+    "send": "Send",
+    "view_history": "View History",
+    "chat_history": "Chat History",
+    "new_chat": "New Chat",
+    "delete": "Delete"
 }

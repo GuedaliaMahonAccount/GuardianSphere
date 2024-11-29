@@ -3,22 +3,22 @@ import axios from 'axios';
 const API_URL = "http://127.0.0.1:5001";
 
 export const sendMessageToAI = async (username, chatId, message) => {
-  try {
-    const response = await axios.post(
-      `${API_URL}/chat`,
-      { username, chatId, message },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error while communicating with AI:", error);
-    throw error;
-  }
+  // try {
+  //   const response = await axios.post(
+  //     `${API_URL}/chat`,
+  //     { username, chatId, message },
+  //     {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       withCredentials: true
+  //     }
+  //   );
+  //   return response.data;
+  // } catch (error) {
+  //   console.error("Error while communicating with AI:", error);
+  //   throw error;
+  // }
 };
 
 export const getChatHistory = async (username) => {

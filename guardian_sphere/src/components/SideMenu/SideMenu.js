@@ -43,18 +43,18 @@ function SideMenu() {
       </div>
       <nav className="menu_links">
         {menuItems.map((item, index) => (
-          <div
+          <Link
             key={index}
+            to={item.path}
             className={`link ${menuExpand ? "hover_width_fullsize" : "hover_width_small"}`}
           >
-            <img src={item.icon} alt={item.label} />
-            <Link
-              to={item.path}
+            <img className="logo_tab" src={item.icon} alt={item.label} />
+            <span
               className={`router_link_home ${isRtl ? "margin_right_link" : "margin_left_link"}`}
             >
               {item.label}
-            </Link>
-          </div>
+            </span>
+          </Link>
         ))}
       </nav>
     </div>

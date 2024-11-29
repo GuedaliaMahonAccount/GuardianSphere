@@ -7,6 +7,11 @@ import Layout from "./layouts/Layout.js";
 import Loader from "./components/Loader/Loader.js";
 import Login from './Pages/Login/Login';
 import Home from './Pages/Home/Home';
+import Groups from './Pages/Groups/Groups';
+import FollowUp from './Pages/FollowUp/FollowUp';
+import Videos from './Pages/Videos/Videos';
+import Doctors from './Pages/Doctors/Doctors';
+import Assistance from './Pages/Assistance/Assistance.js';
 
 
 function App() {
@@ -23,6 +28,16 @@ function App() {
 
               {/* Home */}
               <Route path="/home" element={<Home />} />
+              {/*Groups*/}
+              <Route path="groups" element={<Groups/>}/>
+              {/*FollowUp*/}
+              <Route path="follow-up" element={<FollowUp/>}/>
+              {/*Videos*/}
+              <Route path="videos" element={<Videos/>}/>
+              {/*Doctors*/}
+              <Route path="doctors" element={<Doctors/>}/>
+              {/*Assistance*/}
+              <Route path="assistance" element={<Assistance/>}/>
 
               
             </Routes>

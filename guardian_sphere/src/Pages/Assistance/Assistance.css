@@ -1,0 +1,42 @@
+.assistance-container {
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  p {
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .assistance-info {
+    margin-top: 20px;
+  }
+  
+  .assistance-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .assistance-item h3 {
+    color: #444;
+    margin-bottom: 10px;
+  }
+  
+  .assistance-item p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  

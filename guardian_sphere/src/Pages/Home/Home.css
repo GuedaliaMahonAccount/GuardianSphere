@@ -97,7 +97,7 @@
   margin-top: 30px;
   position: fixed;
   top: 20px;
-  right: 20px; /* Positioned in the top-right corner */
+  right: 0; /* Positioned in the top-right corner */
   background-color: #6c757d;
   color: white;
   padding: 10px 20px;
@@ -105,6 +105,11 @@
   border-radius: 8px;
   cursor: pointer;
   z-index: 11; /* Ensures it stays above other content */
+}
+
+.history-button.left {
+  right: auto;
+  left: 0; /* Moves the menu to the left */
 }
 
 .history-button:hover {

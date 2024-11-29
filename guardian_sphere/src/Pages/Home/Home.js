@@ -145,7 +145,7 @@ const Home = () => {
 
       {/* Button to toggle chat history */}
       <button
-        className="history-button"
+        className={`history-button ${i18n.language === "he" ? "left" : "right"}`}
         onClick={() => setShowHistory(!showHistory)}
       >
         {t("view_history")}

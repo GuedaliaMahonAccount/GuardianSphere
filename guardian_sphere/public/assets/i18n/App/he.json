@@ -40,5 +40,12 @@
   "Profile": "פרופיל",
   "Settings": "הגדרות",
   "Help": "עזרה",
-  "Disconnected": "נתק"
+  "Disconnected": "נתק",
+
+  "home": "דף הבית",
+  "groups": "קבוצות",
+  "follow_up": "מעקב",
+  "videos": "סרטונים",
+  "doctors": "רופאים",
+  "assistance": "עזרה"
 }

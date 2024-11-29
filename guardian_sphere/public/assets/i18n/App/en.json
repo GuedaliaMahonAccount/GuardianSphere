@@ -44,6 +44,13 @@
 "Profile":"Profile",
 "Settings":"Settings",
 "Help":"Help",
-"Disconnected":"Exit"
+"Disconnected":"Exit",
+
+"home": "Home",
+"groups" : "Groups",
+"follow_up": "Follow up",
+"videos" : "Videos",
+"doctors" : "Doctors",
+"assistance" : "Assistance"
 
 }

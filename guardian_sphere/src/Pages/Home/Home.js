@@ -33,12 +33,12 @@ const Home = () => {
       console.error("Failed to create a new chat.");
       return; // Stop execution if the new chat is not created
     }
-  
+
     setChatHistory((prevHistory) => [...prevHistory, newChat]);
     setMessages([]);
     setActiveChatId(newChat._id);
   };
-  
+
   // Select a chat from the history
   const handleSelectHistory = (chatId) => {
     const selectedChat = chatHistory.find((chat) => chat._id === chatId);
@@ -72,12 +72,12 @@ const Home = () => {
           sender: 'user',
           text: message
         }]);
-        
+
         const userMessage = message;
         setMessage('');  // Clear input
-        
+
         const response = await sendMessageToAI(username, activeChatId, userMessage);
-        
+
         // Update messages with the full response
         if (response.messages) {
           setMessages(response.messages.map(msg => ({
@@ -100,7 +100,7 @@ const Home = () => {
   const handleUpdateTitle = async (chatId) => {
     if (newTitle.trim()) {
       await updateChatTitle(username, chatId, newTitle);
-      setChatHistory(prevHistory => prevHistory.map(chat => 
+      setChatHistory(prevHistory => prevHistory.map(chat =>
         chat._id === chatId ? { ...chat, title: newTitle } : chat
       ));
       setEditingChatId(null);
@@ -165,28 +165,42 @@ const Home = () => {
                     type="text"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleUpdateTitle(chat._id); // Save the title on Enter key press
+                      }
+                    }}
                   />
-                  <button className="save-button" onClick={() => handleUpdateTitle(chat._id)}>{t("save")}</button>
+                  <button className="save-button" onClick={() => handleUpdateTitle(chat._id)}>
+                    {t("save")}
+                  </button>
                 </>
               ) : (
                 <>
                   <strong onClick={() => handleSelectHistory(chat._id)}>
                     {chat.title}
                   </strong>
-                  <button className="edit-title-button" onClick={() => {
-                    setEditingChatId(chat._id);
-                    setNewTitle(chat.title);
-                  }}>
+                  <button
+                    className="edit-title-button"
+                    onClick={() => {
+                      setEditingChatId(chat._id);
+                      setNewTitle(chat.title);
+                    }}
+                  >
                     <FontAwesomeIcon icon={faPen} />
                   </button>
                 </>
               )}
-              <button className="clear-history-button" onClick={() => handleDeleteChat(chat._id)}>
+              <button
+                className="clear-history-button"
+                onClick={() => handleDeleteChat(chat._id)}
+              >
                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </li>
           ))}
         </ul>
+
       </div>
     </div>
   );

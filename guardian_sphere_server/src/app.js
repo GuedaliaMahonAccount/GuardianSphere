@@ -1,3 +1,4 @@
+// src/app.js
 const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
@@ -11,10 +12,10 @@ const app = express(); // Initialize `app` at the beginning
 // === CORS Configuration ===
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Allow only your React frontend
-    credentials: true, // Allow cookies and authentication headers
-    methods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PUT'], // Allowed HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    origin: 'http://localhost:3000',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 

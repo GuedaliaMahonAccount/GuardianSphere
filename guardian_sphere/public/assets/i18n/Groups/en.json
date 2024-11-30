@@ -1,5 +1,14 @@
 {
-    "groups_title": "Groups",
-    "groups_description": "Welcome to the Groups page."
-  }
-  
+  "groups_title": "Groups",
+  "groups_description": "Select a group to join the chat and connect with others.",
+  "group1_title": "Loneliness",
+  "group2_title": "Anger",
+  "group3_title": "Depresivness",
+  "back": "Back",
+  "connected_users": "Connected Users",
+  "enter_name": "Enter your name",
+  "set_name": "Set Name",
+  "type_message": "Type your message",
+  "send": "Send",
+  "anonymous": "Anonymous"
+}

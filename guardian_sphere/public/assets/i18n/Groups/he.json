@@ -1,4 +1,15 @@
 {
     "groups_title": "קבוצות",
-    "groups_description": "ברוכים הבאים לדף הקבוצות."
-}
+    "groups_description": "בחר קבוצה כדי להצטרף לצ'אט ולהתחבר עם אחרים.",
+    "group1_title": "בדידות",
+    "group2_title": "כעס",
+    "group3_title": "דיכאון",
+    "back": "חזרה",
+    "connected_users": "משתמשים מחוברים",
+    "enter_name": "הזן את שמך",
+    "set_name": "שמור שם",
+    "type_message": "הקלד את ההודעה שלך",
+    "send": "שלח",
+    "anonymous": "אנונימי"
+  }
+  

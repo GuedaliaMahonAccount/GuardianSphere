@@ -24,7 +24,7 @@ export const sendMessageToAI = async (username, chatId, message) => {
 export const getChatHistory = async (username) => {
   try {
     const response = await axios.get(
-      `${API_URL}/history/${username}`,
+      `${apiUrl}/history/${username}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const getChatHistory = async (username) => {
 export const addNewChat = async (username, title) => {
   try {
     const response = await axios.post(
-      `${API_URL}/new-chat`,
+      `${apiUrl}/new-chat`,
       { username, title },
       {
         headers: {
@@ -60,7 +60,7 @@ export const addNewChat = async (username, title) => {
 export const deleteChat = async (username, chatId) => {
   try {
     await axios.delete(
-      `${API_URL}/delete-chat`,
+      `${apiUrl}/delete-chat`,
       {
         headers: { "Content-Type": "application/json" },
         data: { username, chatId },
@@ -74,7 +74,7 @@ export const deleteChat = async (username, chatId) => {
 export const updateChatTitle = async (username, chatId, newTitle) => {
   try {
     await axios.put(
-      `${API_URL}/update-chat-title`,
+      `${apiUrl}/update-chat-title`,
       { username, chatId, newTitle },
       {
         headers: { "Content-Type": "application/json" },

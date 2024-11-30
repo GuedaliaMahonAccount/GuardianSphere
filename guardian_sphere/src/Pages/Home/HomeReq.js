@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const apiUrl =  process.env.API_URL;
+const apiUrl =process.env.API_URL || "http://127.0.0.1:5001";
 
 export const sendMessageToAI = async (username, chatId, message) => {
   // try {
   //   const response = await axios.post(
-  //     `${API_URL}/chat`,
+  //     `${apiUrl}/chat`,
   //     { username, chatId, message },
   //     {
   //       headers: {

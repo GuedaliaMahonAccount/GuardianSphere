@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from "./layouts/Layout.js";
 import Loader from "./components/Loader/Loader.js";
 import Login from './Pages/Login/Login';
+import Signup from './Pages/SignUp/SignUp.js'; // Import Signup component
 import Home from './Pages/Home/Home';
 import Groups from './Pages/Groups/Groups';
 import FollowUp from './Pages/FollowUp/FollowUp';
@@ -13,40 +14,59 @@ import Videos from './Pages/Videos/Videos';
 import Doctors from './Pages/Doctors/Doctors';
 import Assistance from './Pages/Assistance/Assistance.js';
 
+// Define the ProtectedRoute component
+function ProtectedRoute({ element, redirectTo = '/login' }) {
+  const isAuthenticated = !!localStorage.getItem('token'); // Check for token
+  return isAuthenticated ? element : <Navigate to={redirectTo} />;
+}
 
 function App() {
   return (
     <Provider store={store}>
-    <GoogleOAuthProvider clientId="694902841176-5v6uv9tbmla2qeip29r5u86kqsbhpkcn.apps.googleusercontent.com">
-      <Suspense fallback={<Loader />}>
-      <BrowserRouter>
-        <Layout>
-            <Routes>
-              {/* Redirect to login page if no route match */}
-              <Route path="/" element={<Navigate to="/login" replace />} />
-              <Route path="/login" element={<Login />} />
+      <GoogleOAuthProvider clientId="694902841176-5v6uv9tbmla2qeip29r5u86kqsbhpkcn.apps.googleusercontent.com">
+        <Suspense fallback={<Loader />}>
+          <BrowserRouter>
+            <Layout>
+              <Routes>
+                {/* Redirect to login page if no route matches */}
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                
+                {/* Public Routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
-              {/* Home */}
-              <Route path="/home" element={<Home />} />
-              {/*Groups*/}
-              <Route path="groups" element={<Groups/>}/>
-              {/*FollowUp*/}
-              <Route path="follow-up" element={<FollowUp/>}/>
-              {/*Videos*/}
-              <Route path="videos" element={<Videos/>}/>
-              {/*Doctors*/}
-              <Route path="doctors" element={<Doctors/>}/>
-              {/*Assistance*/}
-              <Route path="assistance" element={<Assistance/>}/>
-
-              
-            </Routes>
+                {/* Protected Routes */}
+                <Route
+                  path="/home"
+                  element={<ProtectedRoute element={<Home />} />}
+                />
+                <Route
+                  path="/groups"
+                  element={<ProtectedRoute element={<Groups />} />}
+                />
+                <Route
+                  path="/follow-up"
+                  element={<ProtectedRoute element={<FollowUp />} />}
+                />
+                <Route
+                  path="/videos"
+                  element={<ProtectedRoute element={<Videos />} />}
+                />
+                <Route
+                  path="/doctors"
+                  element={<ProtectedRoute element={<Doctors />} />}
+                />
+                <Route
+                  path="/assistance"
+                  element={<ProtectedRoute element={<Assistance />} />}
+                />
+              </Routes>
             </Layout>
           </BrowserRouter>
-      </Suspense>
-    </GoogleOAuthProvider>
-  </Provider>
-);
+        </Suspense>
+      </GoogleOAuthProvider>
+    </Provider>
+  );
 }
 
 export default App;

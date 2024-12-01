@@ -1,52 +1,56 @@
-import './Login.css';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import { useTranslation } from 'react-i18next'; // Importation pour les traductions
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
-  const { t } = useTranslation('Login'); // Utilisation du namespace 'Login'
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
-  const navigate = useNavigate(); 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-    navigate('/home');
+    try {
+      const response = await axios.post('http://localhost:5001/api/user/login', formData);
+      localStorage.setItem('token', response.data.token); // Save token for authenticated requests
+      navigate('/home'); // Redirect to home page after login
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Invalid credentials. Please try again.');
+    }
   };
 
   return (
-    <div className="login-container">
-      <h2>{t('title')}</h2>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="input-group">
-          <label htmlFor="email">{t('emailLabel')}</label>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2 className="auth-title">Log In</h2>
+        <form onSubmit={handleSubmit} className="auth-form">
           <input
             type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
             required
-            className="input-field"
           />
-        </div>
-        <div className="input-group">
-          <label htmlFor="password">{t('passwordLabel')}</label>
           <input
             type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
             required
-            className="input-field"
           />
+          <button type="submit">Log In</button>
+        </form>
+        <div className="auth-footer">
+          <p>
+            Don't have an account? <a href="/signup">Sign Up</a>
+          </p>
         </div>
-        <button type="submit" className="login-button">{t('loginButton')}</button>
-      </form>
+      </div>
     </div>
   );
 };

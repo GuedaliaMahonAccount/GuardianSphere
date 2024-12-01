@@ -12,10 +12,10 @@ const app = express(); // Initialize `app` at the beginning
 // === CORS Configuration ===
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000', // Frontend URL
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add all necessary headers
   })
 );
 

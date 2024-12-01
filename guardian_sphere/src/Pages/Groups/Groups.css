@@ -218,3 +218,18 @@
   margin-bottom: 10px;
 }
 
+.messages {
+  display: flex;
+  flex-direction: column; /* Messages empilés verticalement */
+  gap: 10px; /* Espacement entre les messages */
+}
+
+.my-message {
+  align-self: flex-start; /* Aligné à gauche */
+  background-color: #e1ffc7;
+}
+
+.other-message {
+  align-self: flex-end; /* Aligné à droite */
+  background-color: #f1f1f1;
+}

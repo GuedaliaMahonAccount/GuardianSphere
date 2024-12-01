@@ -1,25 +1,39 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5001/api/messages';
-
-// Fetch group messages
 export const fetchGroupMessages = async (group) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${group}`);
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`http://localhost:5001/api/messages/${group}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error('Error fetching messages:', error.response || error);
+    console.error('Error fetching group messages:', error);
     throw error;
   }
 };
 
-// Send a message
-export const sendMessageToGroup = async (group, message) => {
+export const updateUserData = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/messages`, { group, ...message });
-    return response.data;
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:5001/api/user/me', {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update user data');
+    }
+
+    return await response.json();
   } catch (error) {
-    console.error('Error sending message:', error);
+    console.error('Error updating user data:', error);
     throw error;
   }
 };

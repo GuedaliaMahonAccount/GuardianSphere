@@ -46,12 +46,9 @@ exports.login = async (req, res) => {
 
 // Get User Info
 exports.getUser = async (req, res) => {
-  const { userId } = req.params;
-
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(req.userId); // req.userId comes from authMiddleware
     if (!user) return res.status(404).json({ message: 'User not found' });
-
     res.status(200).json(user);
   } catch (error) {
     console.error('Error fetching user info:', error);

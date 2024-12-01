@@ -1,13 +1,13 @@
 const http = require('http');
 const { Server } = require('socket.io');
-const app = require('./src/app'); // Use the pre-configured app from app.js
-const connectDB = require('./src/config/db.js');
+const app = require('./src/app'); // Preconfigured Express app
+const connectDB = require('./src/config/db');
+const Message = require('./src/models/groups'); // Message model
 
 // Connect to MongoDB
 connectDB();
 
-
-// Initialize Socket.io with the server
+// Create HTTP and Socket.IO server
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -15,29 +15,30 @@ const io = new Server(server, {
     methods: ['GET', 'POST'],
     credentials: true,
   },
-  path: '/socket.io/' // Explicitly set the Socket.IO path
+  path: '/socket.io/',
 });
 
-
-// Object to manage connected users by group
+// Manage connected users
 const usersByGroup = {};
 
-// Handle Socket.io connections
+// Socket.IO logic
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  console.log('User connected:', socket.id);
 
-  socket.on('join group', (group) => {
+  // Join a group
+  socket.on('join group', async (group) => {
+    console.log(`User ${socket.id} joined group: ${group}`);
     socket.join(group);
-
-    if (!usersByGroup[group]) {
-      usersByGroup[group] = [];
-    }
+    usersByGroup[group] = usersByGroup[group] || [];
     usersByGroup[group].push(socket.id);
 
+    // Notify all users in the group about connected users
     io.to(group).emit('user connected', usersByGroup[group]);
   });
 
+  // Leave a group
   socket.on('leave group', (group) => {
+    console.log(`User ${socket.id} left group: ${group}`);
     socket.leave(group);
 
     if (usersByGroup[group]) {
@@ -46,10 +47,38 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('chat message', (msg) => {
-    io.to(msg.group).emit('chat message', msg);
+  // Chat message
+  socket.on('chat message', async (msg) => {
+    console.log('Received message:', msg);
+
+    const { group, sender, message, photo } = msg;
+
+    try {
+      const newMessage = new Message({
+        group,
+        sender,
+        content: message,
+        photo,
+      });
+
+      await newMessage.save();
+
+      console.log('Broadcasting message to group:', group, newMessage);
+
+      // Broadcast the saved message to all users in the group
+      io.to(group).emit('chat message', {
+        group: group,
+        sender: sender,
+        message: message,
+        photo: photo,
+        _id: newMessage._id, // Include ID for potential frontend usage
+      });
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
   });
 
+  // Handle disconnection
   socket.on('disconnect', () => {
     for (const group in usersByGroup) {
       usersByGroup[group] = usersByGroup[group].filter((id) => id !== socket.id);
@@ -59,8 +88,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// Start the server
+// Start server
 const PORT = process.env.PORT || 5001;
-server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

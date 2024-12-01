@@ -40,12 +40,16 @@ app.use(
 require('./config/passport')(passport);
 
 // === Import Routes ===
-const frontendRoutes = require('./routes/frontendRoutes'); // Routes for serving frontend files
 const openaiRoutes = require('./routes/openaiRoutes'); // Routes for OpenAI
+const frontendRoutes = require('./routes/frontendRoutes'); // Routes for frontend
+const messageRoutes = require('./routes/groupsroutes'); // Routes for group messages
 
 // === Backend Routes ===
-app.use('/api', openaiRoutes); // Routes for the main API
+app.use('/api/openai', openaiRoutes); // Routes for OpenAI features
+app.use('/api/messages', messageRoutes); // Routes for group messages
 app.use('/', frontendRoutes); // Routes for serving frontend files
+
+
 
 // === Health Check Route ===
 app.get('/health', (req, res) => {

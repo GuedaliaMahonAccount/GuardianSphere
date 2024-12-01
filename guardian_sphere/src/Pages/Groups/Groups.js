@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Groups.css';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
-
+import { fetchGroupMessages } from './GroupsReq';
 
 // Connect to the Socket.IO server
 const socket = io('http://localhost:5001', {
@@ -22,8 +22,8 @@ const Groups = () => {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [photo, setPhoto] = useState('');
-  const [isNameSet, setIsNameSet] = useState(false);
 
+  // Listen for socket events
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to Socket.IO server');
@@ -34,6 +34,8 @@ const Groups = () => {
     });
 
     socket.on('chat message', (msg) => {
+      console.log('Received chat message:', msg);
+
       setMessages((prevMessages) => ({
         ...prevMessages,
         [msg.group]: [...prevMessages[msg.group], msg],
@@ -41,6 +43,7 @@ const Groups = () => {
     });
 
     socket.on('user connected', (users) => {
+      console.log('Connected users updated:', users);
       setConnectedUsers(users);
     });
 
@@ -52,18 +55,40 @@ const Groups = () => {
     };
   }, []);
 
+  // Load group messages on group change
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (currentGroup) {
+        try {
+          const data = await fetchGroupMessages(currentGroup);
+          setMessages((prevMessages) => ({
+            ...prevMessages,
+            [currentGroup]: data,
+          }));
+        } catch (error) {
+          console.error('Failed to load group messages:', error);
+        }
+      }
+    };
+
+    loadMessages();
+  }, [currentGroup]);
+
   const sendMessage = () => {
     if (input.trim() && currentGroup) {
-      socket.emit('chat message', {
+      const messagePayload = {
         group: currentGroup,
         message: input,
         sender: username || t('anonymous'),
-        photo: photo || '/Pictures/default-avatar.png', 
-      });
-      setInput('');
+        photo: photo || '/Pictures/default-avatar.png',
+      };
+      console.log('Sending message:', messagePayload);
+
+      socket.emit('chat message', messagePayload);
+      setInput(''); // Clear the input field
     }
   };
-  
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       sendMessage();
@@ -79,7 +104,6 @@ const Groups = () => {
     socket.emit('leave group', currentGroup);
     setCurrentGroup(null);
     setConnectedUsers([]);
-    setIsNameSet(false);
     setUsername('');
     setPhoto('');
   };
@@ -96,7 +120,6 @@ const Groups = () => {
       console.error('Invalid file type. Please upload an image.');
     }
   };
-  
 
   return (
     <div className="home-container">
@@ -130,16 +153,17 @@ const Groups = () => {
               <p>{t('connected_users')}: {connectedUsers.length}</p>
             </div>
             <div className="messages">
-              {messages[currentGroup].map((msg, index) => (
+              {messages[currentGroup]?.map((msg, index) => (
                 <div key={index} className="message">
                   <div className="profile">
                     <img src={msg.photo || '/default-avatar.png'} alt="profile" />
                     <span>{msg.sender}</span>
                   </div>
-                  <span>{msg.message}</span>
+                  <span>{msg.content}</span>
                 </div>
               ))}
             </div>
+
             <div className="message-form">
               <input
                 type="text"

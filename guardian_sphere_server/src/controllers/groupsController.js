@@ -29,20 +29,3 @@ exports.createMessage = async (req, res) => {
     res.status(500).json({ message: 'Error saving message', error });
   }
 };
-
-
-exports.updateUserData = async (req, res) => {
-  const { anonymousName, photo } = req.body;
-  const userId = req.userId;
-
-  try {
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { anonymousName, photo },
-      { new: true }
-    );
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to update user data', error });
-  }
-};

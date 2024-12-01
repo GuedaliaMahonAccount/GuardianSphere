@@ -10,6 +10,7 @@
     "set_name": "שמור שם",
     "type_message": "הקלד את ההודעה שלך",
     "send": "שלח",
-    "anonymous": "אנונימי"
+    "anonymous": "אנונימי",
+    "change_anonymous_name" : "שנה שם אנונימי"
   }
   

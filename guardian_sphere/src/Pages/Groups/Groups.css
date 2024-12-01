@@ -233,3 +233,105 @@
   align-self: flex-end; /* Aligné à droite */
   background-color: #f1f1f1;
 }
+
+.message-form {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 15px;
+}
+
+/* Message Input */
+/* Input field for writing messages */
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Send Button */
+/* Button to send messages */
+.send-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+.back-button {
+  position: absolute; /* Ensures the button is placed relative to the parent */
+  top: 10px;          /* Distance from the top of the container */
+  left: 10px;         /* Distance from the left of the container */
+  background: #64a2e4;
+  color: white;
+  border: none;
+  padding: 10px 15px; /* Adds padding for a better look */
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;      /* Ensures it appears above other elements */
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.back-button:hover {
+  background: #4a8cd4; /* Darker shade for hover effect */
+}
+
+/* Styling for the username input and photo upload */
+.username-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+/* Input styling for username */
+.username-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 200px;
+}
+
+/* Text beside the input field */
+.change-username {
+  font-size: 14px;
+  color: #555;
+  cursor: default;
+}
+
+/* Avatar styling */
+.photo-container {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  object-fit: cover;
+  background-color: #f0f0f0; /* Default gray background for avatar */
+  transition: border-color 0.3s;
+}
+
+.photo-container:hover .user-avatar {
+  border-color: #007bff; /* Highlighted border on hover */
+}
+
+/* Styling for file input (hidden) */
+#photo-input {
+  display: none;
+}

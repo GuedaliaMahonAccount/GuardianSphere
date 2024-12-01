@@ -48,35 +48,35 @@ io.on('connection', (socket) => {
   });
 
   // Chat message
-  socket.on('chat message', async (msg) => {
-    console.log('Received message:', msg);
+socket.on('chat message', async (msg) => {
+  console.log('Received message:', msg);
 
-    const { group, sender, message, photo } = msg;
+  const { group, sender, content, photo } = msg; // Utilisez `content` ici
 
-    try {
-      const newMessage = new Message({
-        group,
-        sender,
-        content: message,
-        photo,
-      });
+  try {
+    const newMessage = new Message({
+      group,
+      sender,
+      content, // Sauvegardez `content`
+      photo,
+    });
 
-      await newMessage.save();
+    await newMessage.save();
 
-      console.log('Broadcasting message to group:', group, newMessage);
+    console.log('Broadcasting message to group:', group, newMessage);
 
-      // Broadcast the saved message to all users in the group
-      io.to(group).emit('chat message', {
-        group: group,
-        sender: sender,
-        message: message,
-        photo: photo,
-        _id: newMessage._id, // Include ID for potential frontend usage
-      });
-    } catch (error) {
-      console.error('Error saving message:', error);
-    }
-  });
+    // Broadcast the saved message to all users in the group
+    io.to(group).emit('chat message', {
+      group,
+      sender,
+      content, // Diffusez également `content`
+      photo,
+      _id: newMessage._id, // Inclure l'ID pour une éventuelle utilisation côté frontend
+    });
+  } catch (error) {
+    console.error('Error saving message:', error);
+  }
+});
 
   // Handle disconnection
   socket.on('disconnect', () => {

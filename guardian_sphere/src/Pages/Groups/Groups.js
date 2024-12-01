@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Groups.css';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
@@ -21,13 +21,23 @@ const Groups = () => {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [photo, setPhoto] = useState('');
-  const [userId, setUserId] = useState('');
+  const messagesEndRef = useRef(null); // Référence pour le défilement automatique
 
-  // Fetch user details from the backend on mount
+  // Fonction pour défiler jusqu'en bas
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Appeler la fonction de défilement à chaque changement de messages
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Récupération des détails de l'utilisateur
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const token = localStorage.getItem('token'); // Ensure token is fetched correctly
+        const token = localStorage.getItem('token');
         if (!token) {
           console.error('No token found');
           return;
@@ -35,7 +45,7 @@ const Groups = () => {
 
         const response = await fetch('http://localhost:5001/api/user/me', {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -105,28 +115,19 @@ const Groups = () => {
     if (input.trim() && currentGroup) {
       const messagePayload = {
         group: currentGroup,
-        content: input, // Correct field name
+        content: input,
         sender: username,
         photo,
       };
-  
+
       socket.emit('chat message', messagePayload);
-  
-      // Optimistic UI update
+
       setMessages((prevMessages) => ({
         ...prevMessages,
         [currentGroup]: [...prevMessages[currentGroup], messagePayload],
       }));
-  
+
       setInput('');
-    }
-  };
-  
-  const updateProfile = async () => {
-    try {
-      await updateUserData({ anonymousName: username, photo });
-    } catch (error) {
-      console.error('Failed to update user data:', error);
     }
   };
 
@@ -135,18 +136,14 @@ const Groups = () => {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhoto(reader.result);
-        updateProfile();
+        const photoData = reader.result;
+        setPhoto(photoData);
+        updateUserData({ photo: photoData });
       };
       reader.readAsDataURL(file);
     } else {
       console.error('Invalid file type. Please upload an image.');
     }
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    updateProfile();
   };
 
   return (
@@ -163,23 +160,36 @@ const Groups = () => {
         </div>
       ) : (
         <>
+          <button className="back-button" onClick={() => setCurrentGroup(null)}>{t('back')}</button>
           <div className="external-header">
             <div className="username-header">
               <input
                 type="text"
                 value={username}
-                onChange={handleUsernameChange}
+                onChange={(e) => setUsername(e.target.value)}
                 placeholder={t('enter_name')}
+                className="username-input"
               />
-              <input type="file" onChange={handlePhotoUpload} />
+              <div className="photo-upload">
+                <label htmlFor="photo-input" className="photo-container">
+                  <img src={photo} alt="profile" className="user-avatar" />
+                </label>
+                <input
+                  type="file"
+                  id="photo-input"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  style={{ display: 'none' }}
+                />
+              </div>
             </div>
             <h2 className="chat-group-title">{t(`${currentGroup}_title`)}</h2>
           </div>
+
+          <div className="chat-header">
+            <p>{t('connected_users')}: {connectedUsers.length}</p>
+          </div>
           <div className="chat-box">
-            <div className="chat-header">
-              <button onClick={() => setCurrentGroup(null)}>{t('back')}</button>
-              <p>{t('connected_users')}: {connectedUsers.length}</p>
-            </div>
             <div className="messages">
               {messages[currentGroup]?.map((msg, index) => (
                 <div
@@ -190,21 +200,22 @@ const Groups = () => {
                     <img src={msg.photo} alt="profile" />
                     <span>{msg.sender}</span>
                   </div>
-                  <span>{msg.content}</span> {/* Ensure "message" matches the backend field */}
+                  <span>{msg.content}</span>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
-
-            <div className="message-form">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t('type_message')}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-              />
-              <button onClick={sendMessage}>{t('send')}</button>
-            </div>
+          </div>
+          <div className="message-form">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={t('type_message')}
+              onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+              className="message-input"
+            />
+            <button className="send-button" onClick={sendMessage}>{t('send')}</button>
           </div>
         </>
       )}

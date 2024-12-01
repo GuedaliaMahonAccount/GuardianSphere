@@ -10,5 +10,6 @@
   "set_name": "Set Name",
   "type_message": "Type your message",
   "send": "Send",
-  "anonymous": "Anonymous"
+  "anonymous": "Anonymous",
+  "change_anonymous_name" : "Change Anonymous Name"
 }

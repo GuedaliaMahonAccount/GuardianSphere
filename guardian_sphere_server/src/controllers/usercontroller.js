@@ -55,3 +55,37 @@ exports.getUser = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch user info', error });
   }
 };
+
+// Update user profile
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const { anonymousName, photo } = req.body;
+    const userId = req.userId; // Correctly use req.userId
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID not found in request.' });
+    }
+
+    // Prepare the fields to be updated
+    const updates = {};
+    if (anonymousName !== undefined) updates.anonymousName = anonymousName;
+    if (photo !== undefined) updates.photo = photo;
+
+    // Update the user in the database
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true, // Return the updated document
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    res.status(200).json({
+      message: 'User profile updated successfully.',
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error('Error updating user profile:', error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+};

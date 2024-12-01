@@ -1,7 +1,6 @@
 const express = require('express');
-const { signup, login, getUser } = require('../controllers/usercontroller');
+const { signup, login, getUser ,updateUserProfile} = require('../controllers/usercontroller');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // To protect routes if necessary
-const { updateUserData } = require('../controllers/groupsController');
 
 const router = express.Router();
 
@@ -15,6 +14,6 @@ router.post('/login', login);
 router.get('/me', authMiddleware, getUser); // Correctly routes to getUser
 
 // Protected route to update user data (optional)
-router.put('/me', authMiddleware, updateUserData);
+router.put('/profile', authMiddleware, updateUserProfile);
 
 module.exports = router;

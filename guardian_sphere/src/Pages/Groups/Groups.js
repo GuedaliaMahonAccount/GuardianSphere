@@ -181,7 +181,7 @@ const Groups = () => {
   };
 
   return (
-    <div className="home-container">
+    <div className="group-container">
       {!currentGroup ? (
         <div className="group-list">
           <h2 className="group-title-header">{t('groups_title')}</h2>

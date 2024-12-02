@@ -1,12 +1,13 @@
 .doctors-container {
-    font-family: Arial, sans-serif;
-    margin: 20px auto;
-    max-width: 800px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, #87CEFA, #4682B4); /* Calming gradient */
+  padding: 20px;
+  position: relative; /* Important for positioning the menu */
+}
   
   h2 {
     text-align: center;

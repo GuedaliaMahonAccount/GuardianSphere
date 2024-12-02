@@ -23,6 +23,20 @@ const Groups = () => {
   const [photo, setPhoto] = useState('');
   const messagesEndRef = useRef(null); // Référence pour le défilement automatique
 
+
+  useEffect(() => {
+    const savedUserId = localStorage.getItem('userId');
+    const savedUsername = localStorage.getItem('username'); // Optional if username is saved too
+  
+    if (savedUserId) {
+      setUsername(savedUsername || 'Anonymous'); // Default to Anonymous if username isn't saved
+    } else {
+      console.error('No userId found in localStorage. Please log in.');
+    }
+  }, []);
+
+  
+  
   // Fonction pour défiler jusqu'en bas
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -111,26 +125,7 @@ const Groups = () => {
     loadMessages();
   }, [currentGroup]);
 
-  const sendMessage = () => {
-    if (input.trim() && currentGroup) {
-      const messagePayload = {
-        group: currentGroup,
-        content: input,
-        sender: username,
-        photo,
-      };
-
-      socket.emit('chat message', messagePayload);
-
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        [currentGroup]: [...prevMessages[currentGroup], messagePayload],
-      }));
-
-      setInput('');
-    }
-  };
-
+  
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -146,6 +141,35 @@ const Groups = () => {
     }
   };
 
+  const sendMessage = () => {
+    if (input.trim() && currentGroup) {
+      const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+  
+      if (!userId) {
+        console.error('No userId found in localStorage.');
+        return;
+      }
+  
+      const messagePayload = {
+        group: currentGroup,
+        content: input,
+        sender: username,
+        userId, // Include userId in the payload
+        photo,
+      };
+  
+      socket.emit('chat message', messagePayload);
+  
+      setMessages((prevMessages) => ({
+        ...prevMessages,
+        [currentGroup]: [...prevMessages[currentGroup], messagePayload],
+      }));
+  
+      setInput('');
+    }
+  };
+  
+  
   return (
     <div className="home-container">
       {!currentGroup ? (
@@ -194,7 +218,7 @@ const Groups = () => {
               {messages[currentGroup]?.map((msg, index) => (
                 <div
                   key={index}
-                  className={`message ${msg.sender === username ? 'my-message' : 'other-message'}`}
+                  className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
                 >
                   <div className="profile">
                     <img src={msg.photo} alt="profile" />

@@ -18,14 +18,22 @@ exports.getMessagesByGroup = async (req, res) => {
 
 // Create a new message
 exports.createMessage = async (req, res) => {
-  const { group, sender, content, photo } = req.body;
-  console.log('Creating message:', { group, sender, content });
+  const { group, sender, content, photo, userId } = req.body;
+
+  console.log('Creating message:', { group, sender, content, userId });
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID is required to create a message.' });
+  }
+
   try {
-    const message = new Message({ group, sender, content, photo });
+    const message = new Message({ group, sender, userId, content, photo });
     await message.save();
+
     res.status(201).json(message);
   } catch (error) {
     console.error('Error saving message:', error);
     res.status(500).json({ message: 'Error saving message', error });
   }
 };
+

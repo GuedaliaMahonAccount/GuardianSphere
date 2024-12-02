@@ -51,13 +51,14 @@ io.on('connection', (socket) => {
 socket.on('chat message', async (msg) => {
   console.log('Received message:', msg);
 
-  const { group, sender, content, photo } = msg; // Utilisez `content` ici
+  const { group, sender, content, photo, userId } = msg;
 
   try {
     const newMessage = new Message({
       group,
       sender,
-      content, // Sauvegardez `content`
+      userId,
+      content,
       photo,
     });
 
@@ -69,9 +70,10 @@ socket.on('chat message', async (msg) => {
     io.to(group).emit('chat message', {
       group,
       sender,
-      content, // Diffusez également `content`
+      userId, 
+      content,
       photo,
-      _id: newMessage._id, // Inclure l'ID pour une éventuelle utilisation côté frontend
+      _id: newMessage._id,
     });
   } catch (error) {
     console.error('Error saving message:', error);

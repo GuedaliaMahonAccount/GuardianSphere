@@ -16,13 +16,17 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5001/api/user/login', formData);
-      localStorage.setItem('token', response.data.token); // Save token for authenticated requests
+  
+      // Save both token and userId in localStorage
+      localStorage.setItem('token', response.data.token); 
+      localStorage.setItem('userId', response.data.user._id); // Save userId from response
+  
       navigate('/home'); // Redirect to home page after login
     } catch (error) {
       console.error('Login failed:', error);
       alert('Invalid credentials. Please try again.');
     }
-  };
+  };  
 
   return (
     <div className="auth-container">

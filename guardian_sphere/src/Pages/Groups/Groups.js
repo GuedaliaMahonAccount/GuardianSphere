@@ -22,6 +22,7 @@ const Groups = () => {
   const [username, setUsername] = useState('');
   const [photo, setPhoto] = useState('');
   const messagesEndRef = useRef(null); // Reference for auto-scrolling
+  const chatBoxRef = useRef(null); // Reference for chat box container
 
   useEffect(() => {
     const savedUserId = localStorage.getItem('userId');
@@ -36,8 +37,10 @@ const Groups = () => {
 
   // Function to scroll to bottom
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  };  
 
   // Call scroll function whenever messages change
   useEffect(() => {
@@ -220,23 +223,24 @@ const Groups = () => {
           <div className="chat-header">
             <p>{t('connected_users')}: {connectedUsers.length}</p>
           </div>
-          <div className="chat-box">
-            <div className="messages">
-              {messages[currentGroup]?.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
-                >
-                  <div className="profile">
-                    <img src={msg.photo} alt="profile" />
-                    <span>{msg.sender}</span>
-                  </div>
-                  <span>{msg.content}</span>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-          </div>
+          <div className="chat-box" ref={chatBoxRef}>
+  <div className="messages">
+    {messages[currentGroup]?.map((msg, index) => (
+      <div
+        key={index}
+        className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
+      >
+        <div className="profile">
+          <img src={msg.photo} alt="profile" />
+          <span>{msg.sender}</span>
+        </div>
+        <span>{msg.content}</span>
+      </div>
+    ))}
+    <div ref={messagesEndRef} />
+  </div>
+</div>
+
           <div className="message-form">
             <input
               type="text"

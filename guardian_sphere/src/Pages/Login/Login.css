@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background: linear-gradient(to right, #87CEFA, #4682B4);
   font-family: Arial, sans-serif;
 }
 
@@ -40,12 +40,12 @@
 
 .auth-form input:focus {
   outline: none;
-  border-color: #6a11cb;
-  box-shadow: 0 0 3px rgba(106, 17, 203, 0.5);
+  border-color: #87CEFA;
+  box-shadow: 0 0 3px rgba(135, 206, 250, 0.5);
 }
 
 .auth-form button {
-  background: #6a11cb;
+  background: #4682B4;
   color: #fff;
   font-size: 1rem;
   font-weight: bold;
@@ -57,7 +57,7 @@
 }
 
 .auth-form button:hover {
-  background: #2575fc;
+  background: #87CEFA;
 }
 
 .auth-footer {
@@ -68,7 +68,7 @@
 }
 
 .auth-footer a {
-  color: #2575fc;
+  color: #4682B4;
   text-decoration: none;
   font-weight: bold;
 }

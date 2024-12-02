@@ -1,36 +1,35 @@
 .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    font-family: Arial, sans-serif;
-    color: #fff;
-  }
-  
-  .spinner {
-    border: 8px solid rgba(255, 255, 255, 0.3);
-    border-top: 8px solid #fff;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 20px;
-  }
-  
-  @keyframes spin {
-    0% {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, #87CEFA, #4682B4); /* Calming blue gradient */
+  font-family: Arial, sans-serif;
+  color: #fff; /* Keeps the text color contrasting and readable */
+}
+
+.spinner {
+  border: 8px solid rgba(135, 206, 250, 0.3); /* Lighter blue for subtle spinner contrast */
+  border-top: 8px solid #4682B4; /* Deeper blue for the rotating highlight */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
       transform: rotate(0deg);
-    }
-    100% {
+  }
+  100% {
       transform: rotate(360deg);
-    }
   }
-  
-  .loading-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-  }
-  
+}
+
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}

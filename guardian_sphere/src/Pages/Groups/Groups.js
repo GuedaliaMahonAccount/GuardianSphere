@@ -21,33 +21,30 @@ const Groups = () => {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [photo, setPhoto] = useState('');
-  const messagesEndRef = useRef(null); // Référence pour le défilement automatique
-
+  const messagesEndRef = useRef(null); // Reference for auto-scrolling
 
   useEffect(() => {
     const savedUserId = localStorage.getItem('userId');
-    const savedUsername = localStorage.getItem('username'); // Optional if username is saved too
+    const savedUsername = localStorage.getItem('username');
   
     if (savedUserId) {
-      setUsername(savedUsername || 'Anonymous'); // Default to Anonymous if username isn't saved
+      setUsername(savedUsername || 'Anonymous');
     } else {
       console.error('No userId found in localStorage. Please log in.');
     }
   }, []);
 
-  
-  
-  // Fonction pour défiler jusqu'en bas
+  // Function to scroll to bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Appeler la fonction de défilement à chaque changement de messages
+  // Call scroll function whenever messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Récupération des détails de l'utilisateur
+  // Fetch user details
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -125,7 +122,6 @@ const Groups = () => {
     loadMessages();
   }, [currentGroup]);
 
-  
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -143,7 +139,7 @@ const Groups = () => {
 
   const sendMessage = () => {
     if (input.trim() && currentGroup) {
-      const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+      const userId = localStorage.getItem('userId');
   
       if (!userId) {
         console.error('No userId found in localStorage.');
@@ -154,7 +150,7 @@ const Groups = () => {
         group: currentGroup,
         content: input,
         sender: username,
-        userId, // Include userId in the payload
+        userId,
         photo,
       };
   
@@ -169,6 +165,17 @@ const Groups = () => {
     }
   };
   
+  const handleUsernameChange = async (e) => {
+    const newUsername = e.target.value;
+    setUsername(newUsername);
+    try {
+      await updateUserData({ anonymousName: newUsername });
+      console.log('Username updated successfully');
+    } catch (error) {
+      console.error('Failed to update username:', error);
+      setUsername(username);
+    }
+  };
   
   return (
     <div className="home-container">
@@ -190,7 +197,7 @@ const Groups = () => {
               <input
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={handleUsernameChange}
                 placeholder={t('enter_name')}
                 className="username-input"
               />

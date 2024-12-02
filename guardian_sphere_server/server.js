@@ -64,9 +64,11 @@ socket.on('chat message', async (msg) => {
 
     await newMessage.save();
 
+    // Nettoie les anciens messages
+    await cleanOldMessages(group);
+
     console.log('Broadcasting message to group:', group, newMessage);
 
-    // Broadcast the saved message to all users in the group
     io.to(group).emit('chat message', {
       group,
       sender,
@@ -79,6 +81,26 @@ socket.on('chat message', async (msg) => {
     console.error('Error saving message:', error);
   }
 });
+
+// Ajouter la fonction cleanOldMessages
+async function cleanOldMessages(group) {
+  try {
+    const count = await Message.countDocuments({ group });
+    if (count > 20) {
+      const messagesToDelete = await Message.find({ group })
+        .sort({ timestamp: 1 })
+        .limit(count - 20);
+      
+      if (messagesToDelete.length > 0) {
+        await Message.deleteMany({
+          _id: { $in: messagesToDelete.map(msg => msg._id) }
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error cleaning old messages:', error);
+  }
+}
 
   // Handle disconnection
   socket.on('disconnect', () => {

@@ -10,7 +10,7 @@ const socket = io('http://localhost:5001', {
 });
 
 const Groups = () => {
-  const { t } = useTranslation('Groups');
+  const { t, i18n } = useTranslation('Groups');
   const [messages, setMessages] = useState({
     group1: [],
     group2: [],
@@ -27,7 +27,7 @@ const Groups = () => {
   useEffect(() => {
     const savedUserId = localStorage.getItem('userId');
     const savedUsername = localStorage.getItem('username');
-  
+
     if (savedUserId) {
       setUsername(savedUsername || 'Anonymous');
     } else {
@@ -40,7 +40,7 @@ const Groups = () => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  };  
+  };
 
   // Call scroll function whenever messages change
   useEffect(() => {
@@ -143,12 +143,12 @@ const Groups = () => {
   const sendMessage = () => {
     if (input.trim() && currentGroup) {
       const userId = localStorage.getItem('userId');
-  
+
       if (!userId) {
         console.error('No userId found in localStorage.');
         return;
       }
-  
+
       const messagePayload = {
         group: currentGroup,
         content: input,
@@ -156,18 +156,18 @@ const Groups = () => {
         userId,
         photo,
       };
-  
+
       socket.emit('chat message', messagePayload);
-  
+
       setMessages((prevMessages) => ({
         ...prevMessages,
         [currentGroup]: [...prevMessages[currentGroup], messagePayload],
       }));
-  
+
       setInput('');
     }
   };
-  
+
   const handleUsernameChange = async (e) => {
     const newUsername = e.target.value;
     setUsername(newUsername);
@@ -179,7 +179,7 @@ const Groups = () => {
       setUsername(username);
     }
   };
-  
+
   return (
     <div className="home-container">
       {!currentGroup ? (
@@ -194,7 +194,12 @@ const Groups = () => {
         </div>
       ) : (
         <>
-          <button className="back-button" onClick={() => setCurrentGroup(null)}>{t('back')}</button>
+          <button
+            className={`back-button ${i18n.language === 'he' ? 'rtl' : 'ltr'}`}
+            onClick={() => setCurrentGroup(null)}
+          >
+            {t('back')}
+          </button>
           <div className="external-header">
             <div className="username-header">
               <input
@@ -224,22 +229,22 @@ const Groups = () => {
             <p>{t('connected_users')}: {connectedUsers.length}</p>
           </div>
           <div className="chat-box" ref={chatBoxRef}>
-  <div className="messages">
-    {messages[currentGroup]?.map((msg, index) => (
-      <div
-        key={index}
-        className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
-      >
-        <div className="profile">
-          <img src={msg.photo} alt="profile" />
-          <span>{msg.sender}</span>
-        </div>
-        <span>{msg.content}</span>
-      </div>
-    ))}
-    <div ref={messagesEndRef} />
-  </div>
-</div>
+            <div className="messages">
+              {messages[currentGroup]?.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
+                >
+                  <div className="profile">
+                    <img src={msg.photo} alt="profile" />
+                    <span>{msg.sender}</span>
+                  </div>
+                  <span>{msg.content}</span>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
 
           <div className="message-form">
             <input

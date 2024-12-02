@@ -268,22 +268,29 @@
 }
 
 .back-button {
-  position: absolute; /* Ensures the button is placed relative to the parent */
-  top: 10px;          /* Distance from the top of the container */
-  left: 10px;         /* Distance from the left of the container */
+  position: absolute;
+  top: 10px;
   background: #64a2e4;
   color: white;
   border: none;
-  padding: 10px 15px; /* Adds padding for a better look */
+  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 1000;      /* Ensures it appears above other elements */
+  z-index: 1000;
   margin-left: 80px;
   margin-right: 80px;
 }
 
 .back-button:hover {
-  background: #4a8cd4; /* Darker shade for hover effect */
+  background: #4a8cd4;
+}
+
+.back-button.ltr {
+  left: 10px; /* Position for left-to-right languages */
+}
+
+.back-button.rtl {
+  right: 10px; /* Position for right-to-left languages */
 }
 
 /* Styling for the username input and photo upload */

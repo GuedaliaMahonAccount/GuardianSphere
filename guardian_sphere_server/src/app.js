@@ -11,16 +11,18 @@ const app = express();
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:3000';
 
 // === CORS Configuration ===
-app.use(
-  cors({
-    origin: FRONTEND_ORIGIN,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
+const corsOptions = {
+  origin: FRONTEND_ORIGIN, // Ensure this matches your React app's URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
 
-app.options('*', cors());
+app.use(cors(corsOptions));
+
+// Allow OPTIONS preflight requests
+app.options('*', cors(corsOptions));
+
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));

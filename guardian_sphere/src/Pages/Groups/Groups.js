@@ -21,8 +21,11 @@ const Groups = () => {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [username, setUsername] = useState('');
   const [photo, setPhoto] = useState('');
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
   const messagesEndRef = useRef(null); // Reference for auto-scrolling
-  const chatBoxRef = useRef(null); // Reference for chat box container
+  const chatBoxRef = useRef(null); // Reference for the chat box container
 
   useEffect(() => {
     const savedUserId = localStorage.getItem('userId');
@@ -35,19 +38,18 @@ const Groups = () => {
     }
   }, []);
 
-  // Function to scroll to bottom
+  // Automatically scroll to the bottom when messages update
   const scrollToBottom = () => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   };
 
-  // Call scroll function whenever messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Fetch user details
+  // Fetch user details from the server
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -93,6 +95,10 @@ const Groups = () => {
         ...prevMessages,
         [msg.group]: [...prevMessages[msg.group], msg],
       }));
+      // If this is our own sent message, we can hide the loader
+      if (msg.userId === localStorage.getItem('userId')) {
+        setIsSending(false);
+      }
     });
 
     socket.on('user connected', (users) => {
@@ -108,9 +114,22 @@ const Groups = () => {
   }, []);
 
   useEffect(() => {
+    if (currentGroup) {
+      socket.emit('join group', currentGroup);
+    }
+
+    return () => {
+      if (currentGroup) {
+        socket.emit('leave group', currentGroup);
+      }
+    };
+  }, [currentGroup]);
+
+  useEffect(() => {
     const loadMessages = async () => {
       if (currentGroup) {
         try {
+          setIsLoadingMessages(true);
           const data = await fetchGroupMessages(currentGroup);
           setMessages((prevMessages) => ({
             ...prevMessages,
@@ -118,6 +137,8 @@ const Groups = () => {
           }));
         } catch (error) {
           console.error('Failed to load group messages:', error);
+        } finally {
+          setIsLoadingMessages(false);
         }
       }
     };
@@ -149,6 +170,7 @@ const Groups = () => {
         return;
       }
 
+      setIsSending(true);
       const messagePayload = {
         group: currentGroup,
         content: input,
@@ -158,12 +180,6 @@ const Groups = () => {
       };
 
       socket.emit('chat message', messagePayload);
-
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        [currentGroup]: [...prevMessages[currentGroup], messagePayload],
-      }));
-
       setInput('');
     }
   };
@@ -229,21 +245,28 @@ const Groups = () => {
             <p>{t('connected_users')}: {connectedUsers.length}</p>
           </div>
           <div className="chat-box" ref={chatBoxRef}>
-            <div className="messages">
-              {messages[currentGroup]?.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
-                >
-                  <div className="profile">
-                    <img src={msg.photo} alt="profile" />
-                    <span>{msg.sender}</span>
+            {isLoadingMessages ? (
+              <div className="loader-container">
+                {/* Simple loader example (you can style it in Groups.css) */}
+                <div className="loader"></div>
+              </div>
+            ) : (
+              <div className="messages">
+                {messages[currentGroup]?.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
+                  >
+                    <div className="profile">
+                      <img src={msg.photo} alt="profile" />
+                      <span>{msg.sender}</span>
+                    </div>
+                    <span>{msg.content}</span>
                   </div>
-                  <span>{msg.content}</span>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
           </div>
 
           <div className="message-form">
@@ -254,8 +277,15 @@ const Groups = () => {
               placeholder={t('type_message')}
               onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
               className="message-input"
+              disabled={isLoadingMessages || isSending}
             />
-            <button className="send-button" onClick={sendMessage}>{t('send')}</button>
+            <button className="send-button" onClick={sendMessage} disabled={isLoadingMessages || isSending}>
+              {isSending ? (
+                <div className="loader-button"></div>
+              ) : (
+                t('send')
+              )}
+            </button>
           </div>
         </>
       )}

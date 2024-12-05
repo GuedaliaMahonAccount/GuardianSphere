@@ -3,6 +3,10 @@ import './FollowUp.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+// Font Awesome imports
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+
 const FollowUp = () => {
   const { t } = useTranslation("FollowUp");
   const dispatch = useDispatch();
@@ -12,6 +16,10 @@ const FollowUp = () => {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [frequency, setFrequency] = useState('daily');
+
+  const [editingTreatmentId, setEditingTreatmentId] = useState(null);
+  const [editName, setEditName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   const handleAddTreatment = (e) => {
     e.preventDefault();
@@ -36,6 +44,41 @@ const FollowUp = () => {
       type: "TOGGLE_CHECK",
       payload: { treatmentId, date }
     });
+  };
+
+  const handleDeleteTreatment = (treatmentId) => {
+    if (window.confirm(t('confirm_delete'))) {
+      dispatch({
+        type: "DELETE_TREATMENT",
+        payload: { treatmentId }
+      });
+    }
+  };
+
+  const handleEditTreatment = (treatment) => {
+    setEditingTreatmentId(treatment.id);
+    setEditName(treatment.name);
+    setEditDescription(treatment.description);
+  };
+
+  const handleSaveEdit = (treatmentId) => {
+    if (!editName || !editDescription) {
+      alert(t('form_error_fill_all'));
+      return;
+    }
+    dispatch({
+      type: "UPDATE_TREATMENT",
+      payload: { treatmentId, name: editName, description: editDescription }
+    });
+    setEditingTreatmentId(null);
+    setEditName('');
+    setEditDescription('');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingTreatmentId(null);
+    setEditName('');
+    setEditDescription('');
   };
 
   return (
@@ -100,8 +143,44 @@ const FollowUp = () => {
         ) : (
           treatments.map((treatment) => (
             <div key={treatment.id} className="single-treatment-table">
-              {/* Display the treatment name as a heading */}
-              <h3>{treatment.name}</h3>
+              {editingTreatmentId === treatment.id ? (
+                <div className="edit-section">
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    placeholder={t("form_treatmentName_placeholder")}
+                    className="edit-input"
+                  />
+                  <textarea
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                    placeholder={t("form_description_placeholder")}
+                    className="edit-textarea"
+                  />
+                  <div className="action-buttons">
+                    <button className="save-button" onClick={() => handleSaveEdit(treatment.id)}>
+                      <FontAwesomeIcon icon={faCheck} />
+                    </button>
+                    <button className="cancel-button" onClick={handleCancelEdit}>
+                      <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>{treatment.name}</h3>
+                  <p style={{ textAlign: 'center', marginBottom: '10px' }}>{treatment.description}</p>
+                  <div className="action-buttons">
+                    <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
+                      <FontAwesomeIcon icon={faPen} />
+                    </button>
+                    <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment.id)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                </>
+              )}
               <table className="treatment-table">
                 <thead>
                   <tr>

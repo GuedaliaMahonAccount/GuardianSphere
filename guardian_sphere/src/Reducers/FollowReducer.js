@@ -1,5 +1,7 @@
 const ADD_TREATMENT = "ADD_TREATMENT";
 const TOGGLE_CHECK = "TOGGLE_CHECK";
+const DELETE_TREATMENT = "DELETE_TREATMENT";
+const UPDATE_TREATMENT = "UPDATE_TREATMENT";
 
 const initialState = {
   treatments: []
@@ -10,7 +12,6 @@ function generateDates(startDate, frequency) {
   const dates = [];
 
   if (frequency === "daily") {
-    // Generate 7 consecutive daily checks
     for (let i = 0; i < 7; i++) {
       const newDate = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
       dates.push({
@@ -19,7 +20,6 @@ function generateDates(startDate, frequency) {
       });
     }
   } else if (frequency === "weekly") {
-    // Generate one check per week for 4 weeks
     for (let i = 0; i < 4; i++) {
       const newDate = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i * 7);
       dates.push({
@@ -28,7 +28,6 @@ function generateDates(startDate, frequency) {
       });
     }
   } else if (frequency === "monthly") {
-    // Generate one check per month for 3 months
     for (let i = 0; i < 3; i++) {
       const newDate = new Date(start.getFullYear(), start.getMonth() + i, start.getDate());
       dates.push({
@@ -68,6 +67,31 @@ export default function followReducer(state = initialState, action) {
               checks: treatment.checks.map((c) =>
                 c.date === action.payload.date ? { ...c, done: !c.done } : c
               )
+            };
+          }
+          return treatment;
+        })
+      };
+    }
+
+    case DELETE_TREATMENT: {
+      return {
+        ...state,
+        treatments: state.treatments.filter(
+          (treatment) => treatment.id !== action.payload.treatmentId
+        )
+      };
+    }
+
+    case UPDATE_TREATMENT: {
+      return {
+        ...state,
+        treatments: state.treatments.map((treatment) => {
+          if (treatment.id === action.payload.treatmentId) {
+            return {
+              ...treatment,
+              name: action.payload.name,
+              description: action.payload.description
             };
           }
           return treatment;

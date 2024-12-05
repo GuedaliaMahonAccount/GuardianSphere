@@ -15,5 +15,10 @@
   "table_treatment": "טיפול",
   "table_description": "תיאור",
   "form_error_fill_all": "אנא מלא את כל השדות.",
-  "table_for_treatment": "טיפול: {{treatmentName}}"
+  "table_for_treatment": "טיפול: {{treatmentName}}",
+  "edit_button": "ערוך",
+  "delete_button": "מחק",
+  "save_button": "שמור",
+  "cancel_button": "ביטול",
+  "confirm_delete": "האם אתה בטוח שברצונך למחוק את הטיפול הזה?"
 }

@@ -1,5 +1,18 @@
 {
-    "followup_title": "Follow-Up",
-    "followup_description": "Welcome to the Follow-Up page."
-  }
-  
+  "followup_title": "Follow-Up Page",
+  "followup_description": "This page allows you to track any type of treatment or exercise regimen. Add treatments, specify their start date and frequency, then check off each day as completed.",
+  "form_treatmentName": "Treatment Name",
+  "form_treatmentName_placeholder": "e.g. Positive Thoughts Before Sleep",
+  "form_description": "Description",
+  "form_description_placeholder": "Describe the exercise or treatment here...",
+  "form_startDate": "Start Date",
+  "form_frequency": "Frequency",
+  "frequency_daily": "Daily",
+  "frequency_weekly": "Weekly",
+  "frequency_monthly": "Monthly",
+  "add_button": "Add Treatment",
+  "no_treatments_message": "No treatments added yet. Please add a treatment above.",
+  "table_treatment": "Treatment",
+  "table_description": "Description",
+  "form_error_fill_all": "Please fill in all fields."
+}

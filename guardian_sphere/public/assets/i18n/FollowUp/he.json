@@ -1,4 +1,18 @@
 {
-    "followup_title": "מעקב",
-    "followup_description": "ברוכים הבאים לדף המשך."
+  "followup_title": "דף מעקב",
+  "followup_description": "דף זה מאפשר לך לעקוב אחר כל סוג של טיפול או תרגול. הוסף טיפולים, ציין את תאריך ההתחלה ותדירותם, וסמן בכל יום שהשלמת אותם.",
+  "form_treatmentName": "שם הטיפול",
+  "form_treatmentName_placeholder": "לדוגמה: מחשבות חיוביות לפני השינה",
+  "form_description": "תיאור",
+  "form_description_placeholder": "תאר את התרגיל או הטיפול כאן...",
+  "form_startDate": "תאריך התחלה",
+  "form_frequency": "תדירות",
+  "frequency_daily": "יומי",
+  "frequency_weekly": "שבועי",
+  "frequency_monthly": "חודשי",
+  "add_button": "הוסף טיפול",
+  "no_treatments_message": "לא נוספו עדיין טיפולים. אנא הוסף טיפול למעלה.",
+  "table_treatment": "טיפול",
+  "table_description": "תיאור",
+  "form_error_fill_all": "אנא מלא את כל השדות."
 }

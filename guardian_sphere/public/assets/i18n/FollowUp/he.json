@@ -14,5 +14,6 @@
   "no_treatments_message": "לא נוספו עדיין טיפולים. אנא הוסף טיפול למעלה.",
   "table_treatment": "טיפול",
   "table_description": "תיאור",
-  "form_error_fill_all": "אנא מלא את כל השדות."
+  "form_error_fill_all": "אנא מלא את כל השדות.",
+  "table_for_treatment": "טיפול: {{treatmentName}}"
 }

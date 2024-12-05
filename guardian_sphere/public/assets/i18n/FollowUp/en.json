@@ -14,5 +14,7 @@
   "no_treatments_message": "No treatments added yet. Please add a treatment above.",
   "table_treatment": "Treatment",
   "table_description": "Description",
-  "form_error_fill_all": "Please fill in all fields."
+  "form_error_fill_all": "Please fill in all fields.",
+  "table_for_treatment": "Treatment: {{treatmentName}}"
+
 }

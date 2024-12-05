@@ -98,34 +98,36 @@ const FollowUp = () => {
         {treatments.length === 0 ? (
           <p>{t("no_treatments_message")}</p>
         ) : (
-          <table className="treatment-table">
-            <thead>
-              <tr>
-                <th>{t("table_treatment")}</th>
-                <th>{t("table_description")}</th>
-                {treatments[0].checks.map((check, index) => (
-                  <th key={index}>{check.date}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {treatments.map((treatment) => (
-                <tr key={treatment.id}>
-                  <td>{treatment.name}</td>
-                  <td>{treatment.description}</td>
-                  {treatment.checks.map((check) => (
-                    <td key={check.date}>
-                      <input
-                        type="checkbox"
-                        checked={check.done}
-                        onChange={() => handleToggleCheck(treatment.id, check.date)}
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          treatments.map((treatment) => (
+            <div key={treatment.id} className="single-treatment-table">
+              {/* Display the treatment name as a heading */}
+              <h3>{treatment.name}</h3>
+              <table className="treatment-table">
+                <thead>
+                  <tr>
+                    <th>{t("table_description")}</th>
+                    {treatment.checks.map((check, index) => (
+                      <th key={index}>{check.date}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{treatment.description}</td>
+                    {treatment.checks.map((check) => (
+                      <td key={check.date}>
+                        <input
+                          type="checkbox"
+                          checked={check.done}
+                          onChange={() => handleToggleCheck(treatment.id, check.date)}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))
         )}
       </div>
     </div>

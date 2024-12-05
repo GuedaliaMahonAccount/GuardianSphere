@@ -7,14 +7,24 @@ import { useDispatch, useSelector } from "react-redux";
 import CurrencySelctor from "../Selectors/CurrencySelctor/CurrencySelctor";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation("App");
   const isRtl = i18n.language === "he"
+  const naviguate = useNavigate();
 
 
-
+  const handleLogout = () => {
+    // Remove the tokens that were set during login
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+  
+    // Redirect to login page
+    naviguate("/login");
+  };
+  
 
   return (
     <nav className="top_navbar">
@@ -38,6 +48,15 @@ const Navbar = () => {
       </div>
 
 
+    {/* Logout Button */}
+    <Fragment>
+      <img className={`logout_icon_${isRtl ? "left" : "right"}`} src="Pictures/logout-icon.png" alt="logout_icon" onClick={(e) => handleLogout(e)} />
+      <button
+          className="logout-button"
+          type="button"
+          onClick={(e) => handleLogout(e)}>
+        </button>
+      </Fragment>
 
 
     </nav>

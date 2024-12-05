@@ -17,7 +17,7 @@ import Loading from './components/Loading/Loading.js'; // ייבוא רכיב ה
 
 // Define the ProtectedRoute component
 function ProtectedRoute({ element, redirectTo = '/login' }) {
-  const isAuthenticated = !!localStorage.getItem('token'); // Check for token
+  const isAuthenticated = !!localStorage.getItem('token'); // Checks if token is present
   return isAuthenticated ? element : <Navigate to={redirectTo} />;
 }
 

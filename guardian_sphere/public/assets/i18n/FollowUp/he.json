@@ -20,5 +20,7 @@
   "delete_button": "מחק",
   "save_button": "שמור",
   "cancel_button": "ביטול",
-  "confirm_delete": "האם אתה בטוח שברצונך למחוק את הטיפול הזה?"
+  "confirm_delete": "האם אתה בטוח שברצונך למחוק את הטיפול הזה?",
+  "form_endDate": "תאריך סיום",
+  "no_end_date": "לא הוגדר תאריך סיום."
 }

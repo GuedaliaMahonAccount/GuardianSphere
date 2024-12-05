@@ -15,6 +15,7 @@ const FollowUp = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');  // New end date state
   const [frequency, setFrequency] = useState('daily');
 
   const [editingTreatmentId, setEditingTreatmentId] = useState(null);
@@ -30,12 +31,13 @@ const FollowUp = () => {
 
     dispatch({
       type: "ADD_TREATMENT",
-      payload: { name, description, startDate, frequency }
+      payload: { name, description, startDate, endDate, frequency }
     });
 
     setName('');
     setDescription('');
     setStartDate('');
+    setEndDate('');
     setFrequency('daily');
   };
 
@@ -47,12 +49,10 @@ const FollowUp = () => {
   };
 
   const handleDeleteTreatment = (treatmentId) => {
-    if (window.confirm(t('confirm_delete'))) {
       dispatch({
         type: "DELETE_TREATMENT",
         payload: { treatmentId }
       });
-    }
   };
 
   const handleEditTreatment = (treatment) => {
@@ -121,6 +121,17 @@ const FollowUp = () => {
           />
         </div>
 
+        {/* New End Date Field */}
+        <div className="form-group">
+          <label htmlFor="treatmentEndDate">{t("form_endDate") || "End Date"}:</label>
+          <input
+            type="date"
+            id="treatmentEndDate"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+
         <div className="form-group">
           <label htmlFor="treatmentFrequency">{t("form_frequency")}:</label>
           <select
@@ -170,7 +181,11 @@ const FollowUp = () => {
               ) : (
                 <>
                   <h3>{treatment.name}</h3>
-                  <p style={{ textAlign: 'center', marginBottom: '10px' }}>{treatment.description}</p>
+                  <p style={{ textAlign: 'center', marginBottom: '10px' }}>
+                    {/* {treatment.description}<br/> */}
+                    {/* <strong>{t("form_startDate")}:</strong> {treatment.startDate} <br/>
+                    <strong>{t("form_endDate") || "End Date"}:</strong> {treatment.endDate || t("no_end_date") } */}
+                  </p>
                   <div className="action-buttons">
                     <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
                       <FontAwesomeIcon icon={faPen} />

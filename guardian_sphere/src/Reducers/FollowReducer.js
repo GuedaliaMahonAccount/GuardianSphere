@@ -7,31 +7,50 @@ const initialState = {
   treatments: []
 };
 
-function generateDates(startDate, frequency) {
+function generateDates(startDate, endDate, frequency) {
   const start = new Date(startDate);
+  let end = endDate ? new Date(endDate) : null;
+
+  // If no endDate is given, we can default to a certain range.
+  // For example, if no endDate, generate fixed periods as before.
+  // Otherwise, generate all intervals up to endDate.
+  if (!end) {
+    // If end is not provided, default to a fixed number of checks:
+    // This is optional. You can decide what to do in this scenario.
+    if (frequency === "daily") {
+      end = new Date(start);
+      end.setDate(end.getDate() + 6); // 7 days total
+    } else if (frequency === "weekly") {
+      end = new Date(start);
+      end.setDate(end.getDate() + (4 * 7 - 1)); // 4 weeks
+    } else if (frequency === "monthly") {
+      end = new Date(start.getFullYear(), start.getMonth() + 2, start.getDate());
+    }
+  }
+
   const dates = [];
 
   if (frequency === "daily") {
-    for (let i = 0; i < 7; i++) {
-      const newDate = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+    // Generate every day between start and end inclusive
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
       dates.push({
-        date: newDate.toISOString().split("T")[0],
+        date: d.toISOString().split("T")[0],
         done: false
       });
     }
   } else if (frequency === "weekly") {
-    for (let i = 0; i < 4; i++) {
-      const newDate = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i * 7);
+    // Generate every 7 days between start and end inclusive
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 7)) {
       dates.push({
-        date: newDate.toISOString().split("T")[0],
+        date: d.toISOString().split("T")[0],
         done: false
       });
     }
   } else if (frequency === "monthly") {
-    for (let i = 0; i < 3; i++) {
-      const newDate = new Date(start.getFullYear(), start.getMonth() + i, start.getDate());
+    // Generate same day of month until end date
+    for (let d = new Date(start); d <= end; d.setMonth(d.getMonth() + 1)) {
       dates.push({
-        date: newDate.toISOString().split("T")[0],
+        date: d.toISOString().split("T")[0],
         done: false
       });
     }
@@ -43,13 +62,16 @@ function generateDates(startDate, frequency) {
 export default function followReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_TREATMENT: {
+      const { name, description, startDate, endDate, frequency } = action.payload;
+      const checks = generateDates(startDate, endDate, frequency);
       const newTreatment = {
         id: Date.now(),
-        name: action.payload.name,
-        description: action.payload.description,
-        startDate: action.payload.startDate,
-        frequency: action.payload.frequency,
-        checks: generateDates(action.payload.startDate, action.payload.frequency)
+        name,
+        description,
+        startDate,
+        endDate,
+        frequency,
+        checks
       };
       return {
         ...state,

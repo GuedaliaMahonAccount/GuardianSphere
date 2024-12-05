@@ -244,3 +244,14 @@
 .treatment-table tbody tr:hover {
   background: rgba(255,255,255,0.2);
 }
+
+.treatment-table-container {
+  width: 100%;
+  max-width: 1000px;
+  overflow-x: auto;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+  padding: 15px;
+}

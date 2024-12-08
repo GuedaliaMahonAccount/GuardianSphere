@@ -8,7 +8,7 @@ import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
   const { t, i18n } = useTranslation("Home");
 
-  const username = "userexemple"; // Hardcoded username
+  const username = localStorage.getItem('username');
   const [message, setMessage] = useState(''); // Current input message
   const [messages, setMessages] = useState([]); // Messages of the active chat
   const [chatHistory, setChatHistory] = useState([]); // Global chat history

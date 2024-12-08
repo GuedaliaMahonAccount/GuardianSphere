@@ -19,7 +19,8 @@ const Login = () => {
   
       // Save both token and userId in localStorage
       localStorage.setItem('token', response.data.token); 
-      localStorage.setItem('userId', response.data.user._id); // Save userId from response
+      localStorage.setItem('userId', response.data.user._id);
+      localStorage.setItem('username', response.data.user.realName);
   
       navigate('/home'); // Redirect to home page after login
     } catch (error) {

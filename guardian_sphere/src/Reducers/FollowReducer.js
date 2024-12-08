@@ -2,6 +2,7 @@ const ADD_TREATMENT = "ADD_TREATMENT";
 const TOGGLE_CHECK = "TOGGLE_CHECK";
 const DELETE_TREATMENT = "DELETE_TREATMENT";
 const UPDATE_TREATMENT = "UPDATE_TREATMENT";
+const SET_TREATMENTS = "SET_TREATMENTS";
 
 const initialState = {
   treatments: []
@@ -11,51 +12,32 @@ function generateDates(startDate, endDate, frequency) {
   const start = new Date(startDate);
   let end = endDate ? new Date(endDate) : null;
 
-  // If no endDate is given, we can default to a certain range.
-  // For example, if no endDate, generate fixed periods as before.
-  // Otherwise, generate all intervals up to endDate.
   if (!end) {
-    // If end is not provided, default to a fixed number of checks:
-    // This is optional. You can decide what to do in this scenario.
     if (frequency === "daily") {
       end = new Date(start);
-      end.setDate(end.getDate() + 6); // 7 days total
+      end.setDate(end.getDate() + 6);
     } else if (frequency === "weekly") {
       end = new Date(start);
-      end.setDate(end.getDate() + (4 * 7 - 1)); // 4 weeks
+      end.setDate(end.getDate() + (4 * 7 - 1));
     } else if (frequency === "monthly") {
       end = new Date(start.getFullYear(), start.getMonth() + 2, start.getDate());
     }
   }
 
   const dates = [];
-
   if (frequency === "daily") {
-    // Generate every day between start and end inclusive
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      dates.push({
-        date: d.toISOString().split("T")[0],
-        done: false
-      });
+      dates.push({ date: d.toISOString().split("T")[0], done: false });
     }
   } else if (frequency === "weekly") {
-    // Generate every 7 days between start and end inclusive
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 7)) {
-      dates.push({
-        date: d.toISOString().split("T")[0],
-        done: false
-      });
+      dates.push({ date: d.toISOString().split("T")[0], done: false });
     }
   } else if (frequency === "monthly") {
-    // Generate same day of month until end date
     for (let d = new Date(start); d <= end; d.setMonth(d.getMonth() + 1)) {
-      dates.push({
-        date: d.toISOString().split("T")[0],
-        done: false
-      });
+      dates.push({ date: d.toISOString().split("T")[0], done: false });
     }
   }
-
   return dates;
 }
 
@@ -120,6 +102,13 @@ export default function followReducer(state = initialState, action) {
         })
       };
     }
+
+    case SET_TREATMENTS: {
+      return {
+        ...state,
+        treatments: action.payload,
+      };
+    }    
 
     default:
       return state;

@@ -48,10 +48,13 @@ app.use(
 const openaiRoutes = require('./routes/openaiRoutes');
 const messageRoutes = require('./routes/groupsroutes');
 const userRoutes = require('./routes/userRoutes');
+const followUpRoutes = require('./routes/followUpRoutes');
+
 
 app.use('/api/openai', openaiRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api', followUpRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.status(200).json({ status: 'UP' }));

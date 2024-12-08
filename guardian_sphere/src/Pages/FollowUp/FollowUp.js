@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FollowUp.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash, faCheck, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
+import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck } from './followUpReq';
 
 const FollowUp = () => {
   const { t } = useTranslation("FollowUp");
   const dispatch = useDispatch();
   const { treatments } = useSelector((state) => state.follow);
-
   const [newTreatments, setNewTreatments] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -20,6 +19,24 @@ const FollowUp = () => {
   const [editingTreatmentId, setEditingTreatmentId] = useState(null);
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [error, setError] = useState(null);
+  const username = localStorage.getItem('username');
+
+
+  useEffect(() => {
+    fetchTreatments();
+  }, [dispatch]);
+
+  const fetchTreatments = async () => {
+    try {
+      const data = await getByUsername(username);
+      console.log("Fetched treatments:", data); // Debugging
+      const treatmentsArray = Array.isArray(data) ? data : []; // Adjusted
+      dispatch({ type: "SET_TREATMENTS", payload: treatmentsArray });
+    } catch (error) {
+      setError("Error fetching treatments: " + error.message);
+    }
+  };    
 
   const generateDates = (startDate, endDate, frequency) => {
     const start = new Date(startDate);
@@ -54,7 +71,7 @@ const FollowUp = () => {
     return dates;
   };
 
-  const handleAddTreatment = (e) => {
+  const handleAddTreatment = async (e) => {
     e.preventDefault();
     if (!name || !description || !startDate) {
       alert(t('form_error_fill_all'));
@@ -78,15 +95,20 @@ const FollowUp = () => {
     setStartDate('');
     setEndDate('');
     setFrequency('daily');
+
+    fetchTreatments();
   };
 
-  const handleSaveTreatment = (treatment) => {
-    dispatch({
-      type: "ADD_TREATMENT",
-      payload: treatment,
-    });
+  const handleSaveTreatment = async (treatment) => {
+    try {
+      const createdTreatment = await createTreatment(username, treatment);
+      dispatch({ type: "ADD_TREATMENT", payload: createdTreatment });
+      setNewTreatments(newTreatments.filter((t) => t.id !== treatment.id));
+    } catch (error) {
+      setError("Error creating treatment: " + error.message);
+    }
 
-    setNewTreatments(newTreatments.filter((t) => t.id !== treatment.id));
+    fetchTreatments();
   };
 
   const handleEditTreatment = (treatment) => {
@@ -95,18 +117,22 @@ const FollowUp = () => {
     setEditDescription(treatment.description);
   };
 
-  const handleSaveEdit = (treatmentId) => {
+  const handleSaveEdit = async (treatmentId) => {
     if (!editName || !editDescription) {
       alert(t('form_error_fill_all'));
       return;
     }
-    dispatch({
-      type: "UPDATE_TREATMENT",
-      payload: { treatmentId, name: editName, description: editDescription },
-    });
-    setEditingTreatmentId(null);
-    setEditName('');
-    setEditDescription('');
+    try {
+      const updatedTreatment = await updateTreatment(treatmentId, { name: editName, description: editDescription });
+      dispatch({ type: "UPDATE_TREATMENT", payload: updatedTreatment });
+      setEditingTreatmentId(null);
+      setEditName('');
+      setEditDescription('');
+    } catch (error) {
+      setError("Error updating treatment: " + error.message);
+    }
+
+    fetchTreatments();
   };
 
   const handleCancelEdit = () => {
@@ -115,24 +141,50 @@ const FollowUp = () => {
     setEditDescription('');
   };
 
-  const handleToggleCheck = (treatmentId, date) => {
-    dispatch({
-      type: "TOGGLE_CHECK",
-      payload: { treatmentId, date },
-    });
+  const handleToggleCheck = async (treatmentId, date) => {
+    try {
+      // Optimistic update: Toggle locally first
+      dispatch({
+        type: "TOGGLE_CHECK",
+        payload: { treatmentId, date },
+      });
+  
+      // Attempt to toggle the check in the backend
+      const updatedTreatment = await toggleCheck(treatmentId, date);
+  
+      // If successful, update the reducer with the latest backend state
+      dispatch({
+        type: "SET_UPDATED_TREATMENT",
+        payload: updatedTreatment,
+      });
+      fetchTreatments();
+    } catch (error) {
+      // Log the error but keep the optimistic update
+      console.error("Error toggling checkbox:", error.message);
+      alert("Need to save before");
+  
+      // Optionally show a warning to the user
+      setError("Could not sync with server, working offline.");
+    }
   };
 
-  const handleDeleteTreatment = (treatmentId) => {
-    dispatch({
-      type: "DELETE_TREATMENT",
-      payload: { treatmentId },
-    });
+  const handleDeleteTreatment = async (treatmentId) => {
+    try {
+      await deleteTreatment(treatmentId);
+      dispatch({ type: "DELETE_TREATMENT", payload: { treatmentId } });
+    } catch (error) {
+      alert("Need to save before");
+      setError("Error deleting treatment: " + error.message);
+    }
+
+    fetchTreatments();
   };
 
   return (
     <div className="followup-container">
       <h2>{t("followup_title")}</h2>
       <p>{t("followup_description")}</p>
+
 
       <form className="followup-form" onSubmit={handleAddTreatment}>
         <div className="form-group">
@@ -214,7 +266,7 @@ const FollowUp = () => {
                   className="edit-textarea"
                 />
                 <div className="action-buttons">
-                  <button className="save-button" onClick={() => handleSaveEdit(treatment.id)}>
+                  <button className="save-button" onClick={() => handleSaveEdit(treatment._id)}>
                     <FontAwesomeIcon icon={faCheck} />
                   </button>
                   <button className="cancel-button" onClick={handleCancelEdit}>
@@ -229,7 +281,7 @@ const FollowUp = () => {
                   <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
                     <FontAwesomeIcon icon={faPen} />
                   </button>
-                  <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment.id)}>
+                  <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment._id)}>
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </div>
@@ -254,9 +306,9 @@ const FollowUp = () => {
                         checked={check.done}
                         onChange={() =>
                           handleToggleCheck(
-                            treatment.id,
+                            treatment._id,
                             check.date,
-                            !treatments.some((t) => t.id === treatment.id)
+                            !treatments.some((t) => t.id === treatment._id)
                           )
                         }
                       />

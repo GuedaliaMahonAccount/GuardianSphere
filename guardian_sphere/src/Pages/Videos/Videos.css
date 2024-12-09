@@ -2,33 +2,41 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to right, #87CEFA, #4682B4); /* Calming gradient */
+  justify-content: center; /* ממרכז את התוכן אנכית */
+  min-height: 100vh; /* גובה מינימלי תמיד בגובה המסך */
+  background: linear-gradient(to right, #87CEFA, #4682B4); /* רקע מלא */
   padding: 20px;
-  position: relative; /* Important for positioning the menu */
+  position: relative; /* מוודאים שהכפתור ממוקם בתוך הרקע */
 }
-
 
 .topic-buttons {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   margin: 20px 0;
+  gap: 20px;
 }
 
-.topic-button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
+.topic-image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.topic-button:hover {
-  background-color: #0056b3;
+.topic-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.topic-title {
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  margin-top: 5px;
 }
 
 .videos-list {
@@ -46,4 +54,41 @@
   padding: 10px;
   border-radius: 5px;
   text-align: center;
+}
+
+.videos-list iframe {
+  width: 90%;
+  max-width: 800px;
+  height: auto;
+  border: none;
+  border-radius: 8px;
+  margin: 20px auto; /* מרכז את הסרטון */
+  display: block;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: #4682B4;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  top: 20px; /* מיקום הכפתור למעלה */
+  z-index: 10;
+}
+
+.back-button:hover {
+  background-color: #5A9BD4;
+}
+
+/* מיקום הכפתור בצד שמאל באנגלית */
+html[lang="en"] .back-button {
+  left: 20px;
+}
+
+/* מיקום הכפתור בצד ימין בעברית */
+html[lang="he"] .back-button {
+  right: 20px;
 }

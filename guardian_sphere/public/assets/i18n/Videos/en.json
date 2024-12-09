@@ -1,5 +1,29 @@
 {
-    "videos_title": "Videos",
-    "videos_description": "Welcome to the Videos page."
-  }
-  
+  "videos_title": "Videos",
+  "back_button": "Back to topics",
+  "videos_description": "Welcome to the Videos page.",
+  "topic_1_title": "Nature",
+  "topic_1_video_1": "Forests",
+  "topic_1_video_1_url": "https://www.youtube.com/embed/RDJ1S5sDcW8",
+  "topic_1_video_2": "Oceans",
+  "topic_1_video_2_url": "https://www.youtube.com/embed/VIDEO_ID_2",
+  "topic_1_video_3": "Mountains",
+  "topic_1_video_3_url": "https://www.youtube.com/embed/VIDEO_ID_3",
+  "topic_1_video_4": "Deserts",
+  "topic_1_video_4_url": "https://www.youtube.com/embed/VIDEO_ID_4",
+  "topic_1_video_5": "Rivers",
+  "topic_1_video_5_url": "https://www.youtube.com/embed/VIDEO_ID_5",
+  "topic_2_title": "Technology",
+  "topic_2_video_1": "AI Basics",
+  "topic_2_video_1_url": "https://www.youtube.com/embed/VIDEO_ID_6",
+  "topic_2_video_2": "AI Basics",
+  "topic_2_video_2_url": "https://www.youtube.com/embed/VIDEO_ID_7",
+  "topic_2_video_3": "AI Basics",
+  "topic_2_video_3_url": "https://www.youtube.com/embed/VIDEO_ID_8",
+  "topic_2_video_4": "AI Basics",
+  "topic_2_video_4_url": "https://www.youtube.com/embed/VIDEO_ID_9",
+  "topic_2_video_5": "AI Basics",
+  "topic_2_video_5_url": "https://www.youtube.com/embed/VIDEO_ID_10"
+
+
+}

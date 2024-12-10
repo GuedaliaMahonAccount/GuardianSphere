@@ -1,11 +1,11 @@
 {
-    "assistance_title": "Assistance",
-    "assistance_description": "We are here to help you. Here is our contact information:",
-    "general_support": "General Support",
-    "general_support_hours": "Monday to Friday: 9:00 AM - 6:00 PM",
-    "emergency": "Emergency",
-    "emergency_hours": "Available 24/7",
-    "technical_support": "Technical Support",
-    "technical_support_hours": "Monday to Saturday: 8:00 AM - 8:00 PM"
-  }
-  
+  "assistance_title": "Assistance",
+  "hmo_assistance": "Assistance from the HMO",
+  "resilience_centers": "Resilience Centers by Location",
+  "associations": "Associations",
+  "close": "Close",
+  "search_placeholder": "Search...",
+  "provided_by": "Provided by",
+  "assistance_from_hmo": "Assistance from the HMO",
+  "resilience_centers_by_location": "Resilience Centers by Location"
+}

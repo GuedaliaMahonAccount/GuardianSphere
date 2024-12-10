@@ -9,35 +9,110 @@
   position: relative; /* Important for positioning the menu */
 }
   
-  h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  p {
-    color: #555;
-    line-height: 1.6;
-  }
-  
-  .assistance-info {
-    margin-top: 20px;
-  }
-  
-  .assistance-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-  }
-  
-  .assistance-item h3 {
-    color: #444;
-    margin-bottom: 10px;
-  }
-  
-  .assistance-item p {
-    margin: 5px 0;
-    font-size: 14px;
-  }
-  
+.main-heading {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+/* Buttons Layout */
+.buttons-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.large-button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 250px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.large-button:hover {
+  background-color: #0056b3;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  width: 50%;
+  max-height: 70%;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.popup-heading {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.close-button:hover {
+  color: #007bff;
+}
+
+/* Scrollable Container */
+.scroll-container {
+  overflow-y: auto;
+  max-height: 300px;
+  padding-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.contact-list,
+.location-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-list li,
+.location-list li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  text-align: left;
+}
+
+.contact-list li:last-child,
+.location-list li:last-child {
+  border-bottom: none;
+}
+
+/* Search Bar */
+.search-bar {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}

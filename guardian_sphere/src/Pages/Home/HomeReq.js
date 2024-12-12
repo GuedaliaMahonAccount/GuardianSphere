@@ -85,3 +85,16 @@ export const updateChatTitle = async (username, chatId, newTitle) => {
     console.error("Error while updating chat title:", error);
   }
 };
+
+export const updateChatFeedback = async (username, chatId, feedback) => {
+  try {
+    await axios.put(
+      `${apiUrl}/update-feedback`,
+      { username, chatId, feedback },
+      { headers: getAuthHeaders() }
+    );
+  } catch (error) {
+    console.error("Error while updating feedback:", error);
+    throw error;
+  }
+};

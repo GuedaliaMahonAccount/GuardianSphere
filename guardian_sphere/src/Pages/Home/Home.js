@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
 import { useTranslation } from "react-i18next";
-import { sendMessageToAI, getChatHistory, addNewChat, deleteChat, updateChatTitle } from './HomeReq';
+import { sendMessageToAI, getChatHistory, addNewChat, deleteChat, updateChatTitle, updateChatFeedback } from './HomeReq';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -16,6 +16,7 @@ const Home = () => {
   const [showHistory, setShowHistory] = useState(false); // Toggle for showing/hiding chat history
   const [editingChatId, setEditingChatId] = useState(null); // ID of the chat being edited
   const [newTitle, setNewTitle] = useState(''); // New title for the chat
+  const [chat, setChat] = useState({}); // Active chat
 
   // Load chat history when the component mounts
   useEffect(() => {
@@ -45,12 +46,12 @@ const Home = () => {
     if (selectedChat) {
       setMessages(selectedChat.messages.map((msg) => ({
         sender: msg.role === 'user' ? 'user' : 'ai',
-        text: msg.content
+        text: msg.content,
       })));
-      setActiveChatId(chatId);
+      setActiveChatId(chatId); // Assurez-vous que l'ID actif est défini ici
       setShowHistory(false);
     }
-  };
+  };  
 
   // Delete a chat from the history
   const handleDeleteChat = async (chatId) => {
@@ -108,6 +109,32 @@ const Home = () => {
     }
   };
 
+  const handleFeedback = async (feedback) => {
+    try {
+      if (!activeChatId) {
+        console.error("No active chat ID found. Cannot update feedback.");
+        return;
+      }
+  
+      console.log("Sending feedback update:", { username, chatId: activeChatId, feedback });
+  
+      await updateChatFeedback(username, activeChatId, feedback);
+  
+      setChatHistory((prevHistory) =>
+        prevHistory.map((chat) =>
+          chat._id === activeChatId ? { ...chat, feedback } : chat
+        )
+      );
+  
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: 'system', text: `Thanks for gining me feedback` },
+      ]);
+    } catch (error) {
+      console.error("Error updating feedback:", error);
+    }
+  };
+  
   return (
     <div className="home-container">
       <h2>{t("hello_i_m_here_for_you")}</h2>
@@ -142,6 +169,22 @@ const Home = () => {
         />
         <button type="submit" className="send-button">{t("send")}</button>
       </form>
+
+      <div className="feedback-buttons">
+  <button
+    className={`feedback-button ${activeChatId && chatHistory.find(chat => chat._id === activeChatId)?.feedback === "like" ? "liked" : ""}`}
+    onClick={() => handleFeedback("like")}
+  >
+    👍{t("it_helped")}
+  </button>
+  <button
+    className={`feedback-button ${activeChatId && chatHistory.find(chat => chat._id === activeChatId)?.feedback === "dislike" ? "disliked" : ""}`}
+    onClick={() => handleFeedback("dislike")}
+  >
+    👎{t("it_not_helped")}
+  </button>
+</div>
+
 
       {/* Button to toggle chat history */}
       <button

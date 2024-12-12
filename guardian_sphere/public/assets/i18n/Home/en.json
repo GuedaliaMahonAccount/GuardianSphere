@@ -6,5 +6,7 @@
     "chat_history": "Chat History",
     "new_chat": "New Chat",
     "delete": "Delete",
-    "save": "Save"
+    "save": "Save",
+    "it_helped": "this dicussion helped me",
+    "it_not_helped": "this dicussion did not help me"
 }

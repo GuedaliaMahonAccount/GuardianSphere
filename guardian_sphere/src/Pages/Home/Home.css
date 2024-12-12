@@ -259,3 +259,18 @@
 .new-chat-button:hover {
   background-color: #218838;
 }
+
+.feedback-button {
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.feedback-button.liked {
+  color: green;
+}
+
+.feedback-button.disliked {
+  color: red;
+}

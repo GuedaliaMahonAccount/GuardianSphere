@@ -13,6 +13,8 @@ const chatSchema = new Schema({
   title: { type: String, required: true }, // Title for the chat
   messages: [messageSchema], // Array of messages
   timestamp: { type: Date, default: Date.now }, // Chat creation date
+  helped: { type: Boolean, default: null }, // User helped or not
+  feedback: { type: String, enum: ["like", "dislike", null], default: null }, // Feedback
 });
 
 // User Chat Schema

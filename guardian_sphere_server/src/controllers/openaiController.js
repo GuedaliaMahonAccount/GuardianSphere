@@ -154,3 +154,33 @@ exports.updateChatTitle = async (req, res) => {
         res.status(500).json({ error: "Internal server error." });
     }
 };
+
+// Update chat feedback (like/dislike)
+exports.updateChatFeedback = async (req, res) => {
+    try {
+      const { username, chatId, feedback } = req.body;
+  
+      if (!username || !chatId || !["like", "dislike"].includes(feedback)) {
+        return res.status(400).json({ error: "Invalid feedback or missing fields." });
+      }
+  
+      const userChat = await OpenAIChat.findOne({ username });
+      if (!userChat) {
+        return res.status(404).json({ error: "User not found." });
+      }
+  
+      const chat = userChat.chats.id(chatId);
+      if (!chat) {
+        return res.status(404).json({ error: "Chat not found." });
+      }
+  
+      chat.feedback = feedback;
+      await userChat.save();
+  
+      res.json({ message: "Feedback updated successfully.", feedback });
+    } catch (error) {
+      console.error("Error in updateChatFeedback:", error.message);
+      res.status(500).json({ error: "Internal server error." });
+    }
+  };
+  

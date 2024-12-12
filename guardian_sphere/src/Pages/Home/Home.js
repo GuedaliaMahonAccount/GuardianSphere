@@ -16,7 +16,6 @@ const Home = () => {
   const [showHistory, setShowHistory] = useState(false); // Toggle for showing/hiding chat history
   const [editingChatId, setEditingChatId] = useState(null); // ID of the chat being edited
   const [newTitle, setNewTitle] = useState(''); // New title for the chat
-  const [chat, setChat] = useState({}); // Active chat
 
   // Load chat history when the component mounts
   useEffect(() => {

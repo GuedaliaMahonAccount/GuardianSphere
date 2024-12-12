@@ -1,4 +1,11 @@
 {
     "doctors_title": "רופאים",
-    "doctors_description": "ברוכים הבאים לדף הרופאים."
-}
+    "doctors_description": "ברוכים הבאים לדף הרופאים.",
+    "doctor_1_name": "ג'ון סמית",
+    "doctor_1_description": "מומחה לקרדיולוגיה עם מעל 20 שנות ניסיון.",
+    "doctor_2_name": "אמילי ווייט",
+    "doctor_2_description": "רופאת ילדים ידועה שאוהבת לעבוד עם ילדים.",
+    "doctor_3_name": "אחמד חאן",
+    "doctor_3_description": "מומחה לאורתופדיה עם טכניקות ניתוח חדשניות."
+  }
+  

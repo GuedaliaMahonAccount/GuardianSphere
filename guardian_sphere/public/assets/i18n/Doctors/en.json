@@ -1,5 +1,10 @@
 {
-    "doctors_title": "Doctors",
-    "doctors_description": "Welcome to the Doctors page."
-  }
-  
+  "doctors_title": "Doctors",
+  "doctors_description": "Welcome to the Doctors page.",
+  "doctor_1_name": "Dr. John Smith",
+  "doctor_1_description": "Specialist in Cardiology with over 20 years of experience.",
+  "doctor_2_name": "Dr. Emily White",
+  "doctor_2_description": "Renowned Pediatrician who loves working with children.",
+  "doctor_3_name": "Dr. Ahmed Khan",
+  "doctor_3_description": "Expert in Orthopedics with innovative surgical techniques."
+}

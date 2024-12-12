@@ -23,9 +23,19 @@ const Home = () => {
     const fetchHistory = async () => {
       const history = await getChatHistory(username);
       setChatHistory(history); // Update chat history
+  
+      if (history && history.length > 0) {
+        const latestChat = history[history.length - 1]; // Get the latest chat
+        setActiveChatId(latestChat._id); // Set the latest chat as active
+        setMessages(latestChat.messages.map((msg) => ({
+          sender: msg.role === 'user' ? 'user' : 'ai',
+          text: msg.content,
+        })));
+      }
     };
     fetchHistory();
   }, [username]);
+  
 
   // Start a new chat
   const startNewChat = async () => {

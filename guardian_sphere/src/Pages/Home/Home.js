@@ -51,7 +51,7 @@ const Home = () => {
       setActiveChatId(chatId); // Assurez-vous que l'ID actif est défini ici
       setShowHistory(false);
     }
-  };  
+  };
 
   // Delete a chat from the history
   const handleDeleteChat = async (chatId) => {
@@ -115,26 +115,26 @@ const Home = () => {
         console.error("No active chat ID found. Cannot update feedback.");
         return;
       }
-  
+
       console.log("Sending feedback update:", { username, chatId: activeChatId, feedback });
-  
+
       await updateChatFeedback(username, activeChatId, feedback);
-  
+
       setChatHistory((prevHistory) =>
         prevHistory.map((chat) =>
           chat._id === activeChatId ? { ...chat, feedback } : chat
         )
       );
-  
+
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: 'system', text: `Thanks for gining me feedback` },
+        { sender: 'system', text: t("thanks") },
       ]);
     } catch (error) {
       console.error("Error updating feedback:", error);
     }
   };
-  
+
   return (
     <div className="home-container">
       <h2>{t("hello_i_m_here_for_you")}</h2>
@@ -171,19 +171,19 @@ const Home = () => {
       </form>
 
       <div className="feedback-buttons">
-  <button
-    className={`feedback-button ${activeChatId && chatHistory.find(chat => chat._id === activeChatId)?.feedback === "like" ? "liked" : ""}`}
-    onClick={() => handleFeedback("like")}
-  >
-    👍{t("it_helped")}
-  </button>
-  <button
-    className={`feedback-button ${activeChatId && chatHistory.find(chat => chat._id === activeChatId)?.feedback === "dislike" ? "disliked" : ""}`}
-    onClick={() => handleFeedback("dislike")}
-  >
-    👎{t("it_not_helped")}
-  </button>
-</div>
+        <button
+          className={`feedback-button ${activeChatId && chatHistory.find(chat => chat._id === activeChatId)?.feedback === "like" ? "liked" : ""}`}
+          onClick={() => handleFeedback("like")}
+        >
+          👍{t("it_helped")}
+        </button>
+        <button
+          className={`feedback-button ${activeChatId && chatHistory.find(chat => chat._id === activeChatId)?.feedback === "dislike" ? "disliked" : ""}`}
+          onClick={() => handleFeedback("dislike")}
+        >
+          👎{t("it_not_helped")}
+        </button>
+      </div>
 
 
       {/* Button to toggle chat history */}

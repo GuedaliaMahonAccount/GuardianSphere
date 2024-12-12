@@ -1,8 +1,55 @@
 const OpenAIChat = require("../models/openai");
 const openai = require("openai");
+const axios = require('axios');
+const Chat = require('../models/openai');
+const { checkEmergency, detectRole, detectLanguage } = require('../utils/Helpers');
+
 
 // Configure OpenAI API
 openai.apiKey = process.env.OPENAI_API_KEY;
+
+exports.chatWithAI = async (req, res) => {
+    try {
+        const { username, chatId, message } = req.body;
+
+        // Logique de détection d'urgence et de rôle
+        const isEmergency = checkEmergency(message);
+        const role = detectRole(message);
+        const language = detectLanguage(message);
+
+        // Appel à Azure OpenAI
+        const aiResponse = await axios.post(
+            `${process.env.AZURE_OPENAI_ENDPOINT}/openai/deployments/${process.env.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions`,
+            {
+                messages: [{ role: 'user', content: message }],
+                max_tokens: 150,
+            },
+            {
+                headers: {
+                    'api-key': process.env.AZURE_OPENAI_API_KEY,
+                },
+            }
+        );
+
+        // Sauvegarder dans MongoDB
+        await Chat.findByIdAndUpdate(chatId, {
+            $push: {
+                messages: [
+                    { role: 'user', content: message },
+                    { role: 'assistant', content: aiResponse.data.choices[0].message.content }
+                ]
+            }
+        });
+
+        res.json({
+            response: aiResponse.data.choices[0].message.content,
+            isEmergency,
+            role
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 // Chat with AI and save the message
 exports.chatWithAI = async (req, res) => {
@@ -158,29 +205,28 @@ exports.updateChatTitle = async (req, res) => {
 // Update chat feedback (like/dislike)
 exports.updateChatFeedback = async (req, res) => {
     try {
-      const { username, chatId, feedback } = req.body;
-  
-      if (!username || !chatId || !["like", "dislike"].includes(feedback)) {
-        return res.status(400).json({ error: "Invalid feedback or missing fields." });
-      }
-  
-      const userChat = await OpenAIChat.findOne({ username });
-      if (!userChat) {
-        return res.status(404).json({ error: "User not found." });
-      }
-  
-      const chat = userChat.chats.id(chatId);
-      if (!chat) {
-        return res.status(404).json({ error: "Chat not found." });
-      }
-  
-      chat.feedback = feedback;
-      await userChat.save();
-  
-      res.json({ message: "Feedback updated successfully.", feedback });
+        const { username, chatId, feedback } = req.body;
+
+        if (!username || !chatId || !["like", "dislike"].includes(feedback)) {
+            return res.status(400).json({ error: "Invalid feedback or missing fields." });
+        }
+
+        const userChat = await OpenAIChat.findOne({ username });
+        if (!userChat) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        const chat = userChat.chats.id(chatId);
+        if (!chat) {
+            return res.status(404).json({ error: "Chat not found." });
+        }
+
+        chat.feedback = feedback;
+        await userChat.save();
+
+        res.json({ message: "Feedback updated successfully.", feedback });
     } catch (error) {
-      console.error("Error in updateChatFeedback:", error.message);
-      res.status(500).json({ error: "Internal server error." });
+        console.error("Error in updateChatFeedback:", error.message);
+        res.status(500).json({ error: "Internal server error." });
     }
-  };
-  
+};

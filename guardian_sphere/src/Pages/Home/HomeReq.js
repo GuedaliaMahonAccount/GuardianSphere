@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl =process.env.API_URL || "http://127.0.0.1:5001";
+const apiUrl = process.env.API_URL || "http://127.0.0.1:5001";
 
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',
@@ -10,20 +10,20 @@ const getAuthHeaders = () => ({
 axios.defaults.withCredentials = true; // Enable sending credentials
 
 export const sendMessageToAI = async (username, chatId, message) => {
-  // try {
-  //   const response = await axios.post(
-  //     `${apiUrl}/chat`,
-  //     { username, chatId, message },
-  //     {
-  //       headers: getAuthHeaders(),
-  //       withCredentials: true
-  //     }
-  //   );
-  //   return response.data;
-  // } catch (error) {
-  //   console.error("Error:", error);
-  //   throw error;
-  // }
+  try {
+    const response = await axios.post(
+      `${apiUrl}/chat`,
+      { username, chatId, message },
+      {
+        headers: getAuthHeaders(),
+        withCredentials: true
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
 };
 
 export const getChatHistory = async (username) => {

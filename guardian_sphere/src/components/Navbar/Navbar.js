@@ -50,13 +50,25 @@ const Navbar = () => {
 
     {/* Logout Button */}
     <Fragment>
-      <img className={`logout_icon_${isRtl ? "left" : "right"}`} src="Pictures/logout-icon.png" alt="logout_icon" onClick={(e) => handleLogout(e)} />
-      <button
-          className="logout-button"
-          type="button"
-          onClick={(e) => handleLogout(e)}>
-        </button>
-      </Fragment>
+  <div className={`logout-container ${isRtl ? "rtl" : "ltr"}`}>
+  <button
+  
+  className="logout-button"
+  type="button"
+  onClick={(e) => handleLogout(e)}
+>
+    <img
+      className="logout_icon"
+      src="Pictures/logout-icon.png"
+      alt="logout_icon"
+      onClick={(e) => handleLogout(e)}
+    />
+
+      {t("logout")}
+    </button>
+  </div>
+</Fragment>
+
 
 
     </nav>

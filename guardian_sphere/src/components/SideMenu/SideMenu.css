@@ -150,6 +150,10 @@
     border: none;
   }
 
+  .menu_arrow_button:hover {
+    cursor: pointer;
+  }
+
   .align_end {
     align-self: flex-end;
   }

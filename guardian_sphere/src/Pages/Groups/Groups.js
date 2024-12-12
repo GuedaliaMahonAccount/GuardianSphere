@@ -12,9 +12,11 @@ const socket = io('http://localhost:5001', {
 const Groups = () => {
   const { t, i18n } = useTranslation('Groups');
   const [messages, setMessages] = useState({
-    group1: [],
-    group2: [],
-    group3: [],
+    stress: [],
+    depression: [],
+    anger: [],
+    trauma: [],
+    fear: [],
   });
   const [input, setInput] = useState('');
   const [currentGroup, setCurrentGroup] = useState(null);
@@ -202,7 +204,7 @@ const Groups = () => {
         <div className="group-list">
           <h2 className="group-title-header">{t('groups_title')}</h2>
           <p>{t('groups_description')}</p>
-          {['group1', 'group2', 'group3'].map((group) => (
+          {['stress', 'depression', 'anger', 'trauma', 'fear'].map((group) => (
             <div key={group} className="group-title" onClick={() => setCurrentGroup(group)}>
               <h3>{t(`${group}_title`)}</h3>
             </div>
@@ -247,7 +249,6 @@ const Groups = () => {
           <div className="chat-box" ref={chatBoxRef}>
             {isLoadingMessages ? (
               <div className="loader-container">
-                {/* Simple loader example (you can style it in Groups.css) */}
                 <div className="loader"></div>
               </div>
             ) : (

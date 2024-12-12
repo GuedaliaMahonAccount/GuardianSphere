@@ -42,7 +42,7 @@ jobs:
     - name: Install dependencies and build frontend
       run: |
         cd guardian_sphere
-        npm install
+        npm install--legacy-peer-deps
         npm run build
 
     - name: Upload artifact for deployment

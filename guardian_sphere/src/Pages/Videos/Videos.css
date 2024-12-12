@@ -67,28 +67,16 @@
 }
 
 .back-button {
+  align-self: flex-start; /* ימוקם בצד ההתחלתי של השפה */
+  margin-top: 20px;
   padding: 10px 20px;
   background-color: #4682B4;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  position: absolute;
-  top: 20px; /* מיקום הכפתור למעלה */
-  z-index: 10;
 }
 
 .back-button:hover {
   background-color: #5A9BD4;
-}
-
-/* מיקום הכפתור בצד שמאל באנגלית */
-html[lang="en"] .back-button {
-  left: 20px;
-}
-
-/* מיקום הכפתור בצד ימין בעברית */
-html[lang="he"] .back-button {
-  right: 20px;
 }

@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const BACKEND_BASE_URL = 'http://localhost:5001';
+const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
 
 // Get treatments by username
 export const getByUsername = async (username) => {
   try {
-    const response = await axios.get(`${BACKEND_BASE_URL}/api/follow?username=${username}`);
+    const response = await axios.get(`${BASE_URL}/api/follow?username=${username}`);
     console.log("GET Response:", response.data);
     return response.data;
   } catch (error) {
@@ -24,7 +24,7 @@ export const createTreatment = async (username, treatment) => {
   console.log("Creating treatment with data:", data);
 
   try {
-    const response = await axios.post(`${BACKEND_BASE_URL}/api/follow`, data, {
+    const response = await axios.post(`${BASE_URL}/api/follow`, data, {
       headers: { 'Content-Type': 'application/json' },
     });
     console.log("Treatment created successfully:", response.data);
@@ -40,7 +40,7 @@ export const updateTreatment = async (id, updatedData) => {
   console.log("Updating treatment with ID:", id, "Data:", updatedData);
 
   try {
-    const response = await axios.put(`${BACKEND_BASE_URL}/api/follow/${id}`, updatedData, {
+    const response = await axios.put(`${BASE_URL}/api/follow/${id}`, updatedData, {
       headers: { 'Content-Type': 'application/json' },
     });
     console.log("Treatment updated successfully:", response.data);
@@ -58,7 +58,7 @@ export const toggleCheck = async (treatmentId, date) => {
   console.log(`Toggling checkbox for Treatment ID: ${treatmentId}, Date: ${date}`);
 
   try {
-    const response = await axios.put(`${BACKEND_BASE_URL}/api/follow/${treatmentId}`, data, {
+    const response = await axios.put(`${BASE_URL}/api/follow/${treatmentId}`, data, {
       headers: { 'Content-Type': 'application/json' },
     });
     console.log("Checkbox toggled successfully:", response.data);
@@ -74,7 +74,7 @@ export const deleteTreatment = async (treatmentId) => {
   console.log("Deleting treatment with ID:", treatmentId);
 
   try {
-    const response = await axios.delete(`${BACKEND_BASE_URL}/api/follow/${treatmentId}`);
+    const response = await axios.delete(`${BASE_URL}/api/follow/${treatmentId}`);
     console.log("Treatment deleted successfully:", response.data);
     return response.data;
   } catch (error) {

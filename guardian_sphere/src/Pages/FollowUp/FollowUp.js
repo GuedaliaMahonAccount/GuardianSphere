@@ -253,83 +253,84 @@ useEffect(() => {
       </form>
 
       <div className="treatment-table-container">
-        {[...treatments, ...newTreatments].map((treatment) => (
-          <div key={treatment.id} className="single-treatment-table">
-            {editingTreatmentId === treatment.id ? (
-              <div className="edit-section">
-                <input
-                  type="text"
-                  value={editName}
-                  onChange={(e) => setEditName(e.target.value)}
-                  placeholder={t("form_treatmentName_placeholder")}
-                  className="edit-input"
-                />
-                <textarea
-                  value={editDescription}
-                  onChange={(e) => setEditDescription(e.target.value)}
-                  placeholder={t("form_description_placeholder")}
-                  className="edit-textarea"
-                />
-                <div className="action-buttons">
-                  <button className="save-button" onClick={() => handleSaveEdit(treatment._id)}>
-                    <FontAwesomeIcon icon={faCheck} />
-                  </button>
-                  <button className="cancel-button" onClick={handleCancelEdit}>
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <h3>{treatment.name}</h3>
-                <div className="action-buttons">
-                  <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
-                    <FontAwesomeIcon icon={faPen} />
-                  </button>
-                  <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment._id)}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </div>
-              </>
-            )}
-            <table className="treatment-table">
-              <thead>
-                <tr>
-                  <th>{t("table_description")}</th>
-                  {treatment.checks.map((check, index) => (
-                    <th key={index}>{check.date}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{treatment.description}</td>
-                  {treatment.checks.map((check) => (
-                    <td key={check.date}>
-                      <input
-                        type="checkbox"
-                        checked={check.done}
-                        onChange={() =>
-                          handleToggleCheck(
-                            treatment._id,
-                            check.date,
-                            !treatments.some((t) => t.id === treatment._id)
-                          )
-                        }
-                      />
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-            {!treatments.some((t) => t.id === treatment.id) && (
-              <button className="save-button" onClick={() => handleSaveTreatment(treatment)}>
-                <FontAwesomeIcon icon={faSave} /> {t("save_button")}
-              </button>
-            )}
+  {[...treatments, ...newTreatments].map((treatment, treatmentIndex) => (
+    <div key={`${treatment.id}-${treatmentIndex}`} className="single-treatment-table">
+      {editingTreatmentId === treatment.id ? (
+        <div className="edit-section">
+          <input
+            type="text"
+            value={editName}
+            onChange={(e) => setEditName(e.target.value)}
+            placeholder={t("form_treatmentName_placeholder")}
+            className="edit-input"
+          />
+          <textarea
+            value={editDescription}
+            onChange={(e) => setEditDescription(e.target.value)}
+            placeholder={t("form_description_placeholder")}
+            className="edit-textarea"
+          />
+          <div className="action-buttons">
+            <button className="save-button" onClick={() => handleSaveEdit(treatment._id)}>
+              <FontAwesomeIcon icon={faCheck} />
+            </button>
+            <button className="cancel-button" onClick={handleCancelEdit}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <>
+          <h3>{treatment.name}</h3>
+          <div className="action-buttons">
+            <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
+              <FontAwesomeIcon icon={faPen} />
+            </button>
+            <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment._id)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </div>
+        </>
+      )}
+      <table className="treatment-table">
+        <thead>
+          <tr>
+            <th>{t("table_description")}</th>
+            {treatment.checks.map((check, index) => (
+              <th key={`${check.date}-${index}`}>{check.date}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{treatment.description}</td>
+            {treatment.checks.map((check, index) => (
+              <td key={`${check.date}-${index}`}>
+                <input
+                  type="checkbox"
+                  checked={check.done}
+                  onChange={() =>
+                    handleToggleCheck(
+                      treatment._id,
+                      check.date,
+                      !treatments.some((t) => t.id === treatment._id)
+                    )
+                  }
+                />
+              </td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+      {!treatments.some((t) => t.id === treatment.id) && (
+        <button className="save-button" onClick={() => handleSaveTreatment(treatment)}>
+          <FontAwesomeIcon icon={faSave} /> {t("save_button")}
+        </button>
+      )}
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };

@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
 import { fetchGroupMessages, updateUserData } from './GroupsReq';
 
-const socket = io('http://localhost:5001', {
+
+const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
+
+
+const socket = io(`${BASE_URL}`, {
   path: '/socket.io/',
   transports: ['websocket', 'polling'],
 });
@@ -61,7 +65,7 @@ const Groups = () => {
           return;
         }
 
-        const response = await fetch('http://localhost:5001/api/user/me', {
+        const response = await fetch(`${BASE_URL}/api/user/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
+
 export const fetchGroupMessages = async (group) => {
   try {
     const token = localStorage.getItem('token'); // Retrieve the token
-    const response = await axios.get(`http://localhost:5001/api/messages/${group}`, {
+    const response = await axios.get(`${BASE_URL}/api/messages/${group}`, {
       headers: {
         Authorization: `Bearer ${token}`, // Attach the token directly in headers
       },
@@ -18,7 +20,7 @@ export const fetchGroupMessages = async (group) => {
 export const updateUserData = async (userData) => {
   try {
     const token = localStorage.getItem('token'); // Retrieve the token
-    const response = await axios.put('http://localhost:5001/api/user/profile', userData, {
+    const response = await axios.put(`${BASE_URL}/api/user/profile`, userData, {
       headers: {
         Authorization: `Bearer ${token}`, // Attach the token directly in headers
         'Content-Type': 'application/json', // Specify the content type

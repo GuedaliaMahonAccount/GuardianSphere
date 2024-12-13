@@ -1,13 +1,16 @@
 import axios from 'axios';
 
-const apiUrl = process.env.API_URL || "http://127.0.0.1:5001";
+const apiUrl = process.env.REACT_APP_API_URL?.replace(/["']/g, '').trim();
+
+console.log('API URL being used:', apiUrl); // Debug log
+
 
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',
-  'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ensure token is valid
+  'Authorization': `Bearer ${localStorage.getItem('token')}`,
 });
 
-axios.defaults.withCredentials = true; // Enable sending credentials
+axios.defaults.withCredentials = true;
 
 export const sendMessageToAI = async (username, chatId, message) => {
   // try {
@@ -27,17 +30,23 @@ export const sendMessageToAI = async (username, chatId, message) => {
 };
 
 export const getChatHistory = async (username) => {
+  if (!apiUrl) {
+    console.error('API URL is not defined');
+    return [];
+  }
+
   try {
-    const response = await axios.get(
-      `${apiUrl}/history/${username}`,
-      {
-        headers: getAuthHeaders(),
-        withCredentials: true
-      }
-    );
+    const url = `${apiUrl}/history/${username}`;
+    console.log('Making request to:', url); // Debug log
+    
+    const response = await axios.get(url, {
+      headers: getAuthHeaders(),
+      withCredentials: true
+    });
     return response.data.history;
   } catch (error) {
     console.error("Error while fetching chat history:", error);
+    console.error("Request URL:", `${apiUrl}/history/${username}`); // Debug log
     return [];
   }
 };

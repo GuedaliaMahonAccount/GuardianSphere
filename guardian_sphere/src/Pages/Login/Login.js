@@ -6,6 +6,7 @@ import './Login.css';
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,19 +16,23 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5001/api/user/login', formData);
-  
-      // Save both token and userId in localStorage
+      const response = await axios.post(`${BASE_URL}/api/user/login`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
       localStorage.setItem('token', response.data.token); 
       localStorage.setItem('userId', response.data.user._id);
       localStorage.setItem('username', response.data.user.realName);
-  
-      navigate('/home'); // Redirect to home page after login
+      
+      navigate('/home');
     } catch (error) {
       console.error('Login failed:', error);
       alert('Invalid credentials. Please try again.');
     }
-  };  
+  };
 
   return (
     <div className="auth-container">

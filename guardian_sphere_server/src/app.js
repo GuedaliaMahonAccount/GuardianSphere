@@ -17,16 +17,16 @@ app.use(express.static(BUILD_PATH));
 
 // === CORS Configuration ===
 const corsOptions = {
-  origin: FRONTEND_ORIGIN, // Ensure this matches your React app's URL
+  origin: [process.env.FRONTEND_ORIGIN, 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
+// Apply CORS middleware before other routes
 app.use(cors(corsOptions));
 
-// Allow OPTIONS preflight requests
-app.options('*', cors(corsOptions));
+
 
 
 // Middleware

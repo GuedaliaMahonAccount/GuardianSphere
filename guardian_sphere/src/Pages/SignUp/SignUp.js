@@ -12,6 +12,7 @@ const Signup = () => {
     photo: '',
   });
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,10 +34,10 @@ const Signup = () => {
     e.preventDefault();
     try {
       // Send signup request
-      await axios.post('http://localhost:5001/api/user/signup', formData);
+      await axios.post(`${BASE_URL}/api/user/signup`, formData);
 
       // Log in automatically after signup
-      const loginResponse = await axios.post('http://localhost:5001/api/user/login', {
+      const loginResponse = await axios.post(`${BASE_URL}/api/user/login`, {
         email: formData.email,
         password: formData.password,
       });

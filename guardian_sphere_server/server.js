@@ -120,6 +120,6 @@ async function cleanOldMessages(group) {
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`MongoDB URI: ${process.env.MONGODB_URI}`);
+  console.log(`MongoDB URI: ${process.env.MONGO_URI}`);
   console.log(`Frontend Origin: ${process.env.FRONTEND_ORIGIN}`);
 });

@@ -35,7 +35,7 @@ jobs:
     # 4. Copier le build du frontend dans le backend
     - name: Move frontend build to backend
       run: |
-        mv guardian_sphere/build guardian_sphere_server/build
+        mv guardian_sphere/build guardian_sphere_server/public
 
     # 5. Installer les dépendances du backend
     - name: Install backend dependencies
@@ -43,7 +43,12 @@ jobs:
         cd ${{ env.BACKEND_PATH }}
         npm install
 
-    # 6. Déployer sur Azure
+    # 6. Lister les fichiers backend (optionnel)
+    - name: List backend files
+      run: |
+        ls -R ${{ env.BACKEND_PATH }}
+
+    # 7. Déployer sur Azure
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:

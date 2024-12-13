@@ -11,11 +11,15 @@ connectDB();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: [
+      'https://guardian-sphere.azurewebsites.net',
+      'http://localhost:3000'
+    ],
     methods: ['GET', 'POST'],
     credentials: true,
   },
   path: '/socket.io/',
+  transports: ['websocket', 'polling']  // Explicitly define transports
 });
 
 // Manage connected users

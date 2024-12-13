@@ -77,3 +77,8 @@ jobs:
     - name: Test backend deployment
       run: |
         curl -I https://guardian-sphere.azurewebsites.net/api/health || echo "Backend health check failed"
+
+    - name: Verify application
+      run: |
+        curl -I https://guardian-sphere.azurewebsites.net || echo "Application verification failed"
+      

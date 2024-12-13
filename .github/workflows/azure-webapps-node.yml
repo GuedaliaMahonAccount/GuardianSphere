@@ -41,6 +41,7 @@ jobs:
     - name: Install backend dependencies
       run: |
         cd ${{ env.BACKEND_PATH }}
+        npm ci  # Use npm ci for more reliable dependency installation
         npm install
 
     # 6. Préparer le backend pour le déploiement

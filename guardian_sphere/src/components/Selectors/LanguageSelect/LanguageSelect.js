@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import i18n from "../../../i18n"; // Chemin vers votre fichier i18n.js
 import "./Language.css";
 

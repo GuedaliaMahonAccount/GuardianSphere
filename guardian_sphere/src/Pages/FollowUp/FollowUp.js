@@ -22,10 +22,14 @@ const FollowUp = () => {
   const [error, setError] = useState(null);
   const username = localStorage.getItem('username');
 
+const nothing = error;
 
-  useEffect(() => {
-    fetchTreatments();
-  }, [dispatch]);
+
+useEffect(() => {
+  fetchTreatments();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
 
   const fetchTreatments = async () => {
     try {
@@ -39,6 +43,7 @@ const FollowUp = () => {
   };    
 
   const generateDates = (startDate, endDate, frequency) => {
+    console.log(nothing); 
     const start = new Date(startDate);
     let end = endDate ? new Date(endDate) : null;
 

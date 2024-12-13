@@ -1,16 +1,16 @@
 // import logo from '../../Pictures/logo_transparent.png';
 import "./Navbar.css";
 import LanguageSelect from "../Selectors/LanguageSelect/LanguageSelect";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUser} from "@fortawesome/free-solid-svg-icons";
-import CurrencySelctor from "../Selectors/CurrencySelctor/CurrencySelctor";
+// import CurrencySelctor from "../Selectors/CurrencySelctor/CurrencySelctor";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { t, i18n } = useTranslation("App");
   const isRtl = i18n.language === "he"
   const naviguate = useNavigate();

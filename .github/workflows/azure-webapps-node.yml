@@ -43,13 +43,28 @@ jobs:
         cd ${{ env.BACKEND_PATH }}
         npm install
 
-    # 6. Vérifier les fichiers backend
+    # 6. Préparer le backend pour le déploiement
+    - name: Prepare for deployment
+      run: |
+        cd ${{ env.BACKEND_PATH }}
+        # Vérifier que web.config existe
+        if [ -f web.config ]; then
+          echo "web.config found."
+        else
+          echo "Error: web.config is missing!"
+          exit 1
+        fi
+        # Vérifier le contenu du package.json
+        echo "Contents of package.json:"
+        cat package.json
+
+    # 7. Vérifier les fichiers backend
     - name: Check backend files
       run: |
         cd ${{ env.BACKEND_PATH }}
         ls -R
 
-    # 7. Déployer le backend sur Azure
+    # 8. Déployer le backend sur Azure
     - name: Deploy backend to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
@@ -57,7 +72,7 @@ jobs:
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.BACKEND_PATH }}
 
-    # 8. Tester le déploiement du backend
+    # 9. Tester le déploiement du backend
     - name: Test backend deployment
       run: |
         curl -I https://guardian-sphere.azurewebsites.net/api/health || echo "Backend health check failed"

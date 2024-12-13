@@ -113,5 +113,7 @@ async function cleanOldMessages(group) {
 });
 
 // Start server
-const PORT = process.env.PORT || 5001;
-server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5001; // Utilise le port 5001 par défaut en local
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

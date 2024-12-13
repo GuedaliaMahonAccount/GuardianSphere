@@ -17,10 +17,13 @@ app.use(express.static(BUILD_PATH));
 
 // === CORS Configuration ===
 const corsOptions = {
-  origin: [process.env.FRONTEND_ORIGIN, 'http://localhost:3000'],
+  origin: [
+    'https://guardian-sphere.azurewebsites.net', // Allow your frontend
+    'http://localhost:3000',                   // For local development
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
+  credentials: true, // Allow cookies and headers like `Authorization`
 };
 
 // Apply CORS middleware before other routes

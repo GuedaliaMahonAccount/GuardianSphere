@@ -5,10 +5,15 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const path = require('path'); // Import nécessaire pour gérer les chemins
 
 const app = express();
 
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:3000';
+// Servir les fichiers statiques du frontend (React)
+const BUILD_PATH = path.join(__dirname, '../build');
+app.use(express.static(BUILD_PATH));
+
 
 // === CORS Configuration ===
 const corsOptions = {
@@ -58,6 +63,10 @@ app.use('/api', followUpRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.status(200).json({ status: 'UP' }));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(BUILD_PATH, 'index.html'));
+});
 
 // Error Handling
 app.use((err, req, res, next) => {

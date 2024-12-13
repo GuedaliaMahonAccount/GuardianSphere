@@ -1,4 +1,4 @@
-name: Deploy Frontend and Backend to Azure
+name: Deploy Fullstack App to Azure
 
 on:
   push:
@@ -6,15 +6,8 @@ on:
   workflow_dispatch:
 
 env:
-  # Remplacez par les noms de vos App Services sur Azure
-  FRONTEND_APP_NAME: guardian-frontend
-  BACKEND_APP_NAME: guardian-backend
-
-  # Chemins relatifs dans le projet
-  FRONTEND_PATH: './guardian_sphere'
+  APP_NAME: guardian-sphere        # Nom de l'App Service sur Azure
   BACKEND_PATH: './guardian_sphere_server'
-
-  # Version de Node.js
   NODE_VERSION: '20.x'
 
 jobs:
@@ -32,37 +25,28 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    # ==========================
-    # FRONTEND DEPLOYMENT
-    # ==========================
-    # 3. Installer les dépendances et construire le frontend
-    - name: Install and build frontend
+    # 3. Installer et construire le frontend
+    - name: Build frontend
       run: |
-        cd ${{ env.FRONTEND_PATH }}
-        npm install --legacy-peer-deps
+        cd guardian_sphere
+        npm install
         npm run build
 
-    # 4. Déployer le frontend sur Azure
-    - name: Deploy Frontend to Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.FRONTEND_APP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_FRONTEND }}
-        package: ${{ env.FRONTEND_PATH }}/build
+    # 4. Copier le build du frontend dans le backend
+    - name: Move frontend build to backend
+      run: |
+        mv guardian_sphere/build guardian_sphere_server/build
 
-    # ==========================
-    # BACKEND DEPLOYMENT
-    # ==========================
-    # 5. Installer les dépendances pour le backend
-    - name: Install and build backend
+    # 5. Installer les dépendances du backend
+    - name: Install backend dependencies
       run: |
         cd ${{ env.BACKEND_PATH }}
         npm install
 
-    # 6. Déployer le backend sur Azure
-    - name: Deploy Backend to Azure
+    # 6. Déployer sur Azure
+    - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.BACKEND_APP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_BACKEND }}
+        app-name: ${{ env.APP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.BACKEND_PATH }}

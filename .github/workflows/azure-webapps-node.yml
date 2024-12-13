@@ -43,7 +43,7 @@ jobs:
         cd ${{ env.BACKEND_PATH }}
         npm install
 
-    # 6. Lister les fichiers backend (optionnel)
+    # 6. Vérifier les fichiers backend
     - name: List backend files
       run: |
         ls -R ${{ env.BACKEND_PATH }}

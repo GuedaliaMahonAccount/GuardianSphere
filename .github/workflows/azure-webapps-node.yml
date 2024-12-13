@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  APP_NAME: guardian-sphere        # Nom de l'App Service sur Azure
+  APP_NAME: guardian-sphere
   BACKEND_PATH: './guardian_sphere_server'
   NODE_VERSION: '20.x'
 
@@ -43,15 +43,15 @@ jobs:
         cd ${{ env.BACKEND_PATH }}
         npm install
 
-    # 6. Vérifier les fichiers backend
-    - name: List backend files
-      run: |
-        ls -R ${{ env.BACKEND_PATH }}
-
-    # 7. Déployer sur Azure
-    - name: Deploy to Azure Web App
+    # 6. Déployer le backend sur Azure
+    - name: Deploy backend to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.APP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.BACKEND_PATH }}
+
+    # 7. (Optionnel) Vérifier le déploiement
+    - name: Test backend deployment
+      run: |
+        curl -I https://guardian-sphere.azurewebsites.net/api/health || echo "Backend health check failed"

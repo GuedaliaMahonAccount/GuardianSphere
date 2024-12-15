@@ -13,7 +13,8 @@ const io = new Server(server, {
   cors: {
     origin: [
       'https://guardian-sphere.azurewebsites.net',
-      'http://localhost:3000'
+      'http://localhost:3000',
+      'https://guardianspheres.com/',
     ],
     methods: ['GET', 'POST'],
     credentials: true,

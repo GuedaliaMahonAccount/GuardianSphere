@@ -20,6 +20,7 @@ const corsOptions = {
   origin: [
     'https://guardian-sphere.azurewebsites.net', // Allow your frontend
     'http://localhost:3000',                   // For local development
+    'https://guardianspheres.com/',            // For the domain
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],

@@ -59,12 +59,6 @@ jobs:
         echo "Contents of package.json:"
         cat package.json
 
-    # 7. Vérifier les fichiers backend
-    - name: Check backend files
-      run: |
-        cd ${{ env.BACKEND_PATH }}
-        ls -R
-
     # 8. Déployer le backend sur Azure
     - name: Deploy backend to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -76,9 +70,9 @@ jobs:
     # 9. Tester le déploiement du backend
     - name: Test backend deployment
       run: |
-        curl -I https://guardian-sphere.azurewebsites.net/api/health || echo "Backend health check failed"
+        curl -I https://guardianspheres.com/api/health || echo "Backend health check failed"
 
     - name: Verify application
       run: |
-        curl -I https://guardian-sphere.azurewebsites.net || echo "Application verification failed"
+        curl -I https://guardianspheres.com || echo "Application verification failed"
       

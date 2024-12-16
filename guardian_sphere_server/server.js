@@ -3,6 +3,7 @@ const { Server } = require('socket.io');
 const app = require('./src/app'); // Preconfigured Express app
 const connectDB = require('./src/config/db');
 const Message = require('./src/models/groups'); // Message model
+const logger = require('./logger'); //logger
 
 // Connect to MongoDB
 connectDB();
@@ -29,10 +30,12 @@ const usersByGroup = {};
 // Socket.IO logic
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
+  logger.info(`User connected: ${socket.id}`);
 
   // Join a group
   socket.on('join group', async (group) => {
     console.log(`User ${socket.id} joined group: ${group}`);
+    logger.info(`User ${socket.id} joined group: ${group}`);
     socket.join(group);
     usersByGroup[group] = usersByGroup[group] || [];
     usersByGroup[group].push(socket.id);
@@ -44,6 +47,7 @@ io.on('connection', (socket) => {
   // Leave a group
   socket.on('leave group', (group) => {
     console.log(`User ${socket.id} left group: ${group}`);
+    logger.info(`User ${socket.id} left group: ${group}`);
     socket.leave(group);
 
     if (usersByGroup[group]) {
@@ -55,6 +59,7 @@ io.on('connection', (socket) => {
   // Chat message
 socket.on('chat message', async (msg) => {
   console.log('Received message:', msg);
+  logger.info(`Received message: ${msg}`);
 
   const { group, sender, content, photo, userId } = msg;
 
@@ -73,6 +78,7 @@ socket.on('chat message', async (msg) => {
     await cleanOldMessages(group);
 
     console.log('Broadcasting message to group:', group, newMessage);
+    logger.info(`Broadcasting message to group: ${group}, ${newMessage}`);
 
     io.to(group).emit('chat message', {
       group,
@@ -84,6 +90,7 @@ socket.on('chat message', async (msg) => {
     });
   } catch (error) {
     console.error('Error saving message:', error);
+    logger.error(`Error saving message: ${error}`);
   }
 });
 
@@ -104,6 +111,7 @@ async function cleanOldMessages(group) {
     }
   } catch (error) {
     console.error('Error cleaning old messages:', error);
+    logger.error(`Error cleaning old messages: ${error}`);
   }
 }
 
@@ -114,6 +122,7 @@ async function cleanOldMessages(group) {
       io.to(group).emit('user connected', usersByGroup[group]);
     }
     console.log('User disconnected:', socket.id);
+    logger.info(`User disconnected: ${socket.id}`);
   });
 });
 

@@ -5,7 +5,9 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-const path = require('path'); // Import nécessaire pour gérer les chemins
+const path = require('path'); 
+const logger = require('../logger'); //logger
+
 
 const app = express();
 
@@ -72,8 +74,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(BUILD_PATH, 'index.html'));
 });
 
+// Middleware pour enregistrer les requêtes HTTP
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url}`);
+  next();
+});
+
 // Error Handling
 app.use((err, req, res, next) => {
+  logger.error(err.stack);
   console.error(err.stack);
   res.status(500).json({ message: 'Internal server error', error: err.message });
 });

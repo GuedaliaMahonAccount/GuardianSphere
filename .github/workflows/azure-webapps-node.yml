@@ -64,7 +64,7 @@ jobs:
     # 7. Cloner le dépôt Python
     - name: Clone Python project
       run: |
-        git clone https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@${{ env.PYTHON_REPO }} ${{ env.PYTHON_PATH }}
+        git clone ${{ secrets.PERSONAL_ACCESS_TOKEN }}@${{ env.PYTHON_REPO }} ${{ env.PYTHON_PATH }}
 
     # 8. Installer les dépendances Python
     - name: Install Python dependencies

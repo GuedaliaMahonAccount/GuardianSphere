@@ -280,7 +280,7 @@ const Groups = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t('type_message')}
-              onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
               className="message-input"
               disabled={isLoadingMessages || isSending}
             />

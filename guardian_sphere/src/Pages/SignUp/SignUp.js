@@ -42,8 +42,11 @@ const Signup = () => {
         password: formData.password,
       });
 
-      // Save token and redirect to home
+      // Save token, userId, and username to localStorage
       localStorage.setItem('token', loginResponse.data.token);
+      localStorage.setItem('userId', loginResponse.data.user._id);
+      localStorage.setItem('username', loginResponse.data.user.realName); 
+      
       navigate('/home');
     } catch (error) {
       console.error('Signup failed:', error);

@@ -64,7 +64,8 @@ jobs:
     # 7. Cloner le dépôt Python
     - name: Clone Python project
       run: |
-          git clone https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/GuedaliaMahonAccount/AIGuardianSphere.git ./python_project
+            git clone https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/GuedaliaMahonAccount/AIGuardianSphere.git python_project
+
   
     # 8. Installer les dépendances Python
     - name: Install Python dependencies

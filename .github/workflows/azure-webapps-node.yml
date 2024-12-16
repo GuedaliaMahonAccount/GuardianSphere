@@ -9,13 +9,15 @@ env:
   APP_NAME: guardian-sphere
   BACKEND_PATH: './guardian_sphere_server'
   NODE_VERSION: '20.x'
+  PYTHON_REPO: 'https://github.com/GuedaliaMahonAccount/AIGuardianSphere.git'
+  PYTHON_PATH: './python_project' # Chemin où le projet Python sera cloné
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-    # 1. Checkout du code
-    - name: Checkout code
+    # 1. Checkout du code principal
+    - name: Checkout GuardianSphere code
       uses: actions/checkout@v4
 
     # 2. Set up Node.js
@@ -59,7 +61,30 @@ jobs:
         echo "Contents of package.json:"
         cat package.json
 
-    # 8. Déployer le backend sur Azure
+    # 7. Cloner le dépôt Python
+    - name: Clone Python project
+      run: |
+        git clone https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@${{ env.PYTHON_REPO }} ${{ env.PYTHON_PATH }}
+
+    # 8. Installer les dépendances Python
+    - name: Install Python dependencies
+      run: |
+        cd ${{ env.PYTHON_PATH }}
+        pip install -r requirements.txt
+
+    # 9. Ajouter un fichier web.config pour Python si nécessaire
+    - name: Create web.config for Python
+      run: |
+        cd ${{ env.PYTHON_PATH }}
+        echo "<configuration>
+        <system.webServer>
+          <handlers>
+            <add name=\"PythonHandler\" path=\"*\" verb=\"*\" modules=\"FastCgiModule\" scriptProcessor=\"D:\home\python310\python.exe|D:\home\site\wwwroot\GptGuardianSphereFineTuning.py\" resourceType=\"Unspecified\"/>
+          </handlers>
+        </system.webServer>
+        </configuration>" > web.config
+
+    # 10. Déployer le backend (Node.js) sur Azure
     - name: Deploy backend to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
@@ -67,12 +92,24 @@ jobs:
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.BACKEND_PATH }}
 
-    # 9. Tester le déploiement du backend
+    # 11. Déployer le projet Python sur Azure
+    - name: Deploy Python project to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: guardian-sphere-python
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.PYTHON_PATH }}
+
+    # 12. Tester le déploiement du backend
     - name: Test backend deployment
       run: |
         curl -I https://guardianspheres.com/api/health || echo "Backend health check failed"
 
+    # 13. Tester le déploiement du projet Python
+    - name: Test Python project deployment
+      run: |
+        curl -I https://guardian-sphere-python.azurewebsites.net || echo "Python service health check failed"
+
     - name: Verify application
       run: |
         curl -I https://guardianspheres.com || echo "Application verification failed"
-      

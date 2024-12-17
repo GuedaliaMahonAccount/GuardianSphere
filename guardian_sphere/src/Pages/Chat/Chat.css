@@ -1,0 +1,313 @@
+/* Home Container */
+/* Main container that centers all content on the page and sets the background */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, #87CEFA, #4682B4); /* Calming gradient */
+  padding: 20px;
+  position: relative; /* Important for positioning the menu */
+}
+
+/* Decorative Background */
+.home-container::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floating 6s ease-in-out infinite;
+}
+
+.home-container::after {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floating 8s ease-in-out infinite reverse;
+}
+
+@keyframes floating {
+  0%, 100% {
+      transform: translateY(0px);
+  }
+  50% {
+      transform: translateY(20px);
+  }
+}
+
+
+/* Chat Box */
+/* Chat window where messages are displayed */
+.chat-box {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+/* Messages Container */
+/* Ensures the messages area fills the available space in the chat box */
+.messages {
+  flex: 1;
+}
+
+/* History Menu */
+/* Side menu that displays the chat history */
+.history-menu {
+  background-color: #dbefff; /* Light calming blue */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Message Styles */
+/* General styles for user and AI messages */
+.user-message, .ai-message {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* User Message */
+/* Styling for messages sent by the user */
+.user-message {
+  background-color: #cce4f6;
+  align-self: flex-end; /* Aligns user messages to the right */
+  max-width: 80%;
+}
+
+/* AI Message */
+/* Styling for messages received from AI */
+.ai-message {
+  background-color: #eaf5ff;
+  align-self: flex-start; /* Aligns AI messages to the left */
+  max-width: 80%;
+}
+
+/* Message Form */
+/* Styles for the form where the user writes and sends messages */
+.message-form {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 15px;
+}
+
+/* Message Input */
+/* Input field for writing messages */
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #b0c4de; /* Light blue-gray */
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.message-input:focus {
+  border-color: #4682B4; /* Steel blue */
+  outline: none;
+}
+
+
+/* Send Button */
+/* Button to send messages */
+.send-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+/* History Button */
+/* Button to toggle the chat history menu */
+.history-button {
+  margin-top: 30px;
+  position: fixed;
+  top: 20px;
+  right: 0; /* Positioned in the top-right corner */
+  background-color: #267dc9;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 11; /* Ensures it stays above other content */
+}
+
+.history-button.left {
+  right: auto;
+  left: 0; /* Moves the menu to the left */
+}
+
+.history-button:hover {
+  background-color: #5a6268;
+}
+
+/* History Menu */
+/* Side menu that displays the chat history */
+.history-menu {
+  margin-top: 90px; /* Adjusts spacing for alignment */
+  position: fixed;
+  top: 0;
+  right: 0; /* By default, the menu is on the right */
+  height: 100%;
+  width: 300px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transform: translateX(100%); /* Initially hidden */
+  transition: transform 0.3s ease-in-out; /* Smooth slide-in/out effect */
+  overflow-y: auto; /* Enables scrolling for large histories */
+  z-index: 10;
+}
+
+/* History Menu (Left) */
+/* Position the menu on the left for languages like Hebrew */
+.history-menu.left {
+  right: auto;
+  left: 0; /* Moves the menu to the left */
+  transform: translateX(-100%);
+}
+
+/* Open History Menu */
+/* Makes the history menu visible */
+.history-menu.open {
+  transform: translateX(0); /* Slide-in effect */
+}
+
+/* History Menu Header */
+/* Styling for the history menu title */
+.history-menu h3 {
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #007bff;
+}
+
+/* History Menu List */
+/* Styling for the list of previous chats */
+.history-menu ul {
+  list-style: none; /* Removes default bullet points */
+  padding: 0;
+}
+
+
+/* Home.css */
+.history-menu li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.history-menu li strong {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.edit-title-button, .clear-history-button, .save-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.edit-title-button:hover, .clear-history-button:hover, .save-button:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.save-button {
+  background-color: #48525c;
+  color: white;
+  padding: 5px 10px; /* Adjusted padding */
+  border: none;
+  border-radius: 4px; /* Adjusted border-radius */
+  cursor: pointer;
+  margin-top: 0; /* Removed margin-top */
+}
+
+.history-menu li:hover {
+  background-color: #d1e7ff; /* Highlight effect on hover */
+}
+
+.history-menu li strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Styling for input fields */
+.history-menu input[type="text"] {
+  flex-grow: 1;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.history-menu input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+
+/* New Chat Button */
+/* Button to start a new chat */
+.new-chat-button {
+  background-color: #286ea7;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.new-chat-button:hover {
+  background-color: #218838;
+}
+
+.feedback-button {
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.feedback-button.liked {
+  color: green;
+}
+
+.feedback-button.disliked {
+  color: red;
+}

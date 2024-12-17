@@ -3,6 +3,7 @@ import './Groups.css';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
 import { fetchGroupMessages, updateUserData } from './GroupsReq';
+import { useNavigate } from "react-router-dom";
 
 
 const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
@@ -15,6 +16,7 @@ const socket = io(`${BASE_URL}`, {
 
 const Groups = () => {
   const { t, i18n } = useTranslation('Groups');
+  const navigate = useNavigate();
   const [messages, setMessages] = useState({
     stress: [],
     depression: [],
@@ -204,6 +206,7 @@ const Groups = () => {
 
   return (
     <div className="group-container">
+      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       {!currentGroup ? (
         <div className="group-list">
           <h2 className="group-title-header">{t('groups_title')}</h2>

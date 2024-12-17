@@ -1,10 +1,12 @@
 import React from 'react';
 import './Videos.css';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Videos = () => {
   const { t } = useTranslation("Videos");
   const [activeTopic, setActiveTopic] = React.useState(null);
+  const navigate = useNavigate();
 
   // Topics loaded dynamically from i18n
   const topics = [
@@ -36,6 +38,7 @@ const Videos = () => {
 
   return (
     <div className="videos-container">
+      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <h2>{t("videos_title")}</h2>
       <p>{t("videos_description")}</p>
 

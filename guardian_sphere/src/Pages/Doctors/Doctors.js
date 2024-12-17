@@ -1,9 +1,11 @@
 import React from 'react';
 import './Doctors.css';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Doctors = () => {
   const { t } = useTranslation("Doctors");
+  const navigate = useNavigate();
 
   const doctors = [
     {
@@ -25,6 +27,7 @@ const Doctors = () => {
 
   return (
     <div className="doctors-container">
+      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <h2>{t("doctors_title")}</h2>
       <p>{t("doctors_description")}</p>
       {doctors.map((doctor, index) => (

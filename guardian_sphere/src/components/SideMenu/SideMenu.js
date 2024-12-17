@@ -19,13 +19,14 @@ function SideMenu() {
   };
 
   const menuItems = [
-    { label: t("home"), path: "/home", icon: "Pictures/home_icon.png" },
-    { label: t("groups"), path: "/groups", icon: "Pictures/groups_icon.png" },
-    { label: t("follow_up"), path: "/follow-up", icon: "Pictures/follow_up_icon.png" },
-    { label: t("videos"), path: "/videos", icon: "Pictures/videos_icon.png" },
-    { label: t("doctors"), path: "/doctors", icon: "Pictures/doctors_icon.png" },
-    { label: t("assistance"), path: "/assistance", icon: "Pictures/assistance_icon.png" },
-  ];
+    { label: t("home"), path: "/home", icon: "Pictures/home_icon.png", className: "home_icon_margin" },
+    { label: t("chat"), path: "/chat", icon: "Pictures/chat_icon.png" , className: "icon"},
+    { label: t("groups"), path: "/groups", icon: "Pictures/groups_icon.png", className: "icon" },
+    { label: t("follow_up"), path: "/follow-up", icon: "Pictures/follow_up_icon.png" , className: "icon"},
+    { label: t("videos"), path: "/videos", icon: "Pictures/videos_icon.png" , className: "icon"},
+    { label: t("doctors"), path: "/doctors", icon: "Pictures/doctors_icon.png" , className: "icon"},
+    { label: t("assistance"), path: "/assistance", icon: "Pictures/assistance_icon.png" , className: "icon"},
+  ];  
 
   return (
     <div
@@ -44,10 +45,10 @@ function SideMenu() {
       <nav className="menu_links">
         {menuItems.map((item, index) => (
           <Link
-            key={index}
-            to={item.path}
-            className={`link ${menuExpand ? "hover_width_fullsize" : "hover_width_small"}`}
-          >
+  key={index}
+  to={item.path}
+  className={`link ${menuExpand ? "hover_width_fullsize" : "hover_width_small"} ${item.className || ""}`}
+>
             <img className="logo_tab" src={item.icon} alt={item.label} />
             <span
               className={`router_link_home ${isRtl ? "margin_right_link" : "margin_left_link"}`}

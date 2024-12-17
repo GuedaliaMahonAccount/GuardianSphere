@@ -9,6 +9,43 @@
   position: relative; /* Important for positioning the menu */
 }
 
+/* Decorative Background */
+.doctors-container::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floating 6s ease-in-out infinite;
+}
+
+.doctors-container::after {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floating 8s ease-in-out infinite reverse;
+}
+
+@keyframes floating {
+  0%, 100% {
+      transform: translateY(0px);
+  }
+  50% {
+      transform: translateY(20px);
+  }
+}
+
+
 .doctor-card {
   display: flex;
   align-items: center;

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash, faCheck, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
 import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck } from './followUpReq';
+import { useNavigate } from "react-router-dom";
 
 const FollowUp = () => {
   const { t } = useTranslation("FollowUp");
@@ -21,6 +22,7 @@ const FollowUp = () => {
   const [editDescription, setEditDescription] = useState('');
   const [error, setError] = useState(null);
   const username = localStorage.getItem('username');
+  const navigate = useNavigate();
 
 const nothing = error;
 
@@ -187,6 +189,7 @@ useEffect(() => {
 
   return (
     <div className="followup-container">
+      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <h2>{t("followup_title")}</h2>
       <p>{t("followup_description")}</p>
 

@@ -14,6 +14,7 @@ import Videos from './Pages/Videos/Videos';
 import Doctors from './Pages/Doctors/Doctors';
 import Assistance from './Pages/Assistance/Assistance.js';
 import Loading from './components/Loading/Loading.js'; // ייבוא רכיב ה-Loading
+import Chat from './Pages/Chat/Chat.js';
 
 // Define the ProtectedRoute component
 function ProtectedRoute({ element, redirectTo = '/login' }) {
@@ -55,6 +56,10 @@ function App() {
                 <Route
                   path="/home"
                   element={<ProtectedRoute element={<Home />} />}
+                />
+                <Route
+                  path="/chat"
+                  element={<ProtectedRoute element={<Chat />} />}
                 />
                 <Route
                   path="/groups"

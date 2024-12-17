@@ -1,13 +1,13 @@
 {
-    "hello_i_m_here_for_you": "I am here to help, how can I assist you today?",
-    "write_here": "Write here...",
-    "send": "Send",
-    "view_history": "View History",
-    "chat_history": "Chat History",
-    "new_chat": "New Chat",
-    "delete": "Delete",
-    "save": "Save",
-    "it_helped": "this dicussion helped me",
-    "it_not_helped": "this dicussion did not help me",
-    "thanks": "Thanks for your feedback"
+    "welcome": "Welcome, {{name}} !",
+    "description": "We are here to provide you with a safe and calming space. Explore our resources to find support.",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "chat": "Chat",
+    "groups": "Support Groups",
+    "followUp": "Personal Follow-Up",
+    "videos": "Inspirational Videos",
+    "doctors": "Doctors",
+    "assistance": "Assistance",
+    "footer": "You are not alone. Together we move forward."
 }

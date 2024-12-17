@@ -98,7 +98,7 @@ const Assistance = () => {
   return (
     <div className="assistance-container">
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
-      <h1 className="main-heading">{t("assistance_title")}</h1>
+      <h2 className="main-heading">{t("assistance_title")}</h2>
       <div className="buttons-layout">
         <button
           className="large-button"

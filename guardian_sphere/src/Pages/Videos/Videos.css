@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* ממרכז את התוכן אנכית */
-  min-height: 100vh; /* גובה מינימלי תמיד בגובה המסך */
-  background: linear-gradient(to right, #87CEFA, #4682B4); /* רקע מלא */
-  padding: 20px;
-  position: relative; /* מוודאים שהכפתור ממוקם בתוך הרקע */
+  justify-content: flex-start;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+  padding: 40px;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
+
 
 /* Decorative Background */
 .videos-container::before {
@@ -45,6 +47,12 @@
   }
 }
 
+.videos-container h2{
+  color: #2C3E50;
+}
+.videos-container p{
+  color: #687f96;
+}
 
 .topic-buttons {
   display: flex;
@@ -71,7 +79,7 @@
 
 .topic-title {
   font-size: 18px;
-  color: #fff;
+  color: #2C3E50;
   text-align: center;
   margin-top: 5px;
 }

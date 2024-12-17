@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to right, #87CEFA, #4682B4); /* Calming gradient */
-  padding: 20px;
-  position: relative; /* Important for positioning the menu */
+  justify-content: flex-start;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+  padding: 40px;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
 
 /* Decorative Background */
@@ -45,6 +46,13 @@
   }
 }
 
+
+.doctors-container h2{
+  color: #2C3E50;
+}
+.doctors-container p{
+  color: #687f96;
+}
 
 .doctor-card {
   display: flex;

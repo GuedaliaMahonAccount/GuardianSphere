@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./Assistance.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Assistance = () => {
   const { t } = useTranslation("Assistance");
+  const navigate = useNavigate();
 
   const [currentView, setCurrentView] = useState("");
   const [searchQuery, setSearchQuery] = useState("");

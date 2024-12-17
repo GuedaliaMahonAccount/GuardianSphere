@@ -13,16 +13,16 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: auto; /* Défilement si nécessaire */
-  width: clamp(4%, 6vw, 15%); 
+  width: clamp(3.5%, 4vw, 10%); 
 }
 
 /* Gestion de la taille du menu */
 .full_size {
-  width: clamp(15%, 20vw, 25%);
+  width: clamp(10%, 15vw, 15%);
 }
 
 .small_size {
-  width: clamp(4%, 6vw, 15%);
+  width: clamp(3.5%, 4vw, 10%);
 }
 
 /* Icônes dynamiques */

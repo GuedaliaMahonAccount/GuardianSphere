@@ -5,10 +5,12 @@
   align-items: center;
   padding: 0 5%;
   height: 7%;
-  border-bottom: 0.1% solid #c9c9c9;
+  border-bottom: 2px solid lightgray;
   gap: 3%;
   background-color: #2a4f6d;
-  margin-inline-start: 6%;
+  margin-inline-start: 0%;
+  z-index: 50;
+  position: relative;
 }
 
 /* Navbar Settings */

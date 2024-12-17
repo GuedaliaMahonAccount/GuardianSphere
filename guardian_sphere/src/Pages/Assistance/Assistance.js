@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "./Assistance.css";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 const Assistance = () => {
   const { t } = useTranslation("Assistance");
-  const navigate = useNavigate();
 
   const [currentView, setCurrentView] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,6 +18,7 @@ const Assistance = () => {
   ];
 
   const resilienceCenters = [
+    { name: t("general_support_center"), phone: "999-999-9999" },
     { name: t("location_a"), phone: "111-222-3333" },
     { name: t("location_b"), phone: "444-555-6666" },
     { name: t("location_c"), phone: "777-888-9999" },
@@ -55,6 +54,15 @@ const Assistance = () => {
   const renderPopupView = () => {
     const filteredList = getFilteredList();
 
+    // Pin the general support center at the top
+    const pinnedCenter = resilienceCenters.find(
+      (item) => item.name === t("general_support_center")
+    );
+
+    const filteredWithoutPinned = filteredList.filter(
+      (item) => item.name !== t("general_support_center")
+    );
+
     return (
       <div className="popup">
         <button className="close-button" onClick={() => setCurrentView("")}>
@@ -76,14 +84,15 @@ const Assistance = () => {
         />
         <div className="scroll-container">
           <ul className="contact-list">
-            {filteredList.length > 0 ? (
-              filteredList.map((item, index) => (
+            {currentView === "resilience-centers" && pinnedCenter && (
+              <li>
+                📞 {pinnedCenter.phone} 📍 {pinnedCenter.name}
+              </li>
+            )}
+            {filteredWithoutPinned.length > 0 ? (
+              filteredWithoutPinned.map((item, index) => (
                 <li key={index}>
-                  📞 {item.phone} {item.hours ? <br /> : ""}
-                  {item.hours && `🕒 ${item.hours}`}
-                  {item.provider ? <br /> : ""}
-                  {item.provider && `${t("provided_by")}: ${item.provider}`}
-                  {item.name && `📍 ${item.name}`}
+                  📞 {item.phone} {item.name && `📍 ${item.name}`}
                 </li>
               ))
             ) : (
@@ -97,7 +106,6 @@ const Assistance = () => {
 
   return (
     <div className="assistance-container">
-      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <h1 className="main-heading">{t("assistance_title")}</h1>
       <div className="buttons-layout">
         <button

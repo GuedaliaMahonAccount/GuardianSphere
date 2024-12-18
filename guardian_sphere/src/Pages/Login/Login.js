@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 import './Login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
+  const { t } = useTranslation("App");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,42 +24,42 @@ const Login = () => {
           'Content-Type': 'application/json',
         }
       });
-      
+
       localStorage.setItem('token', response.data.token); 
       localStorage.setItem('userId', response.data.user._id);
       localStorage.setItem('username', response.data.user.realName);
-      
+
       navigate('/home');
     } catch (error) {
-      console.error('Login failed:', error);
-      alert('Invalid credentials. Please try again.');
+      console.error(t('loginFailed'), error);
+      alert(t('invalidCredentials'));
     }
   };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2 className="auth-title">Log In</h2>
+        <h2 className="auth-title">{t('logIn')}</h2>
         <form onSubmit={handleSubmit} className="auth-form">
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder={t('email')}
             onChange={handleChange}
             required
           />
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder={t('password')}
             onChange={handleChange}
             required
           />
-          <button type="submit">Log In</button>
+          <button type="submit">{t('logIn')}</button>
         </form>
         <div className="auth-footer">
           <p>
-            Don't have an account? <a href="/signup">Sign Up</a>
+            {t('noAccount')} <a href="/signup">{t('signUp')}</a>
           </p>
         </div>
       </div>

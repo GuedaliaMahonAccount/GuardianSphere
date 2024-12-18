@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 import '../Login/Login.css';
 
 const Signup = () => {
@@ -9,10 +10,12 @@ const Signup = () => {
     email: '',
     password: '',
     anonymousName: '',
-    photo: '',
+    photo: '', // Holds the uploaded image or default image
   });
+
   const navigate = useNavigate();
   const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
+  const { t } = useTranslation("Home");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,65 +36,79 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send signup request
       await axios.post(`${BASE_URL}/api/user/signup`, formData);
 
-      // Log in automatically after signup
       const loginResponse = await axios.post(`${BASE_URL}/api/user/login`, {
         email: formData.email,
         password: formData.password,
       });
 
-      // Save token, userId, and username to localStorage
       localStorage.setItem('token', loginResponse.data.token);
       localStorage.setItem('userId', loginResponse.data.user._id);
-      localStorage.setItem('username', loginResponse.data.user.realName); 
-      
+      localStorage.setItem('username', loginResponse.data.user.realName);
+
       navigate('/home');
     } catch (error) {
-      console.error('Signup failed:', error);
-      alert('Signup failed. Please try again.');
+      console.error(t('signupFailed'), error);
+      alert(t('signupError'));
     }
   };
+
+  const defaultAvatar = "/Pictures/default-avatar.png"; // Default avatar image
 
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2 className="auth-title">Sign Up</h2>
+        <h2 className="auth-title">{t('signUp')}</h2>
         <form onSubmit={handleSubmit} className="auth-form">
+          <div className="photo-upload">
+            <label htmlFor="photo-input" className="photo-container">
+              <img
+                src={formData.photo || defaultAvatar}
+                alt="profile"
+                className="user-avatar"
+              />
+            </label>
+            <input
+              type="file"
+              id="photo-input"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              style={{ display: 'none' }}
+            />
+          </div>
           <input
             type="text"
             name="realName"
-            placeholder="Real Name"
+            placeholder={t('realName')}
             onChange={handleChange}
             required
           />
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder={t('email')}
             onChange={handleChange}
             required
           />
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder={t('password')}
             onChange={handleChange}
             required
           />
           <input
             type="text"
             name="anonymousName"
-            placeholder="Anonymous Name (Optional)"
+            placeholder={t('anonymousName')}
             onChange={handleChange}
           />
-          <input type="file" onChange={handlePhotoUpload} />
-          <button type="submit">Sign Up</button>
+          <button type="submit">{t('signUp')}</button>
         </form>
         <div className="auth-footer">
           <p>
-            Already have an account? <a href="/login">Log In</a>
+            {t('alreadyAccount')} <a href="/login">{t('logIn')}</a>
           </p>
         </div>
       </div>

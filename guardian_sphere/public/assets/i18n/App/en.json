@@ -51,6 +51,21 @@
 "videos" : "Videos",
 "doctors" : "Doctors",
 "assistance" : "Assistance",
-"logout" : "Logout"
+"logout" : "Logout",
+
+"logIn": "Log In",
+  "email": "Email",
+  "password": "Password",
+  "noAccount": "Don't have an account?",
+  "signUp": "Sign Up",
+  "loginFailed": "Login failed:",
+  "invalidCredentials": "Invalid credentials. Please try again.",
+
+  "realName": "Full Name",
+  "anonymousName": "Anonymous Name (Optional)",
+  "alreadyAccount": "Already have an account?",
+  "signupFailed": "Signup failed:",
+  "signupError": "Signup failed. Please try again.",
+  "profilePhotoOptional": "Profile photo (Optional)"
 
 }

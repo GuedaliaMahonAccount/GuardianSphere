@@ -37,6 +37,7 @@ const Assistance = () => {
     { name: t("Binyamin"), phone: "02-584-8600" },
     { name: t("Samaria"), phone: "055-277-9285" },
     { name: t("Judea"), phone: t("02-9969560,055-953-4177") },
+    { name: t("Golan"), phone: "04-696-9759" },
     // Add more items to test scrolling
   ];
 

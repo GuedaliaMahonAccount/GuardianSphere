@@ -16,7 +16,6 @@ const Assistance = () => {
       { name: t("center_c"), phone: "789-012-3456", hours: t("hours_c") },
       { name: t("center_d"), phone: "012-345-6789", hours: t("hours_d") },
       { name: t("center_e"), phone: "345-678-9012", hours: t("hours_e") },
-      // Add more items to test scrolling
     ],
     resilienceCenters: [
       { name: t("general_support_center"), phone: "999-999-9999" },
@@ -33,7 +32,6 @@ const Assistance = () => {
       { name: t("association_c"), phone: "345-345-3456" },
       { name: t("association_d"), phone: "456-456-4567" },
       { name: t("association_e"), phone: "567-567-5678" },
-      // Add more items to test scrolling
     ],
   };
 
@@ -71,7 +69,8 @@ const Assistance = () => {
           {items.length > 0 ? (
             items.map((item, index) => (
               <li key={index}>
-                <strong>{item.name}</strong> - {item.phone} ({item.hours || t("no_hours")})
+                📞 {item.phone} 📍 {item.name}{" "}
+                {item.hours && `(${item.hours})`}
               </li>
             ))
           ) : (

@@ -92,7 +92,7 @@
 /* User Message */
 /* Styling for messages sent by the user */
 .user-message {
-  background-color: #cce4f6;
+  background-color: #53a7e8;
   align-self: flex-end; /* Aligns user messages to the right */
   max-width: 80%;
 }
@@ -100,7 +100,7 @@
 /* AI Message */
 /* Styling for messages received from AI */
 .ai-message {
-  background-color: #eaf5ff;
+  background-color: #93c3f0;
   align-self: flex-start; /* Aligns AI messages to the left */
   max-width: 80%;
 }

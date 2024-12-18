@@ -11,7 +11,7 @@
     font-family: "Arial", sans-serif;
     text-align: center;
     padding: 20px;
-    padding-left: clamp(4%, 6vw, 15%); /* Espace pour le menu */
+    padding-left: clamp(10%, 15vw, 15%); /* Espace pour le menu */
     padding-top: 7%; /* Espace pour la navbar */
     position: relative;
     overflow: hidden;

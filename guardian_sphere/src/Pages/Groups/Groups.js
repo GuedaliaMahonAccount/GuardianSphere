@@ -5,6 +5,9 @@ import io from 'socket.io-client';
 import { fetchGroupMessages, updateUserData } from './GroupsReq';
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from '../../config';
+import { faFlag } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 
@@ -45,6 +48,12 @@ const Groups = () => {
       console.error('No userId found in localStorage. Please log in.');
     }
   }, []);
+
+  const reportMessage = (userId) => {
+    console.log(`Sender ID: ${userId}`);
+    // Additional logic to handle reporting can be added here
+  };
+  
 
   // Automatically scroll to the bottom when messages update
   const scrollToBottom = () => {
@@ -265,13 +274,26 @@ const Groups = () => {
                     key={index}
                     className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
                   >
-                    <div className="profile">
-                      <img src={msg.photo} alt="profile" />
-                      <span>{msg.sender}</span>
+                    <div className="message-header">
+                      {/* Report button with flag icon */}
+                      {msg.userId !== localStorage.getItem('userId') && (
+                        <button
+                        className="report-button"
+                        onClick={() => reportMessage(msg.userId)}
+                        title={t('report_message_tooltip')}
+                      >
+                        <FontAwesomeIcon icon={faFlag} />
+                      </button>                      
+                      )}
+                      <div className="profile">
+                        <img src={msg.photo} alt="profile" />
+                        <span>{msg.sender}</span>
+                      </div>
                     </div>
                     <span>{msg.content}</span>
                   </div>
                 ))}
+
                 <div ref={messagesEndRef} />
               </div>
             )}

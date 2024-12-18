@@ -436,3 +436,40 @@
 .home-back-button:hover {
   background-color: #5A9BD4;
 }
+
+/* Styling for the report button */
+.report-button {
+  background: none;
+  border: none;
+  color: #ca3636; /* Subtle gray color */
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px; /* Space between the button and the message */
+  opacity: 0.6; /* Less visible by default */
+  transition: opacity 0.2s ease-in-out;
+}
+
+.report-button:hover {
+  opacity: 1; /* Fully visible on hover */
+  color: #d9534f; /* Subtle red color on hover */
+}
+
+/* Align message header content */
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.message .profile {
+  display: flex;
+  align-items: center;
+}
+
+.message .profile img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+

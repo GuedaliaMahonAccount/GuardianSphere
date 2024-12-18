@@ -1,5 +1,5 @@
 {
-    "welcome": "Welcome, {{name}} !",
+    "welcome": "Welcome, {{name}}!",
     "description": "We are here to provide you with a safe and calming space. Explore our resources to find support.",
     "logout": "Logout",
     "signup": "Sign Up",
@@ -9,5 +9,18 @@
     "videos": "Inspirational Videos",
     "doctors": "Doctors",
     "assistance": "Assistance",
-    "footer": "You are not alone. Together we move forward."
+    "footer": "You are not alone. Together we move forward.",
+    "home": "Home",
+    "chatSupport": "Chat Support",
+    "chatDescription": "Get instant support through our chat system.",
+    "groupsSupport": "Support Groups",
+    "groupsDescription": "Join groups with shared experiences for support.",
+    "followUpSupport": "Follow-Up Support",
+    "followUpDescription": "Continue your journey with regular follow-up sessions.",
+    "resources": "Video Resources",
+    "resourcesDescription": "Access inspirational and helpful videos for support.",
+    "doctorsSupport": "Doctors Support",
+    "doctorsDescription": "Find expert medical professionals to assist you.",
+    "assistanceSupport": "General Assistance",
+    "assistanceDescription": "Get help with various personal and emotional challenges."
 }

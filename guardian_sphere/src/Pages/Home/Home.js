@@ -20,14 +20,31 @@ const Home = () => {
                 <h1>{t("welcome", { name: username })}</h1>
                 <p>{t("description")}</p>
             </header>
-            <div className="home-buttons">
-                <button onClick={() => navigate("/chat")} className="home-button">{t("chat")}</button>
-                <button onClick={() => navigate("/groups")} className="home-button">{t("groups")}</button>
-                <button onClick={() => navigate("/follow-up")} className="home-button">{t("followUp")}</button>
-                <button onClick={() => navigate("/videos")} className="home-button">{t("videos")}</button>
-                <button onClick={() => navigate("/doctors")} className="home-button">{t("doctors")}</button>
-                <button onClick={() => navigate("/assistance")} className="home-button">{t("assistance")}</button>
-                <button onClick={handleLogout} className="home-button">{t("logout")}</button>
+            <div className="home-actions">
+                <div className="action-card" onClick={() => navigate("/chat")}>
+                    <h3>{t("chatSupport")}</h3>
+                    <p>{t("chatDescription")}</p>
+                </div>
+                <div className="action-card" onClick={() => navigate("/groups")}>
+                    <h3>{t("groupsSupport")}</h3>
+                    <p>{t("groupsDescription")}</p>
+                </div>
+                <div className="action-card" onClick={() => navigate("/follow-up")}>
+                    <h3>{t("followUpSupport")}</h3>
+                    <p>{t("followUpDescription")}</p>
+                </div>
+                <div className="action-card" onClick={() => navigate("/videos")}>
+                    <h3>{t("resources")}</h3>
+                    <p>{t("resourcesDescription")}</p>
+                </div>
+                <div className="action-card" onClick={() => navigate("/doctors")}>
+                    <h3>{t("doctorsSupport")}</h3>
+                    <p>{t("doctorsDescription")}</p>
+                </div>
+                <div className="action-card" onClick={() => navigate("/assistance")}>
+                    <h3>{t("assistanceSupport")}</h3>
+                    <p>{t("assistanceDescription")}</p>
+                </div>
             </div>
             <footer className="home-footer">
                 <p>{t("footer")}</p>

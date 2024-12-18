@@ -9,22 +9,32 @@ const Assistance = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const hmoNumbers = [
-    { name: t("center_a"), phone: "123-456-7890", hours: t("hours_a") },
-    { name: t("center_b"), phone: "456-789-0123", hours: t("hours_b") },
-    { name: t("center_c"), phone: "789-012-3456", hours: t("hours_c") },
-    { name: t("center_d"), phone: "012-345-6789", hours: t("hours_d") },
-    { name: t("center_e"), phone: "345-678-9012", hours: t("hours_e") },
+    { name: t("Clalit"), phone: t("*8703,*2708,03-747-2010")},
+    { name: t("Makabi"), phone: t("*3555,*3028") },
+    { name: t("Leumit"), phone: t("*507,1-700-507-507,02-6335209") },
+    { name: t("Meuhedet"), phone: t("*3833") },
     // Add more items to test scrolling
   ];
 
   const resilienceCenters = [
-    { name: t("general_support_center"), phone: "999-999-9999" },
-    { name: t("location_a"), phone: "111-222-3333" },
-    { name: t("location_b"), phone: "444-555-6666" },
-    { name: t("location_c"), phone: "777-888-9999" },
-    { name: t("location_d"), phone: "000-111-2222" },
-    { name: t("location_e"), phone: "333-444-5555" },
-    { name: t("location_f"), phone: "666-777-8888" },
+    { name: t("general_resilience_center"), phone: t("*5486") },
+    { name: t("Ofakim"), phone: "08-992-8438" },
+    { name: t("Netivot,Merhavim,Bnei-Shimon"), phone: "055-306-3863" },
+    { name: t("Ashkelon"), phone: t("*2452") },
+    { name: t("Localities_of_Eshkol_Regional_Council"), phone: "08-996-5264" },
+    { name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"), phone: "08-677-5598" },
+    { name: t("Localities_of_Sdot_Negev_Regional_Council"), phone: "08-994-1091" },
+    { name: t("Settlements_of_Shaar_Hanegev_Regional_Council"), phone: "051-226-6275" },
+    { name: t("Bedouin_Society_Resilience_Center"), phone: "072-221-2788" },
+    { name: t("Sderot"), phone: t("08-661-1140/50") },
+    { name: t("Resilience_centers_in_the_northern_district-Hebrew"), phone: "04-690-0603" },
+    { name: t("Resilience_centers_in_the_northern_district-Arabic"), phone: "04-770-2649" },
+    { name: t("Resilience_centers_in_the_northern_district-English"), phone: "04-770-2651" },
+    { name: t("Resilience_centers_in_the_northern_district-Russian"), phone: "04-770-2650" },
+    { name: t("Etzion"), phone: "058-398-9550" },
+    { name: t("Binyamin"), phone: "02-584-8600" },
+    { name: t("Samaria"), phone: "055-277-9285" },
+    { name: t("Judea"), phone: t("02-9969560,055-953-4177") },
     // Add more items to test scrolling
   ];
 
@@ -56,11 +66,11 @@ const Assistance = () => {
 
     // Pin the general support center at the top
     const pinnedCenter = resilienceCenters.find(
-      (item) => item.name === t("general_support_center")
+      (item) => item.name === t("general_resilience_center")
     );
 
     const filteredWithoutPinned = filteredList.filter(
-      (item) => item.name !== t("general_support_center")
+      (item) => item.name !== t("general_resilience_center")
     );
 
     return (

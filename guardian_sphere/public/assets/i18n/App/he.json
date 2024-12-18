@@ -47,5 +47,20 @@
   "videos": "סרטונים",
   "doctors": "רופאים",
   "assistance": "עזרה",
-  "logout": "התנתק"
+  "logout": "התנתק",
+
+  "logIn": "התחברות",
+  "email": "אימייל",
+  "password": "סיסמה",
+  "noAccount": "אין לך חשבון?",
+  "signUp": "הרשמה",
+  "loginFailed": "התחברות נכשלה:",
+  "invalidCredentials": "פרטים שגויים. נסה שוב.",
+
+  "realName": "שם מלא",
+  "anonymousName": "שם אנונימי (אופציונלי)",
+  "alreadyAccount": "כבר יש לך חשבון?",
+  "signupFailed": "הרשמה נכשלה:",
+  "signupError": "הרשמה נכשלה. נסה שוב.",
+  "profilePhotoOptional": "תמונת פרופיל (אופציונלי)"
 }

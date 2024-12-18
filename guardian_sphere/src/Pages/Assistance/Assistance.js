@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./Assistance.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Assistance = () => {
   const { t } = useTranslation("Assistance");
+  const navigate = useNavigate();
 
   const [currentView, setCurrentView] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -116,7 +118,8 @@ const Assistance = () => {
 
   return (
     <div className="assistance-container">
-      <h1 className="main-heading">{t("assistance_title")}</h1>
+      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+      <h2 className="main-heading">{t("assistance_title")}</h2>
       <div className="buttons-layout">
         <button
           className="large-button"

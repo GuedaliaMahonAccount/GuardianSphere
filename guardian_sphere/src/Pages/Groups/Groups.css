@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to right, #87CEFA, #4682B4); /* Calming gradient */
-  padding: 20px;
-  position: relative; /* Important for positioning the menu */
+  justify-content: flex-start;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+  padding: 40px;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
 
 
@@ -59,6 +60,7 @@
 .group-title-header {
   text-align: center;
   margin-bottom: 20px;
+  color: #2C3E50;
 }
 
 .group-title-header h2 {
@@ -67,12 +69,14 @@
 }
 
 .group-list {
+  color: #687f96;
   text-align: center;
 }
 
 .group-title {
+  color: #3c536b;
   padding: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid #000711;
   border-radius: 10px;
   margin: 10px 0;
   cursor: pointer;
@@ -416,14 +420,19 @@
 }
 
 .home-back-button {
-  background: #007bff;
-  color: white;
+  z-index: 1000;
+  margin-left: 80px;
+  margin-right: 80px;
+  align-self: flex-start; 
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4682B4;
+  color: #fff;
   border: none;
-  padding: 10px;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .home-back-button:hover {
-  background: #0056b3;
+  background-color: #5A9BD4;
 }

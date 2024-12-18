@@ -1,108 +1,58 @@
-.nav {
-    width: 100%;
-    position: fixed;
-  }
-  
-  .nav-content {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 20px;
-    gap: 2%;
-  }
-  
-  .nav-content img {
-    object-fit: contain;
-  }
-  
-  .top_navbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px 80px;
-    height: 7vh;
-    border-bottom: 1px solid #c9c9c9;
-    gap: 3%;
-    margin: -15px 15px;
-    background-color: white
-  }
-  
-  .video-nav-container {
-    cursor: pointer;
-    color: var(--main-black);
-    background-color: white;
-    border-radius: 8px;
-    border: none;
-    padding: 4px 8px;
-  }
-  
-  .video-nav-container:hover {
-    outline: 1px solid var(--main-purple);
-  }
-  
-  /* .video-nav-container:active {
-      background-color:#aa3596;
-  } */
-  .ai_training {
-    background: transparent;
-    border: none;
-  }
-  .navbar_settings{
-    padding:0 10px;
-  
-  }
-  .border_left_side_menu{
-    border-left: 2px solid lightgray;
-  }
-  .border_right_side_menu{
-    border-right: 2px solid lightgray;
-  }
-  .ai_icon,.video_camera_icon,.settings_icon{
-  margin: auto -25px;
-  cursor: pointer;
-  }
-  .settings_icon,.account_circle{
-    margin-top: 3px;
-  }
+/* Top Navbar */
+.top_navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 5%;
+  height: 7%;
+  border-bottom: 2px solid lightgray;
+  gap: 3%;
+  background-color: #2a4f6d;
+  margin-inline-start: 0%;
+  z-index: 50;
+  position: relative;
+}
 
-  .logout-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  
-  .logout-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 0px;
-    height: 30px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .logout-container.rtl .logout-button {
-    left: 20px; /* Décalage pour RTL */
-  }
-  
-  .logout-container.ltr .logout-button {
-    right: 20px; /* Décalage pour LTR */
-  }
-  
-  .logout_icon {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-  }
-  
-  .logout-container.rtl .logout_icon {
-    right: 40px;
-  }
-  
-  .logout-container.ltr .logout_icon {
-    left: 40px;
-  }
-  
+/* Navbar Settings */
+.navbar_settings {
+  padding: 0 2%;
+}
+
+.border_left_side_menu {
+  border-left: 2px solid lightgray;
+}
+
+.border_right_side_menu {
+  border-right: 2px solid lightgray;
+}
+
+.settings_icon {
+  width: 2.5em; /* Taille dynamique */
+  height: 2.5em;
+  cursor: pointer;
+}
+
+/* Logout Container */
+.logout-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background: none;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  color: white;
+}
+
+.logout_icon {
+  width: 2em; /* Taille dynamique */
+  height: 2em;
+  cursor: pointer;
+}

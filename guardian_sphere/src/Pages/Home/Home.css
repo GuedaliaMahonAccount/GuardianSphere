@@ -1,4 +1,5 @@
 /* Home Container */
+/* Home Container Adjustments */
 .home-container {
     display: flex;
     flex-direction: column;
@@ -10,9 +11,14 @@
     font-family: "Arial", sans-serif;
     text-align: center;
     padding: 20px;
+    padding-left: clamp(4%, 6vw, 15%); /* Espace pour le menu */
+    padding-top: 7%; /* Espace pour la navbar */
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
+    z-index: 1;
 }
+
 
 /* Decorative Background */
 .home-container::before {

@@ -62,5 +62,10 @@
   "alreadyAccount": "כבר יש לך חשבון?",
   "signupFailed": "הרשמה נכשלה:",
   "signupError": "הרשמה נכשלה. נסה שוב.",
-  "profilePhotoOptional": "תמונת פרופיל (אופציונלי)"
+  "profilePhotoOptional": "תמונת פרופיל (אופציונלי)",
+
+  "emailTaken": "כתובת האימייל תפוסה",
+  "usernameTaken": "שם המשתמש תפוס",
+  "fixErrorsBeforeSubmitting": "תקן שגיאות לפני השליחה",
+  "checkFailed": "בדיקה נכשלה"
 }

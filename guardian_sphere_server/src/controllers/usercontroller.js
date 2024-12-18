@@ -89,3 +89,18 @@ exports.updateUserProfile = async (req, res) => {
     res.status(500).json({ error: 'Internal server error.' });
   }
 };
+
+// Check availability of email and anonymous name
+exports.checkAvailability = async (req, res) => {
+  const { email, anonymousName } = req.body;
+
+  try {
+    const emailExists = email ? await User.exists({ email }) : false;
+    const usernameExists = anonymousName ? await User.exists({ anonymousName }) : false;
+
+    res.status(200).json({ emailExists, usernameExists });
+  } catch (error) {
+    console.error('Error checking availability:', error);
+    res.status(500).json({ message: 'Failed to check availability', error });
+  }
+};

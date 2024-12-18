@@ -66,6 +66,10 @@
   "alreadyAccount": "Already have an account?",
   "signupFailed": "Signup failed:",
   "signupError": "Signup failed. Please try again.",
-  "profilePhotoOptional": "Profile photo (Optional)"
+  "profilePhotoOptional": "Profile photo (Optional)",
 
+  "emailTaken": "This email is already taken.",
+  "usernameTaken": "This username is already taken.",
+  "fixErrorsBeforeSubmitting": "Please fix the errors before submitting.",
+  "checkFailed": "Failed to check availability."
 }

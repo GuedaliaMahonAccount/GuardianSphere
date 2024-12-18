@@ -5,23 +5,40 @@ import { useTranslation } from "react-i18next";
 import '../Login/Login.css';
 import { BASE_URL } from '../../config';
 
-
-
 const Signup = () => {
   const [formData, setFormData] = useState({
     realName: '',
     email: '',
     password: '',
     anonymousName: '',
-    photo: '', // Holds the uploaded image or default image
+    photo: '',
   });
+  const [errors, setErrors] = useState({ email: '', anonymousName: '' });
 
   const navigate = useNavigate();
   const { t } = useTranslation("Home");
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'email' || name === 'anonymousName') {
+      try {
+        const response = await axios.post(`${BASE_URL}/api/user/check-availability`, {
+          [name]: value,
+        });
+
+        if (name === 'email' && response.data.emailExists) {
+          setErrors((prev) => ({ ...prev, email: t('emailTaken') }));
+        } else if (name === 'anonymousName' && response.data.usernameExists) {
+          setErrors((prev) => ({ ...prev, anonymousName: t('usernameTaken') }));
+        } else {
+          setErrors((prev) => ({ ...prev, [name]: '' }));
+        }
+      } catch (error) {
+        console.error(t('checkFailed'), error);
+      }
+    }
   };
 
   const handlePhotoUpload = (e) => {
@@ -37,6 +54,10 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (errors.email || errors.anonymousName) {
+      alert(t('fixErrorsBeforeSubmitting'));
+      return;
+    }
     try {
       await axios.post(`${BASE_URL}/api/user/signup`, formData);
 
@@ -56,7 +77,7 @@ const Signup = () => {
     }
   };
 
-  const defaultAvatar = "/Pictures/default-avatar.png"; // Default avatar image
+  const defaultAvatar = "/Pictures/default-avatar.png";
 
   return (
     <div className="auth-container">
@@ -93,6 +114,7 @@ const Signup = () => {
             onChange={handleChange}
             required
           />
+          {errors.email && <p className="error-text">{errors.email}</p>}
           <input
             type="password"
             name="password"
@@ -106,6 +128,7 @@ const Signup = () => {
             placeholder={t('anonymousName')}
             onChange={handleChange}
           />
+          {errors.anonymousName && <p className="error-text">{errors.anonymousName}</p>}
           <button type="submit">{t('signUp')}</button>
         </form>
         <div className="auth-footer">

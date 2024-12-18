@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, login, getUser ,updateUserProfile} = require('../controllers/usercontroller');
+const { signup, login, getUser ,updateUserProfile, checkAvailability} = require('../controllers/usercontroller');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // To protect routes if necessary
 
 const router = express.Router();
@@ -9,6 +9,9 @@ router.post('/signup', signup);
 
 // Route for user login
 router.post('/login', login);
+
+// Route to check if an email is available or not (optional)
+router.post('/check-availability', checkAvailability);
 
 // Protected route to get user details (optional)
 router.get('/me', authMiddleware, getUser); // Correctly routes to getUser

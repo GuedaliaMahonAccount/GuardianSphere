@@ -3,11 +3,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import './Login.css';
+import { BASE_URL } from '../../config';
+
+
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
   const { t } = useTranslation("App");
 
   const handleChange = (e) => {

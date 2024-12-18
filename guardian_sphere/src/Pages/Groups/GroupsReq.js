@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { BASE_URL } from '../../config';
 
-const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
+
 
 export const fetchGroupMessages = async (group) => {
   try {

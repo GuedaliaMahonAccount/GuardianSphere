@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
 import { fetchGroupMessages, updateUserData } from './GroupsReq';
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from '../../config';
 
 
-const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
 
 
 const socket = io(`${BASE_URL}`, {

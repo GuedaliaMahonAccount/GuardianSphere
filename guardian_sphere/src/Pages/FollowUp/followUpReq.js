@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { BASE_URL } from '../../config';
 
-const BASE_URL = process.env.REACT_APP_BACKEND_ORIGIN;
 
 // Get treatments by username
 export const getByUsername = async (username) => {

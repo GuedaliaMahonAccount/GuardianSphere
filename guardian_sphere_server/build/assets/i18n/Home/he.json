@@ -1,5 +1,5 @@
 {
-    "welcome": "ברוך הבא, {{name}} !",
+    "welcome": "ברוך הבא, {{name}}!",
     "description": "אנחנו כאן כדי להעניק לך מרחב בטוח ומרגיע. גלה את המשאבים שלנו כדי למצוא תמיכה.",
     "logout": "התנתקות",
     "signup": "יצירת חשבון",
@@ -7,7 +7,20 @@
     "groups": "קבוצות תמיכה",
     "followUp": "מעקב אישי",
     "videos": "סרטונים מעוררי השראה",
-    "doctors": "",
+    "doctors": "רופאים",
     "assistance": "תמיכה",
-    "footer": "אתה לא לבד. יחד אנו מתקדמים."
+    "footer": "אתה לא לבד. יחד אנו מתקדמים.",
+    "home": "בית",
+    "chatSupport": "תמיכת צ'אט",
+    "chatDescription": "קבל תמיכה מיידית דרך מערכת הצ'אט שלנו.",
+    "groupsSupport": "קבוצות תמיכה",
+    "groupsDescription": "הצטרף לקבוצות עם חוויות משותפות לתמיכה.",
+    "followUpSupport": "תמיכת מעקב",
+    "followUpDescription": "המשך את המסע שלך עם מפגשי מעקב קבועים.",
+    "resources": "משאבי וידאו",
+    "resourcesDescription": "גש לסרטונים מעוררי השראה ותומכים.",
+    "doctorsSupport": "תמיכת רופאים",
+    "doctorsDescription": "מצא אנשי מקצוע רפואיים שיעזרו לך.",
+    "assistanceSupport": "תמיכה כללית",
+    "assistanceDescription": "קבל עזרה באתגרים אישיים ורגשיים."
 }

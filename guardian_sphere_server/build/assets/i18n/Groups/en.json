@@ -13,5 +13,7 @@
   "type_message": "Type your message",
   "send": "Send",
   "anonymous": "Anonymous",
-  "change_anonymous_name": "Change Anonymous Name"
+  "change_anonymous_name": "Change Anonymous Name",
+  "report_message_tooltip": "Report this message",
+  "home": "Home"
 }

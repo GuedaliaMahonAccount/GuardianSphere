@@ -13,6 +13,9 @@
     "type_message": "הקלד את ההודעה שלך",
     "send": "שלח",
     "anonymous": "אנונימי",
-    "change_anonymous_name" : "שנה שם אנונימי"
+    "change_anonymous_name" : "שנה שם אנונימי",
+
+    "home": "בית",
+    "report_message_tooltip": "דווח על ההודעה הזו"
   }
   

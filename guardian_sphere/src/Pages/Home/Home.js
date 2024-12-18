@@ -8,12 +8,6 @@ const Home = () => {
     const username = localStorage.getItem('username') || t("defaultUser");
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        navigate("/login");
-    };
-
     return (
         <div className="home-container">
             <header className="home-header">

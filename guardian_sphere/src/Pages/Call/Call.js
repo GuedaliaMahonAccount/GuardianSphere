@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 
 
 const apiKey = "2e5afc98-21a2-4665-96d5-c067a5e20b75";
-const assistantId = "a673aba3-7453-4adc-b10a-4fc6cbcd7310";
+//const assistantId = "a673aba3-7453-4adc-b10a-4fc6cbcd7310";
 
 const vapi = new Vapi(apiKey);
 
 const Call = () => {
     const [isCalling, setIsCalling] = useState(false);
     const [volume, setVolume] = useState(0);
-    const audioRef = useRef(null);
+    //const audioRef = useRef(null);
     const audioContextRef = useRef(null);
     const analyserRef = useRef(null);
     const { t } = useTranslation();

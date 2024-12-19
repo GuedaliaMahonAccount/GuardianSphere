@@ -27,6 +27,7 @@ function SideMenu() {
     { label: t("videos"), path: "/videos", icon: "Pictures/videos_icon.png" , className: "icon"},
     { label: t("doctors"), path: "/doctors", icon: "Pictures/doctors_icon.png" , className: "icon"},
     { label: t("assistance"), path: "/assistance", icon: "Pictures/assistance_icon.png" , className: "icon"},
+    { label: t("statistic"), path: "/statistic", icon: "Pictures/statistic_icon.png" , className: "icon"},
   ];  
 
   return (

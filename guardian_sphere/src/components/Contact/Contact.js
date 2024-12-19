@@ -9,7 +9,7 @@ const Contact = () => {
     const [isBouncing, setIsBouncing] = useState(false);
 
 
-    
+
     const handleNavigate = () => {
         navigate("/doctors"); // Navigate to the doctors route
     };
@@ -20,7 +20,7 @@ const Contact = () => {
         const interval = setInterval(() => {
             setIsBouncing(true);
             setTimeout(() => setIsBouncing(false), 1000); // Durée de l'animation
-        }, Math.random() * 5000 + 5000); // Entre 5 et 10 secondes
+        }, Math.random() * 3000 + 5000); // Entre 5 et 10 secondes
 
         return () => clearInterval(interval); // Nettoie l'intervalle
     }, []);

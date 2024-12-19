@@ -12,10 +12,15 @@ const Layout = ({ children }) => {
   const isTerms = location.pathname.toLowerCase() === "/terms";
   const outPages = !isLoginPage && !isSignUpPage && !isTerms;
 
+  const isDoctorPage = location.pathname.toLowerCase() === "/doctors";
+  const isContact = !isDoctorPage;
+  const isStatistic = location.pathname.toLowerCase() === "/statistic";
+  const adminPages = !isStatistic;
+
   return (
     <div className="app-container">
       {/* Card flottante */}
-      {outPages && <Contact />}
+      {outPages && isContact && adminPages && <Contact />}
 
       {/* Navbar si ce n'est pas une page de connexion/inscription */}
       {outPages && <Navbar />}

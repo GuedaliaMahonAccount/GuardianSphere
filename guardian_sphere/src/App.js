@@ -16,6 +16,7 @@ import Assistance from './Pages/Assistance/Assistance.js';
 import Loading from './components/Loading/Loading.js'; // ייבוא רכיב ה-Loading
 import Chat from './Pages/Chat/Chat.js';
 import Call from './Pages/Call/Call.js';
+import Statistic from './Pages/Statistic/Statistic.js';
 
 // Define the ProtectedRoute component
 function ProtectedRoute({ element, redirectTo = '/login' }) {
@@ -48,7 +49,7 @@ function App() {
               <Routes>
                 {/* Redirect to login page if no route matches */}
                 <Route path="/" element={<Navigate to="/login" replace />} />
-                
+
                 {/* Public Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
@@ -85,6 +86,10 @@ function App() {
                 <Route
                   path="/assistance"
                   element={<ProtectedRoute element={<Assistance />} />}
+                />
+                <Route
+                  path="/statistic"
+                  element={<ProtectedRoute element={<Statistic />} />}
                 />
               </Routes>
             </Layout>

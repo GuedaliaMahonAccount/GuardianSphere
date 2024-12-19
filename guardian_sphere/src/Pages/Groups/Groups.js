@@ -214,112 +214,118 @@ const Groups = () => {
   };
 
   return (
-    <div className="group-container">
-      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
-      {!currentGroup ? (
-        <div className="group-list">
-          <h2 className="group-title-header">{t('groups_title')}</h2>
-          <p>{t('groups_description')}</p>
-          {['stress', 'depression', 'anger', 'trauma', 'fear'].map((group) => (
-            <div key={group} className="group-title" onClick={() => setCurrentGroup(group)}>
-              <h3>{t(`${group}_title`)}</h3>
-            </div>
-          ))}
+<div className="group-container">
+  {!currentGroup && (
+    <button onClick={() => navigate("/home")} className="home-back-button">
+      {t("home")}
+    </button>
+  )}
+  {currentGroup && (
+    <button
+      className={`home-back-button ${i18n.language === 'he' ? 'rtl' : 'ltr'}`}
+      onClick={() => setCurrentGroup(null)}
+    >
+      {t('back')}
+    </button>
+  )}
+  {!currentGroup ? (
+    <div className="group-list">
+      <h2 className="group-title-header">{t('groups_title')}</h2>
+      <p>{t('groups_description')}</p>
+      {['stress', 'depression', 'anger', 'trauma', 'fear'].map((group) => (
+        <div key={group} className="group-title" onClick={() => setCurrentGroup(group)}>
+          <h3>{t(`${group}_title`)}</h3>
         </div>
-      ) : (
-        <>
-          <button
-            className={`back-button ${i18n.language === 'he' ? 'rtl' : 'ltr'}`}
-            onClick={() => setCurrentGroup(null)}
-          >
-            {t('back')}
-          </button>
-          <div className="external-header">
-            <div className="username-header">
-              <input
-                type="text"
-                value={username}
-                onChange={handleUsernameChange}
-                placeholder={t('enter_name')}
-                className="username-input"
-              />
-              <div className="photo-upload">
-                <label htmlFor="photo-input" className="photo-container">
-                  <img src={photo} alt="profile" className="user-avatar" />
-                </label>
-                <input
-                  type="file"
-                  id="photo-input"
-                  accept="image/*"
-                  onChange={handlePhotoUpload}
-                  style={{ display: 'none' }}
-                />
-              </div>
-            </div>
-            <h2 className="chat-group-title">{t(`${currentGroup}_title`)}</h2>
-          </div>
-
-          <div className="chat-header">
-            <p>{t('connected_users')}: {connectedUsers.length}</p>
-          </div>
-          <div className="chat-box" ref={chatBoxRef}>
-            {isLoadingMessages ? (
-              <div className="loader-container">
-                <div className="loader"></div>
-              </div>
-            ) : (
-              <div className="messages">
-                {messages[currentGroup]?.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
-                  >
-                    <div className="message-header">
-                      {/* Report button with flag icon */}
-                      {msg.userId !== localStorage.getItem('userId') && (
-                        <button
-                        className="report-button"
-                        onClick={() => reportMessage(msg.userId)}
-                        title={t('report_message_tooltip')}
-                      >
-                        <FontAwesomeIcon icon={faFlag} />
-                      </button>                      
-                      )}
-                      <div className="profile">
-                        <img src={msg.photo} alt="profile" />
-                        <span>{msg.sender}</span>
-                      </div>
-                    </div>
-                    <span>{msg.content}</span>
-                  </div>
-                ))}
-
-                <div ref={messagesEndRef} />
-              </div>
-            )}
-          </div>
-
-          <div className="message-form">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t('type_message')}
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-              className="message-input"
-              disabled={isLoadingMessages || isSending}
-            />
-            <button className="send-button" onClick={sendMessage} disabled={isLoadingMessages || isSending}>
-              {isSending ? (
-                <div className="loader-button"></div>
-              ) : (
-                t('send')
-              )}
-            </button>
-          </div>
-        </>
-      )}
+      ))}
     </div>
+  ) : (
+    <>
+      <div className="external-header">
+        <div className="username-header">
+          <input
+            type="text"
+            value={username}
+            onChange={handleUsernameChange}
+            placeholder={t('enter_name')}
+            className="username-input"
+          />
+          <div className="photo-upload">
+            <label htmlFor="photo-input" className="photo-container">
+              <img src={photo} alt="profile" className="user-avatar" />
+            </label>
+            <input
+              type="file"
+              id="photo-input"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              style={{ display: 'none' }}
+            />
+          </div>
+        </div>
+        <h2 className="chat-group-title">{t(`${currentGroup}_title`)}</h2>
+      </div>
+
+      <div className="chat-header">
+        <p>{t('connected_users')}: {connectedUsers.length}</p>
+      </div>
+      <div className="chat-box" ref={chatBoxRef}>
+        {isLoadingMessages ? (
+          <div className="loader-container">
+            <div className="loader"></div>
+          </div>
+        ) : (
+          <div className="messages">
+            {messages[currentGroup]?.map((msg, index) => (
+              <div
+                key={index}
+                className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
+              >
+                <div className="message-header">
+                  {msg.userId !== localStorage.getItem('userId') && (
+                    <button
+                      className="report-button"
+                      onClick={() => reportMessage(msg.userId)}
+                      title={t('report_message_tooltip')}
+                    >
+                      <FontAwesomeIcon icon={faFlag} />
+                    </button>
+                  )}
+                  <div className="profile">
+                    <img src={msg.photo} alt="profile" />
+                    <span>{msg.sender}</span>
+                  </div>
+                </div>
+                <span>{msg.content}</span>
+              </div>
+            ))}
+
+            <div ref={messagesEndRef} />
+          </div>
+        )}
+      </div>
+
+      <div className="message-form">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={t('type_message')}
+          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          className="message-input"
+          disabled={isLoadingMessages || isSending}
+        />
+        <button className="send-button" onClick={sendMessage} disabled={isLoadingMessages || isSending}>
+          {isSending ? (
+            <div className="loader-button"></div>
+          ) : (
+            t('send')
+          )}
+        </button>
+      </div>
+    </>
+  )}
+</div>
+
   );
 };
 

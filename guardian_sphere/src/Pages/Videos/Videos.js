@@ -37,50 +37,57 @@ const Videos = () => {
   ];
 
   return (
-    <div className="videos-container">
-      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
-      <h2>{t("videos_title")}</h2>
-      <p>{t("videos_description")}</p>
+<div className="videos-container">
+  {/* Afficher le bouton Home seulement si aucun sujet n'est actif */}
+  {!activeTopic && (
+    <button onClick={() => navigate("/home")} className="home-back-button">
+      {t("home")}
+    </button>
+  )}
 
-      {/* כפתור חזרה */}
-      {activeTopic && (
-        <button className="back-button" onClick={() => setActiveTopic(null)}>
-          {t("back_button")}
-        </button>
-      )}
+  {/* Afficher le bouton Back seulement si un sujet est actif */}
+  {activeTopic && (
+    <button className="home-back-button" onClick={() => setActiveTopic(null)}>
+      {t("back_button")}
+    </button>
+  )}
 
-      {/* Render topic images */}
-      {!activeTopic && (
-        <div className="topic-buttons">
-          {topics.map((topic) => (
-            <div key={topic.id} onClick={() => setActiveTopic(topic.id)}>
-              <img src={topic.image} alt={topic.title} className="topic-image" />
-              <div className="topic-title">{topic.title}</div>
-            </div>
-          ))}
+  <h2>{t("videos_title")}</h2>
+  <p>{t("videos_description")}</p>
+
+  {/* Afficher les boutons de sujets uniquement si aucun sujet n'est actif */}
+  {!activeTopic && (
+    <div className="topic-buttons">
+      {topics.map((topic) => (
+        <div key={topic.id} onClick={() => setActiveTopic(topic.id)}>
+          <img src={topic.image} alt={topic.title} className="topic-image" />
+          <div className="topic-title">{topic.title}</div>
         </div>
-      )}
-
-      {/* Render videos for the active topic */}
-      {activeTopic && (
-        <div className="videos-list">
-          <h3>{topics.find((topic) => topic.id === activeTopic).title}</h3>
-          <ul>
-            {topics.find((topic) => topic.id === activeTopic).videos.map((video, index) => (
-              <li key={index}>
-                <h4>{video.title}</h4>
-                <iframe
-                  src={video.url}
-                  title={video.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      ))}
     </div>
+  )}
+
+  {/* Afficher les vidéos du sujet actif */}
+  {activeTopic && (
+    <div className="videos-list">
+      <h3>{topics.find((topic) => topic.id === activeTopic).title}</h3>
+      <ul>
+        {topics.find((topic) => topic.id === activeTopic).videos.map((video, index) => (
+          <li key={index}>
+            <h4>{video.title}</h4>
+            <iframe
+              src={video.url}
+              title={video.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>
+
   );
 };
 

@@ -7,9 +7,99 @@
     min-height: 100vh;
     background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
     padding: 20px;
-    color: #333;
     font-family: "Arial", sans-serif;
-    box-sizing: border-box;
-    overflow: hidden;
     text-align: center;
+    position: relative;
+}
+
+/* Decorative Background Animation */
+.call-container::before,
+.call-container::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+}
+
+.call-container::before {
+    top: -10%;
+    left: -10%;
+    animation: floating 6s ease-in-out infinite;
+}
+
+.call-container::after {
+    bottom: -10%;
+    right: -10%;
+    animation: floating 8s ease-in-out infinite reverse;
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(20px);
+    }
+}
+
+/* Title and Subtitle */
+.call-title {
+    font-size: 2rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+.call-subtitle {
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+/* Phone Icon */
+.call-logo {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.call-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintient les proportions du PNG */
+    border: none;
+    background: transparent; /* Supprime tout fond ou contour */
+}
+
+.call-logo:hover {
+    transform: scale(1.1); /* Légèrement agrandi au survol */
+}
+
+.call-logo:active {
+    transform: scale(1.2); /* Grossissement lors du clic */
+}
+
+/* Visualizer Circle */
+.call-visualizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 30px;
+    width: 300px;
+    height: 300px;
+}
+
+.call-circle {
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    pointer-events: none; /* Non cliquable */
+    transition: transform 0.1s ease-in-out;
 }

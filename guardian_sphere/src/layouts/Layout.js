@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import SideMenu from "../components/SideMenu/SideMenu";
+import Contact from "../components/Contact/Contact";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -13,10 +14,15 @@ const Layout = ({ children }) => {
 
   return (
     <div className="app-container">
+      {/* Card flottante */}
+      {outPages && <Contact />}
+
+      {/* Navbar si ce n'est pas une page de connexion/inscription */}
       {outPages && <Navbar />}
+
       <div className="content-container">
-      {outPages && <SideMenu />}
-      <main>{children}</main> {/* Ajout des enfants ici */}
+        {outPages && <SideMenu />}
+        <main>{children}</main> {/* Contenu des enfants */}
       </div>
     </div>
   );

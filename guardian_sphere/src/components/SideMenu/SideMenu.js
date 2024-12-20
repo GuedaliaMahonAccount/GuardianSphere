@@ -21,11 +21,13 @@ function SideMenu() {
   const menuItems = [
     { label: t("home"), path: "/home", icon: "Pictures/home_icon.png", className: "home_icon_margin" },
     { label: t("chat"), path: "/chat", icon: "Pictures/chat_icon.png" , className: "icon"},
+    { label: t("call"), path: "/call", icon: "Pictures/call_icon.png" , className: "icon"},
     { label: t("groups"), path: "/groups", icon: "Pictures/groups_icon.png", className: "icon" },
     { label: t("follow_up"), path: "/follow-up", icon: "Pictures/follow_up_icon.png" , className: "icon"},
     { label: t("videos"), path: "/videos", icon: "Pictures/videos_icon.png" , className: "icon"},
     { label: t("doctors"), path: "/doctors", icon: "Pictures/doctors_icon.png" , className: "icon"},
     { label: t("assistance"), path: "/assistance", icon: "Pictures/assistance_icon.png" , className: "icon"},
+    { label: t("statistic"), path: "/statistic", icon: "Pictures/statistic_icon.png" , className: "icon"},
   ];  
 
   return (

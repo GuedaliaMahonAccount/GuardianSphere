@@ -1,4 +1,3 @@
-
 {
   "general_resilience_center": "General Resilience Center",
   "no_results_found": "No results found",
@@ -35,11 +34,6 @@
   "Samaria": "Samaria",
   "Judea": "Judea",
   "Golan": "Resilience Center in the Golan",
-  "association_a": "Association A",
-  "association_b": "Association B",
-  "association_c": "Association C",
-  "association_d": "Association D",
-  "association_e": "Association E",
   "*8703,*2708,03-747-2010": "*8703, *2708, 03-747-2010",
   "*3555,*3028": "*3555, *3028",
   "*507,1-700-507-507,02-6335209": "*507, 1-700-507-507, 02-6335209",
@@ -48,5 +42,15 @@
   "*5486": "*5486",
   "08-661-1140/50": "08-661-1140, 08-661-1150",
   "02-9969560,055-953-4177": "055-953-4177, 02-9969560",
-  "home": "Home"
+  "home": "Home",
+  "association_a": "Association A",
+  "association_b": "Association B",
+  "association_c": "Association C",
+  "association_d": "Association D",
+  "association_e": "Association E",
+  "association_a_description": "An association that helps in area A.",
+  "association_b_description": "An association that helps in area B.",
+  "association_c_description": "An association that helps in area C.",
+  "association_d_description": "An association that helps in area D.",
+  "association_e_description": "An association that helps in area E."
 }

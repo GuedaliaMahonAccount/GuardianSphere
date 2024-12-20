@@ -11,7 +11,7 @@ const Assistance = () => {
 
   const data = {
     hmoAssistance: [
-      { name: t("Clalit"), phone: t("*8703,*2708,03-747-2010")},
+      { name: t("Clalit"), phone: t("*8703,*2708,03-747-2010") },
       { name: t("Makabi"), phone: t("*3555,*3028") },
       { name: t("Leumit"), phone: t("*507,1-700-507-507,02-6335209") },
       { name: t("Meuhedet"), phone: t("*3833") },
@@ -22,9 +22,15 @@ const Assistance = () => {
       { name: t("Netivot,Merhavim,Bnei-Shimon"), phone: "055-306-3863" },
       { name: t("Ashkelon"), phone: t("*2452") },
       { name: t("Localities_of_Eshkol_Regional_Council"), phone: "08-996-5264" },
-      { name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"), phone: "08-677-5598" },
+      {
+        name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"),
+        phone: "08-677-5598",
+      },
       { name: t("Localities_of_Sdot_Negev_Regional_Council"), phone: "08-994-1091" },
-      { name: t("Settlements_of_Shaar_Hanegev_Regional_Council"), phone: "051-226-6275" },
+      {
+        name: t("Settlements_of_Shaar_Hanegev_Regional_Council"),
+        phone: "051-226-6275",
+      },
       { name: t("Bedouin_Society_Resilience_Center"), phone: "072-221-2788" },
       { name: t("Sderot"), phone: t("08-661-1140/50") },
       { name: t("Resilience_centers_in_the_northern_district-Hebrew"), phone: "04-690-0603" },
@@ -35,14 +41,14 @@ const Assistance = () => {
       { name: t("Binyamin"), phone: "02-584-8600" },
       { name: t("Samaria"), phone: "055-277-9285" },
       { name: t("Judea"), phone: t("02-9969560,055-953-4177") },
-      { name: t("Golan"), phone: "04-696-9759" },  
+      { name: t("Golan"), phone: "04-696-9759" },
     ],
     associations: [
-      { name: t("association_a"), phone: "123-123-1234" },
-      { name: t("association_b"), phone: "234-234-2345" },
-      { name: t("association_c"), phone: "345-345-3456" },
-      { name: t("association_d"), phone: "456-456-4567" },
-      { name: t("association_e"), phone: "567-567-5678" },  
+      { name: t("association_a"), phone: "123-123-1234", description: t("description_a") },
+      { name: t("association_b"), phone: "234-234-2345", description: t("description_b") },
+      { name: t("association_c"), phone: "345-345-3456", description: t("description_c") },
+      { name: t("association_d"), phone: "456-456-4567", description: t("description_d") },
+      { name: t("association_e"), phone: "567-567-5678", description: t("description_e") },
     ],
   };
 
@@ -56,7 +62,17 @@ const Assistance = () => {
   const renderView = () => {
     if (!currentView) return null;
 
-    const items = filterData(data[currentView]);
+    let items = filterData(data[currentView]);
+
+    // Separate general_resilience_center if present
+    let generalCenter = null;
+    if (currentView === "resilienceCenters") {
+      generalCenter = data.resilienceCenters.find(
+        (item) => item.name === t("general_resilience_center")
+      );
+      items = items.filter((item) => item.name !== t("general_resilience_center"));
+    }
+
     return (
       <div className="popup">
         <button
@@ -77,15 +93,24 @@ const Assistance = () => {
           className="search-bar"
         />
         <ul className="contact-list">
+          {/* Always render the general_resilience_center first */}
+          {generalCenter && (
+            <li>{`${generalCenter.name} 📞 ${generalCenter.phone}`}</li>
+          )}
+
+          {/* Render filtered results */}
           {items.length > 0 ? (
             items.map((item, index) => (
               <li key={index}>
                 📞 {item.phone} 📍 {item.name}{" "}
-                {item.hours && `(${item.hours})`}
+                {item.description && <div>{item.description}</div>}
               </li>
             ))
           ) : (
-            <li>{t("no_results_found")}</li>
+            // Show no results message below the general_resilience_center
+            <li className="no-results-message">
+              {t("no_results_found")}
+            </li>
           )}
         </ul>
       </div>

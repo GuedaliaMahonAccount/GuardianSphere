@@ -11,8 +11,8 @@
     "assistance": "Assistance",
     "footer": "You are not alone. Together we move forward.",
     "home": "Home",
-    "chatSupport": "Chat Support",
-    "chatDescription": "Get instant support through our chat system.",
+    "chatSupport": "Chat",
+    "chatDescription": "Get instant support through our AI chat system.",
     "groupsSupport": "Support Groups",
     "groupsDescription": "Join groups with shared experiences for support.",
     "followUpSupport": "Follow-Up Support",
@@ -22,5 +22,7 @@
     "doctorsSupport": "Doctors Support",
     "doctorsDescription": "Find expert medical professionals to assist you.",
     "assistanceSupport": "General Assistance",
-    "assistanceDescription": "Get help with various personal and emotional challenges."
+    "assistanceDescription": "Get help with various personal and emotional challenges.",
+    "callSupport": "Call",  
+    "callDescription": "Speak with an AI for immediate support."
 }

@@ -22,5 +22,7 @@
     "doctorsSupport": "תמיכת רופאים",
     "doctorsDescription": "מצא אנשי מקצוע רפואיים שיעזרו לך.",
     "assistanceSupport": "תמיכה כללית",
-    "assistanceDescription": "קבל עזרה באתגרים אישיים ורגשיים."
+    "assistanceDescription": "קבל עזרה באתגרים אישיים ורגשיים.",
+    "callSupport": "תמיכת שיחה",
+    "callDescription": "דבר עם מערכת AI לתמיכה מיידית."
 }

@@ -12,6 +12,9 @@
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
+    width: 100%; /* Étend le conteneur à la largeur de la page */
+    position: relative; /* Nécessaire pour les pseudo-éléments */
+    overflow: hidden; /* Pour éviter les débordements */
 }
 
 /* Header */
@@ -34,7 +37,6 @@
 
 /* Action Cards Section */
 .home-actions {
-    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
     width: 100%;

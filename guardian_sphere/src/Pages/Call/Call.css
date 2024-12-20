@@ -1,0 +1,81 @@
+.call-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+    padding: 40px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    width: 100%; /* Étend le conteneur à la largeur de la page */
+    position: relative; /* Nécessaire pour les pseudo-éléments */
+    overflow: hidden; /* Pour éviter les débordements */
+}
+
+.call-title {
+    font-size: 2rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+.call-subtitle {
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+.call-visualizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    width: 300px;
+    height: 300px;
+}
+
+.call-circle {
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.05s ease-in-out, opacity 0.05s ease-in-out;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.call-logo {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+.call-logo img {
+    width: 100%;
+    background: transparent;
+}
+
+.call-logo:hover {
+    transform: scale(1.1);
+}
+
+.call-logo:active {
+    transform: scale(1.2);
+}
+
+/* Action Rows */
+.action-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.action-row .action-card {
+    flex: 1;
+    max-width: 280px; /* Ensures cards don't stretch too wide */
+}

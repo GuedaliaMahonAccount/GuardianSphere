@@ -22,5 +22,6 @@
   "cancel_button": "Cancel",
   "confirm_delete": "Are you sure you want to delete this treatment?",
   "form_endDate": "End Date",
-  "no_end_date": "No end date specified."
+  "no_end_date": "No end date specified.",
+  "home": "Home"
 }

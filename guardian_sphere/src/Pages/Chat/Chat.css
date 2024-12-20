@@ -1,6 +1,6 @@
 /* Home Container */
 /* Main container that centers all content on the page and sets the background */
-.home-container {
+.chat-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,10 +11,13 @@
   position: relative;
   color: #fff;
   font-family: Arial, sans-serif;
+  width: 100%; /* Étend le conteneur à la largeur de la page */
+  position: relative; /* Nécessaire pour les pseudo-éléments */
+  overflow: hidden; /* Pour éviter les débordements */
 }
 
 /* Decorative Background */
-.home-container::before {
+.chat-container::before {
   content: "";
   position: absolute;
   top: -10%;
@@ -27,7 +30,7 @@
   animation: floating 6s ease-in-out infinite;
 }
 
-.home-container::after {
+.chat-container::after {
   content: "";
   position: absolute;
   bottom: -10%;

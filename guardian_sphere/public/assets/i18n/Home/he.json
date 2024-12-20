@@ -11,7 +11,7 @@
     "assistance": "תמיכה",
     "footer": "אתה לא לבד. יחד אנו מתקדמים.",
     "home": "בית",
-    "chatSupport": "תמיכת צ'אט",
+    "chatSupport": "צ'אט",
     "chatDescription": "קבל תמיכה מיידית דרך מערכת הצ'אט שלנו.",
     "groupsSupport": "קבוצות תמיכה",
     "groupsDescription": "הצטרף לקבוצות עם חוויות משותפות לתמיכה.",
@@ -19,8 +19,10 @@
     "followUpDescription": "המשך את המסע שלך עם מפגשי מעקב קבועים.",
     "resources": "משאבי וידאו",
     "resourcesDescription": "גש לסרטונים מעוררי השראה ותומכים.",
-    "doctorsSupport": "תמיכת רופאים",
+    "doctorsSupport": "רופאים",
     "doctorsDescription": "מצא אנשי מקצוע רפואיים שיעזרו לך.",
     "assistanceSupport": "תמיכה כללית",
-    "assistanceDescription": "קבל עזרה באתגרים אישיים ורגשיים."
+    "assistanceDescription": "קבל עזרה באתגרים אישיים ורגשיים.",
+    "callSupport": "שיחה",
+    "callDescription": "דבר עם מערכת AI לתמיכה מיידית."
 }

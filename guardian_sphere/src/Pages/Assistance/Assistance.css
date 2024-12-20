@@ -7,7 +7,11 @@
   background: linear-gradient(to bottom right, #f0f4f8, #87CEFA);
   min-height: 100vh;
   color: #2c3e50;
+  width: 100%; /* Étend le conteneur à la largeur de la page */
+  position: relative; /* Nécessaire pour les pseudo-éléments */
+  overflow: hidden; /* Pour éviter les débordements */
 }
+
 
 h1 {
   margin-bottom: 20px;
@@ -16,14 +20,14 @@ h1 {
 .buttons-layout {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
 .large-button {
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 25px 45px; /* Increased button size */
+  font-size: 1.6rem; /* Slightly increased font size */
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
@@ -40,16 +44,17 @@ h1 {
   transform: translate(-50%, -50%);
   background: #fff;
   color: #333;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 45px; /* Increased padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  width: 500px; /* Increased width */
 }
 
 .search-bar {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 12px; /* Increased padding */
+  margin: 15px 0; /* Adjusted margin */
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -57,20 +62,20 @@ h1 {
 .contact-list {
   list-style: none;
   padding: 0;
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
 .contact-list li {
-  margin: 10px 0;
-  padding: 5px 0;
+  margin: 15px 0;
+  padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
 .close-button {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 1.2rem; /* Increased font size */
   color: #007bff;
   cursor: pointer;
   float: right;
@@ -82,7 +87,7 @@ h1 {
 
 .home-back-button {
   margin-bottom: 20px;
-  padding: 10px 15px;
+  padding: 20px 25px; /* Increased size */
   background-color: #4682b4;
   color: #fff;
   border: none;
@@ -92,4 +97,10 @@ h1 {
 
 .home-back-button:hover {
   background-color: #5a9bd4;
+}
+
+.no-results-message {
+  color: #ff6347; /* Optional: red color for the no results message */
+  font-weight: bold;
+  margin-top: 10px;
 }

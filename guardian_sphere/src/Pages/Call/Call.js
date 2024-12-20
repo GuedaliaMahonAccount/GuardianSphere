@@ -16,7 +16,7 @@ const Call = () => {
     //const audioRef = useRef(null);
     const audioContextRef = useRef(null);
     const analyserRef = useRef(null);
-    const { t } = useTranslation();
+    const { t } = useTranslation("Call");
     const navigate = useNavigate();
 
     
@@ -136,8 +136,8 @@ const Call = () => {
     return (
         <div className="call-container">
         <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
-            <h1 className="call-title">Welcome to the Assistant</h1>
-            <p className="call-subtitle">Click the button below to start or stop the call.</p>
+            <h1 className="call-title">{t("assistantWelcome")}</h1>
+            <p className="call-subtitle">{t("assistantInstruction")}</p>
 
             <div className="call-visualizer">
                 <div
@@ -158,7 +158,7 @@ const Call = () => {
             
             {/* Debug info */}
             <div style={{ position: 'fixed', bottom: 10, left: 10, background: 'rgba(0,0,0,0.7)', padding: '10px', color: 'white', fontSize: '12px' }}>
-                Current Volume: {volume.toFixed(2)}
+            {t("current_volume")}: {volume.toFixed(2)}
             </div>
         </div>
     );

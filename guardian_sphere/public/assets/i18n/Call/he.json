@@ -3,6 +3,9 @@
     "assistantInstruction": "לחצו על הכפתור למטה כדי להתחיל לשוחח עם העוזר.",
     "startCall": "התחל שיחה",
     "stopCall": "סיים שיחה",
-    "defaultUser": "אורח"
+    "defaultUser": "אורח",
+    "current_volume": "עוצמת קול נוכחית",
+
+    "home": "בית"
   }
   

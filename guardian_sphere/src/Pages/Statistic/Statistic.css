@@ -11,4 +11,7 @@
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
+    width: 100%; /* Étend le conteneur à la largeur de la page */
+    position: relative; /* Nécessaire pour les pseudo-éléments */
+    overflow: hidden; /* Pour éviter les débordements */
 }

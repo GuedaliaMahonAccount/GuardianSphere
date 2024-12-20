@@ -8,6 +8,9 @@
     padding: 40px;
     color: #fff;
     font-family: Arial, sans-serif;
+    width: 100%; /* Étend le conteneur à la largeur de la page */
+    position: relative; /* Nécessaire pour les pseudo-éléments */
+    overflow: hidden; /* Pour éviter les débordements */
 }
 
 .call-title {

@@ -147,7 +147,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="home-container">
+    <div className="chat-container">
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <div className="chat-header">
       <h2>{t("hello_i_m_here_for_you")}</h2>

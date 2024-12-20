@@ -13,7 +13,7 @@
 .floating-card {
     position: fixed;
     bottom: 30px;
-    right: 30px;
+    inset-inline-end: 30px; 
     z-index: 1000;
     background: linear-gradient(135deg, #c3e2f5, #8fbfe7);
     color: #007bff;

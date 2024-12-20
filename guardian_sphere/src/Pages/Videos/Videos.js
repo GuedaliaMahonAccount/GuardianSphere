@@ -17,22 +17,25 @@ const Videos = () => {
 
     return (
         <div className="videos-container">
-            {/* כפתור חזרה לעמוד הבית */}
-            <button onClick={() => navigate("/home")} className="home-back-button">
-                {t("home")}
-            </button>
+            {/* Bouton Home, visible uniquement lorsque aucun sujet n'est actif */}
+            {activeTopic === null && (
+                <button onClick={() => navigate("/home")} className="home-back-button">
+                    {t("home")}
+                </button>
+            )}
 
+            {/* Titre et description de la section vidéos */}
             <h2>{t("videos_title")}</h2>
             <p>{t("videos_description")}</p>
 
-            {/* כפתור חזרה לנושאים */}
+            {/* Bouton Back, visible uniquement lorsqu'un sujet est actif */}
             {activeTopic !== null && (
                 <button className="back-button" onClick={() => setActiveTopic(null)}>
                     {t("back_button")}
                 </button>
             )}
 
-            {/* תצוגת נושאים */}
+            {/* Liste des sujets */}
             {activeTopic === null && (
                 <div className="topic-buttons">
                     {topics.map((topic, index) => (
@@ -54,7 +57,7 @@ const Videos = () => {
                 </div>
             )}
 
-            {/* תצוגת סרטונים */}
+            {/* Liste des vidéos pour le sujet actif */}
             {activeTopicData && (
                 <div className="videos-list">
                     <h3>{activeTopicData.topic_title}</h3>

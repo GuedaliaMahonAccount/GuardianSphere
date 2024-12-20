@@ -1,48 +1,45 @@
 .videos-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
-  padding: 40px;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  width: 100%; /* Étend le conteneur à la largeur de la page */
-  position: relative; /* Nécessaire pour les pseudo-éléments */
-  overflow: hidden; /* Pour éviter les débordements */
-}
-
-
-
-
-
-    /* Decorative Background */
-    .videos-container::before {
-        content: "";
-        position: absolute;
-        top: -10%;
-        left: -10%;
-        width: 1200px;
-        height: 1200px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 50%;
-        z-index: 0;
-        animation: floating 6s ease-in-out infinite;
-    }
-
-    .videos-container::after {
-        content: "";
-        position: absolute;
-        bottom: -10%;
-        right: -10%;
-        width: 1200px;
-        height: 1200px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 50%;
-        z-index: 0;
-        animation: floating 8s ease-in-out infinite reverse;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+    padding: 40px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    width: 100%; /* Étend le conteneur à la largeur de la page */
+    position: relative; /* Nécessaire pour les pseudo-éléments */
+    overflow: hidden; /* Pour éviter les débordements */
+  }
+  
+  /* Decorative Background */
+  .videos-container::before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    z-index: 0;
+    animation: floating 6s ease-in-out infinite;
+  }
+  
+  .videos-container::after {
+    content: "";
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    z-index: 0;
+    animation: floating 8s ease-in-out infinite reverse;
+  }
+  
 
 @keyframes floating {
     0%, 100% {
@@ -94,6 +91,7 @@
 
 .videos-list {
     margin-top: 20px;
+    width: 70%;
 }
 
     .videos-list ul {
@@ -106,7 +104,6 @@
         margin: 30px auto; /* מרכז את הקופסה */
         padding: 30px;
         width: 100%; /* ימלא את כל הרוחב של הקונטיינר */
-        max-width: 90%; /* הקופסה תמלא 90% מרוחב המסך */
         border-radius: 10px;
         text-align: center;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* צל להדגשה */

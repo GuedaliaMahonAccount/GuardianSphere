@@ -58,8 +58,19 @@ const Signup = () => {
       alert(t('fixErrorsBeforeSubmitting'));
       return;
     }
+
+    const payload = {
+      ...formData,
+      contacted: 0,
+      points: 0,
+      organization: '',
+      secter: '',
+      signaledcount: 0,
+      banned: false,
+    };
+
     try {
-      await axios.post(`${BASE_URL}/api/user/signup`, formData);
+      await axios.post(`${BASE_URL}/api/user/signup`, payload);
 
       const loginResponse = await axios.post(`${BASE_URL}/api/user/login`, {
         email: formData.email,

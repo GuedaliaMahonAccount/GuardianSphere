@@ -5,6 +5,7 @@
   "topics": [
     {
       "topic_title": "Stress",
+      "image": "./images/stress.jpg",
       "videos": [
         {
           "video_title": "Coping with Stress",
@@ -34,6 +35,7 @@
     },
     {
       "topic_title": "Fear",
+      "image": "./images/fear.jpg",
       "videos": [
         {
           "video_title": "#1 Best SIMPLE Technique to Overcome Fear & Anxiety Quickly",
@@ -52,18 +54,19 @@
           "video_url": "https://www.youtube.com/embed/aCPc-hsj2sA"
         },
         {
-          "video_title": "Overcoming Fear and Anxiety",
-          "video_url": "https://www.youtube.com/embed/xNtt5Zqja-c"
+          "video_title": "How To Overcome Fear",
+          "video_url": "https://www.youtube.com/embed/Dg5SZsUd1P0"
+        },
+        {
+          "video_title": "Incredible animation on battling and overcoming anxiety",
+          "video_url": "https://www.youtube.com/embed/w_2STJAJhJM"
         }
       ]
     },
     {
       "topic_title": "Anger",
+      "image": "./images/anger.jpg",
       "videos": [
-        {
-          "video_title": "Dealing With Anger, Resistance And Pessimism",
-          "video_url": "https://www.youtube.com/embed/aqX5IFKYFWk"
-        },
         {
           "video_title": "Dr. Gabor Maté on How to Process Anger and Rage | The Tim Ferriss Show",
           "video_url": "https://www.youtube.com/embed/Yh1-y3TzSO4"
@@ -84,6 +87,7 @@
     },
     {
       "topic_title": "Trauma",
+      "image": "./images/trauma.jpg",
       "videos": [
         {
           "video_title": "Dealing With Childhood Trauma & Emotional Neglect",
@@ -109,6 +113,7 @@
     },
     {
       "topic_title": "Depression",
+      "image": "./images/depression.jpg",
       "videos": [
         {
           "video_title": "Coping With Depression",

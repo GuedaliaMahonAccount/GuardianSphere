@@ -4,11 +4,14 @@
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
+    padding: 50px; /* רווח מסביב */
     background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
-    padding: 40px;
-    color: #fff;
     font-family: Arial, sans-serif;
+    box-sizing: border-box; /* מבטיח שהתוכן יתאים */
 }
+
+
+
 
 
     /* Decorative Background */
@@ -17,8 +20,8 @@
         position: absolute;
         top: -10%;
         left: -10%;
-        width: 400px;
-        height: 400px;
+        width: 1200px;
+        height: 1200px;
         background: rgba(255, 255, 255, 0.15);
         border-radius: 50%;
         z-index: 0;
@@ -30,8 +33,8 @@
         position: absolute;
         bottom: -10%;
         right: -10%;
-        width: 300px;
-        height: 300px;
+        width: 1200px;
+        height: 1200px;
         background: rgba(255, 255, 255, 0.15);
         border-radius: 50%;
         z-index: 0;
@@ -97,25 +100,33 @@
 
     .videos-list li {
         background-color: #f1f1f1;
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 5px;
+        margin: 30px auto; /* מרכז את הקופסה */
+        padding: 30px;
+        width: 100%; /* ימלא את כל הרוחב של הקונטיינר */
+        max-width: 90%; /* הקופסה תמלא 90% מרוחב המסך */
+        border-radius: 10px;
         text-align: center;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* צל להדגשה */
     }
 
+
+
+
     .videos-list iframe {
-        width: 90%;
-        max-width: 800px;
-        height: auto;
+        width: 100%; /* הסרטון ימלא את כל הרוחב של הקופסה */
+        max-width: 1200px; /* הגבלה לגודל מסך רחב */
+        height: 70vh; /* גובה הסרטון כ-70% מגובה המסך */
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         margin: 20px auto; /* מרכז את הסרטון */
         display: block;
     }
 
+
+
 .back-button {
     align-self: flex-start; /* ימוקם בצד ההתחלתי של השפה */
-    margin-top: 20px;
+    margin-top: 40px;
     padding: 10px 20px;
     background-color: #4682B4;
     color: #fff;

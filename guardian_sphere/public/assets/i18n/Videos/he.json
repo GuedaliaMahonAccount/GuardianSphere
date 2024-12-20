@@ -5,6 +5,7 @@
   "topics": [
     {
       "topic_title": "לחץ",
+      "image": "./images/stress.jpg",
       "videos": [
         {
           "video_title": "מה קורה בלחץ?",
@@ -42,6 +43,7 @@
     },
     {
       "topic_title": "פחד",
+      "image": "./images/fear.jpg",
       "videos": [
         {
           "video_title": "התמודדות עם פחד, לחץ או חרדה",
@@ -67,9 +69,10 @@
     },
     {
       "topic_title": "כעס",
+      "image": "./images/anger.jpg",
       "videos": [
         {
-          "video_title": "שליטה בכעסים - כלים להתמודדות - עזרה ראשונה נפשית | מכבי שירותי בריאות",
+          "video_title": "שליטה בכעסים - כלים להתמודדות",
           "video_url": "https://www.youtube.com/embed/03XbYwg_Knk"
         },
         {
@@ -92,13 +95,14 @@
     },
     {
       "topic_title": "טראומה",
+      "image": "./images/trauma.jpg",
       "videos": [
         {
-          "video_title": "התמודדות עם טראומה, צמיחה מתוך משבר, חרדה או פוסט טראומה עקב מלחמה, טרור - טיפול טבעי וריפוי עצמי",
+          "video_title": "התמודדות עם טראומה, צמיחה מתוך משבר",
           "video_url": "https://www.youtube.com/embed/Eqdg6MzcmkA"
         },
         {
-          "video_title": "התמודדות עם פוסט טראומה והצפה מתי ללכת לטיפול - ד\"ר אילן טל מסביר",
+          "video_title": "התמודדות עם פוסט טראומה והצפה מתי ללכת לטיפול",
           "video_url": "https://www.youtube.com/embed/9Ph8F5t7s60"
         },
         {
@@ -110,20 +114,21 @@
           "video_url": "https://www.youtube.com/embed/bRJE38VHAD0"
         },
         {
-          "video_title": "התמודדות עם פוסט טראומה דרך הים: \"הגוף שלי יצא מעזה, הנפש שלי עדיין במלחמה שם\"",
+          "video_title": "התמודדות עם פוסט טראומה",
           "video_url": "https://www.youtube.com/embed/SMbA-VHwS4s"
         },
         {
-          "video_title": "לחיות עם פוסט טראומה - סאם גודריץ\\'I קול העם",
+          "video_title": "לחיות עם פוסט טראומה",
           "video_url": "https://www.youtube.com/embed/Qk8qAMogvKM"
         }
       ]
     },
     {
       "topic_title": "דיכאון",
+      "image": "./images/depression.jpg",
       "videos": [
         {
-          "video_title": "(איך להתגבר על דיכאון) התמודדות עם דיכאון וירידה במצב רוח, דיכאון טיפול ללא תרופות",
+          "video_title": "התמודדות עם דיכאון וירידה במצב רוח",
           "video_url": "https://www.youtube.com/embed/5vcVIFh54Ik"
         },
         {
@@ -139,11 +144,11 @@
           "video_url": "https://www.youtube.com/embed/5rapXr-K__s"
         },
         {
-          "video_title": "התמודדות ויציאה מדיכאון ממושך - מר צביקה לינדר",
+          "video_title": "התמודדות ויציאה מדיכאון ממושך",
           "video_url": "https://www.youtube.com/embed/hlxW7fYpA5c"
         },
         {
-          "video_title": "ד\"ר עידו לוריא - גורמי הסיכון לדיכאון והדרכים לזהות ולהתמודד איתו",
+          "video_title": "גורמי הסיכון לדיכאון והדרכים לזהות ולהתמודד איתו",
           "video_url": "https://www.youtube.com/embed/JUXygTYnUyg"
         }
       ]

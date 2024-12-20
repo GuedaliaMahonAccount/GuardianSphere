@@ -67,7 +67,6 @@ const Videos = () => {
                                     title={video.video_title}
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
-                                    frameBorder="0"
                                 ></iframe>
                             </li>
                         ))}

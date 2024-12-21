@@ -81,6 +81,7 @@ const Signup = () => {
       localStorage.setItem('token', loginResponse.data.token);
       localStorage.setItem('userId', loginResponse.data.user._id);
       localStorage.setItem('username', loginResponse.data.user.realName);
+      localStorage.setItem('role', loginResponse.data.user.role); // 'user' ou 'admin'
 
       navigate('/home');
     } catch (error) {

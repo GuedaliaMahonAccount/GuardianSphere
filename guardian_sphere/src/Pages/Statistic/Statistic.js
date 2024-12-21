@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { fetchAllUsers } from "./StatisticReq"; // Assurez-vous que le chemin est correct
 import "./Statistic.css";
 import Loading from "../../components/Loading/Loading"; // Assurez-vous que le chemin est correct
+import { useNavigate } from "react-router-dom";
 
 // Enregistrement des composants nécessaires pour Chart.js
 ChartJS.register(
@@ -27,6 +28,7 @@ ChartJS.register(
 );
 
 const Statistic = () => {
+  const  navigate = useNavigate(); // Hook de navigation
   const { t } = useTranslation("Statistic", { fallbackLng: "en" }); // Gestion des traductions
   const [data, setData] = useState({ totalUsers: 0, contactedUsers: 0 }); // État pour les données
   const [isLoading, setIsLoading] = useState(true); // Indicateur de chargement
@@ -90,6 +92,7 @@ const Statistic = () => {
 
   return (
     <div className="statistic-container">
+      <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <h1>{t("statistic_title")}</h1>
       <p>{t("statistic_description")}</p>
 

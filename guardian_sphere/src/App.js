@@ -19,10 +19,24 @@ import Call from './Pages/Call/Call.js';
 import Statistic from './Pages/Statistic/Statistic.js';
 
 // Define the ProtectedRoute component
-function ProtectedRoute({ element, redirectTo = '/login' }) {
-  const isAuthenticated = !!localStorage.getItem('token'); // Checks if token is present
-  return isAuthenticated ? element : <Navigate to={redirectTo} />;
+function ProtectedRoute({ element, redirectTo = '/login', roleRequired }) {
+  const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('role'); // Assurez-vous de stocker le rôle dans localStorage après connexion
+
+  const isAuthenticated = !!token; // Vérifie si un token est présent
+  const hasRequiredRole = roleRequired ? userRole === roleRequired : true;
+
+  if (!isAuthenticated) {
+    return <Navigate to={redirectTo} />;
+  }
+
+  if (!hasRequiredRole) {
+    return <Navigate to="/home" />; // Redirige les utilisateurs sans rôle requis
+  }
+
+  return element;
 }
+
 
 function App() {
 
@@ -89,7 +103,7 @@ function App() {
                 />
                 <Route
                   path="/statistic"
-                  element={<ProtectedRoute element={<Statistic />} />}
+                  element={<ProtectedRoute element={<Statistic />} roleRequired="admin" />}
                 />
               </Routes>
             </Layout>

@@ -34,8 +34,13 @@ const Login = () => {
 
       navigate('/home');
     } catch (error) {
-      console.error(t('loginFailed'), error);
-      alert(t('invalidCredentials'));
+      if (error.response && error.response.status === 404) {
+        // User does not exist
+        alert(t('userNotFoundPleaseSignUp'));
+      } else {
+        console.error(t('loginFailed'), error);
+        alert(t('invalidCredentials'));
+      }
     }
   };
 

@@ -67,5 +67,7 @@
   "emailTaken": "כתובת האימייל תפוסה",
   "usernameTaken": "שם המשתמש תפוס",
   "fixErrorsBeforeSubmitting": "תקן שגיאות לפני השליחה",
-  "checkFailed": "בדיקה נכשלה"
+  "checkFailed": "בדיקה נכשלה",
+
+  "userNotFoundPleaseSignUp": "משתמש לא נמצא. נא להירשם"
 }

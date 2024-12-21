@@ -71,5 +71,7 @@
   "emailTaken": "This email is already taken.",
   "usernameTaken": "This username is already taken.",
   "fixErrorsBeforeSubmitting": "Please fix the errors before submitting.",
-  "checkFailed": "Failed to check availability."
+  "checkFailed": "Failed to check availability.",
+
+  "userNotFoundPleaseSignUp": "User not found. Please sign up."
 }

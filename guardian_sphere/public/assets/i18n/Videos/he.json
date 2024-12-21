@@ -5,7 +5,7 @@
   "topics": [
     {
       "topic_title": "לחץ",
-      "image": "./images/stress.jpg",
+      "image": "Pictures/stress.jpeg",
       "videos": [
         {
           "video_title": "מה קורה בלחץ?",
@@ -43,7 +43,7 @@
     },
     {
       "topic_title": "פחד",
-      "image": "./images/fear.jpg",
+      "image": "Pictures/fear.jpeg",
       "videos": [
         {
           "video_title": "התמודדות עם פחד, לחץ או חרדה",
@@ -69,7 +69,7 @@
     },
     {
       "topic_title": "כעס",
-      "image": "./images/anger.jpg",
+      "image": "Pictures/angry.jpeg",
       "videos": [
         {
           "video_title": "שליטה בכעסים - כלים להתמודדות",
@@ -95,7 +95,7 @@
     },
     {
       "topic_title": "טראומה",
-      "image": "./images/trauma.jpg",
+      "image": "Pictures/trauma.jpeg",
       "videos": [
         {
           "video_title": "התמודדות עם טראומה, צמיחה מתוך משבר",
@@ -125,7 +125,7 @@
     },
     {
       "topic_title": "דיכאון",
-      "image": "./images/depression.jpg",
+      "image": "Pictures/depressed.jpeg",
       "videos": [
         {
           "video_title": "התמודדות עם דיכאון וירידה במצב רוח",

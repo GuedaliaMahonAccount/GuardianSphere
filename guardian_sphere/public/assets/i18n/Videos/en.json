@@ -5,7 +5,7 @@
   "topics": [
     {
       "topic_title": "Stress",
-      "image": "./images/stress.jpg",
+      "image": "Pictures/stress.jpeg",
       "videos": [
         {
           "video_title": "Coping with Stress",
@@ -35,7 +35,7 @@
     },
     {
       "topic_title": "Fear",
-      "image": "./images/fear.jpg",
+      "image": "Pictures/fear.jpeg",
       "videos": [
         {
           "video_title": "#1 Best SIMPLE Technique to Overcome Fear & Anxiety Quickly",
@@ -65,7 +65,7 @@
     },
     {
       "topic_title": "Anger",
-      "image": "./images/anger.jpg",
+      "image": "Pictures/angry.jpeg",
       "videos": [
         {
           "video_title": "Dr. Gabor Maté on How to Process Anger and Rage | The Tim Ferriss Show",
@@ -87,7 +87,7 @@
     },
     {
       "topic_title": "Trauma",
-      "image": "./images/trauma.jpg",
+      "image": "Pictures/trauma.jpeg",
       "videos": [
         {
           "video_title": "Dealing With Childhood Trauma & Emotional Neglect",
@@ -113,7 +113,7 @@
     },
     {
       "topic_title": "Depression",
-      "image": "./images/depression.jpg",
+      "image": "Pictures/depressed.jpeg",
       "videos": [
         {
           "video_title": "Coping With Depression",

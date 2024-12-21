@@ -104,3 +104,28 @@ exports.checkAvailability = async (req, res) => {
     res.status(500).json({ message: 'Failed to check availability', error });
   }
 };
+
+// Increment 'contacted' field
+exports.incrementContacted = async (req, res) => {
+  const userId = req.userId; // Extract userId from authMiddleware
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $inc: { contacted: 1 } }, // Increment 'contacted' by 1
+      { new: true } // Return the updated user
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      message: 'Contacted field incremented successfully.',
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error('Error incrementing contacted field:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

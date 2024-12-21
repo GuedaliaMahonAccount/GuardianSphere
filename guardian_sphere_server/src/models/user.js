@@ -7,9 +7,11 @@ const userSchema = new mongoose.Schema({
   anonymousName: { type: String, default: '' },
   photo: { type: String, default: '/Pictures/default-avatar.png' },
   password: { type: String, required: true }, // Use bcrypt to hash passwords,
+  contacted: { type: Number, default: 0 },
   points: { type: Number, default: 0 },
   organization: { type: String, default: '' },
   secter: { type: String, default: '' },  
+  signaledcount: { type: Number, default: 0 },
   banned: { type: Boolean, default: false },
 }, { timestamps: true });
 

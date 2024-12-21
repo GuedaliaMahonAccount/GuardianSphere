@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { incrementContacted } from "./contactReq";
 import './Contact.css';
 
 const Contact = () => {
@@ -10,7 +11,14 @@ const Contact = () => {
 
 
 
-    const handleNavigate = () => {
+    const handleContact = async () => {
+        try {
+            // Increment 'contacted' field in the backend
+            await incrementContacted();
+            console.log('Contacted incremented');
+        } catch (error) {
+            console.error('Failed to increment contacted field:', error);
+        }
         navigate("/doctors"); // Navigate to the doctors route
     };
 
@@ -31,7 +39,7 @@ const Contact = () => {
         <div className="contact-container">
             <div 
                 className={`floating-card ${isBouncing ? "bouncing" : ""}`} 
-                onClick={handleNavigate}
+                onClick={handleContact}
             >
                 {t("contact_professional")}
             </div>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Assistance.css";
 
 const Assistance = () => {
-  const { t } = useTranslation("Assistance");
+  const { t , i18n} = useTranslation("Assistance");
   const navigate = useNavigate();
   const [currentView, setCurrentView] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,15 +22,9 @@ const Assistance = () => {
       { name: t("Netivot,Merhavim,Bnei-Shimon"), phone: "055-306-3863" },
       { name: t("Ashkelon"), phone: t("*2452") },
       { name: t("Localities_of_Eshkol_Regional_Council"), phone: "08-996-5264" },
-      {
-        name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"),
-        phone: "08-677-5598",
-      },
+      { name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"), phone: "08-677-5598",},
       { name: t("Localities_of_Sdot_Negev_Regional_Council"), phone: "08-994-1091" },
-      {
-        name: t("Settlements_of_Shaar_Hanegev_Regional_Council"),
-        phone: "051-226-6275",
-      },
+      { name: t("Settlements_of_Shaar_Hanegev_Regional_Council"), phone: "051-226-6275",},
       { name: t("Bedouin_Society_Resilience_Center"), phone: "072-221-2788" },
       { name: t("Sderot"), phone: t("08-661-1140/50") },
       { name: t("Resilience_centers_in_the_northern_district-Hebrew"), phone: "04-690-0603" },
@@ -76,87 +70,68 @@ const Assistance = () => {
         (item.phone || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-  const renderView = () => {
-    if (!currentView) return null;
-
-    let items = filterData(data[currentView]);
-
-    // Separate general_resilience_center if present
-    let generalCenter = null;
-    if (currentView === "resilienceCenters") {
-      generalCenter = data.resilienceCenters.find(
-        (item) => item.name === t("general_resilience_center")
-      );
-      items = items.filter((item) => item.name !== t("general_resilience_center"));
-    }
-
-    return (
-      <div className="popup">
+  return (
+    <div className="assistance-container">
+      {!currentView && (
+        <button onClick={() => navigate("/home")} className="home-back-button">
+          {t("home")}
+        </button>
+      )}
+      {currentView && (
         <button
-          className="close-button"
+          className={`home-back-button ${i18n.language === "he" ? "rtl" : "ltr"}`}
           onClick={() => {
             setCurrentView(null);
             setSearchQuery("");
           }}
         >
-          {t("close")}
+          {t("back")}
         </button>
-        <h2>{t(currentView)}</h2>
-        <input
-          type="text"
-          placeholder={t("search_placeholder")}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-bar"
-        />
-        <ul className="contact-list">
-          {/* Always render the general_resilience_center first */}
-          {generalCenter && (
-            <li>{`${generalCenter.name} 📞 ${generalCenter.phone}`}</li>
-          )}
-
-          {/* Render filtered results */}
-          {items.length > 0 ? (
-            items.map((item, index) => (
+      )}
+      {!currentView ? (
+        <>
+          <h1>{t("assistance_title")}</h1>
+          <div className="cards-container">
+            {["hmoAssistance", "resilienceCenters", "associations"].map((view) => (
+              <div
+                key={view}
+                className="info-card"
+                onClick={() => {
+                  setCurrentView(view);
+                  setSearchQuery("");
+                }}
+              >
+                <h3>{t(view)}</h3>
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="details-container">
+          <h2>{t(currentView)}</h2>
+          <input
+            type="text"
+            placeholder={t("search_placeholder")}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-bar"
+          />
+          <ul className="contact-list">
+            {filterData(data[currentView] || []).map((item, index) => (
               <li key={index}>
-                📞 {item.phone} 📍 {item.name}{" "}
-                {item.description && <div>{item.description}</div>}
+                <strong>{item.name}</strong>: 📞 {item.phone}
+                {item.description && <p>{item.description}</p>}
               </li>
-            ))
-          ) : (
-            // Show no results message below the general_resilience_center
-            <li className="no-results-message">
-              {t("no_results_found")}
-            </li>
-          )}
-        </ul>
-      </div>
-    );
-  };
-
-  return (
-    <div className="assistance-container">
-      <button onClick={() => navigate("/home")} className="home-back-button">
-        {t("home")}
-      </button>
-      <h1>{t("assistance_title")}</h1>
-      <div className="buttons-layout">
-        {["hmoAssistance", "resilienceCenters", "associations"].map((view) => (
-          <button
-            key={view}
-            className="large-button"
-            onClick={() => {
-              setCurrentView(view);
-              setSearchQuery("");
-            }}
-          >
-            {t(view)}
-          </button>
-        ))}
-      </div>
-      {renderView()}
+            ))}
+            {filterData(data[currentView] || []).length === 0 && (
+              <li className="no-results-message">{t("no_results_found")}</li>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
+
 };
 
 export default Assistance;

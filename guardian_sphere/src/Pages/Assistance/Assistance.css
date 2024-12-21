@@ -2,105 +2,106 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom right, #f0f4f8, #87CEFA);
+  justify-content: flex-start;
   min-height: 100vh;
-  color: #2c3e50;
+  background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+  padding: 40px;
+  color: #241818;
+  font-family: Arial, sans-serif;
   width: 100%; /* Étend le conteneur à la largeur de la page */
   position: relative; /* Nécessaire pour les pseudo-éléments */
   overflow: hidden; /* Pour éviter les débordements */
 }
 
 
+/* Decorative Background */
+.assistance-container::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floating 6s ease-in-out infinite;
+}
+
+.assistance-container::after {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floating 8s ease-in-out infinite reverse;
+}
+
 h1 {
   margin-bottom: 20px;
 }
 
-.buttons-layout {
+.cards-container {
+  margin-top: 5%;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
-.large-button {
-  padding: 25px 45px; /* Increased button size */
-  font-size: 1.6rem; /* Slightly increased font size */
-  border: none;
-  border-radius: 8px;
-  background-color: #007bff;
-  color: #fff;
+.info-card {
+  padding: 40px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #87CEFA, #4682B4);
+  color: white;
   cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  width: 60%;
+  height: 20%;
 }
 
-.large-button:hover {
-  background-color: #0056b3;
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3);
 }
 
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  color: #333;
-  border-radius: 10px;
-  padding: 45px; /* Increased padding */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  width: 500px; /* Increased width */
+.details-container {
+  width: 100%;
+  max-width: 600px;
+  text-align: left;
 }
+
 
 .search-bar {
-  width: 100%;
-  padding: 12px; /* Increased padding */
-  margin: 15px 0; /* Adjusted margin */
+  width: 96%;
+  padding: 10px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  
 }
 
 .contact-list {
   list-style: none;
   padding: 0;
-  max-height: 300px;
-  overflow-y: auto;
 }
 
 .contact-list li {
-  margin: 15px 0;
+  margin: 10px 0;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 1.2rem; /* Increased font size */
-  color: #007bff;
-  cursor: pointer;
-  float: right;
-}
-
-.close-button:hover {
-  color: #0056b3;
-}
-
-.home-back-button {
-  margin-bottom: 20px;
-  padding: 20px 25px; /* Increased size */
-  background-color: #4682b4;
-  color: #fff;
-  border: none;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  cursor: pointer;
-}
-
-.home-back-button:hover {
-  background-color: #5a9bd4;
+  background: #f9f9f9;
 }
 
 .no-results-message {
-  color: #ff6347; /* Optional: red color for the no results message */
+  color: red;
   font-weight: bold;
-  margin-top: 10px;
 }
+

@@ -1,4 +1,12 @@
 {
-    "statistic_title": "Statistic",
-    "statistic_description": "This page shows the statistic of the system"
-}
+    "statistic_title": "User Statistics",
+    "statistic_description": "Here you can see the overall statistics of registered users.",
+    "total_users": "Total Users",
+    "contacted_users": "Contacted Users",
+    "non_contacted_users": "Non-Contacted Users",
+    "user_statistics": "User Statistics",
+    "bar_chart_title": "Users Overview",
+    "pie_chart_title": "Contacted vs Non-Contacted",
+    "doughnut_chart_title": "User Distribution"
+  }
+  

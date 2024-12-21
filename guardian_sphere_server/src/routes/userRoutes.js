@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted} = require('../controllers/usercontroller');
+const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted, getAllUsers} = require('../controllers/usercontroller');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // To protect routes if necessary
 
 const router = express.Router();
@@ -21,5 +21,8 @@ router.put('/profile', authMiddleware, updateUserProfile);
 
 // Route to increment 'contacted' field
 router.put('/increment-contacted', authMiddleware, incrementContacted);
+
+// Route to fetch all users
+router.get('/all-users', getAllUsers);
 
 module.exports = router;

@@ -34,11 +34,16 @@ const Statistic = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        setIsLoading(true); // Début du chargement
+      setIsLoading(true); // Début du chargement
       try {
-        const users = await fetchAllUsers(); // Récupérer les utilisateurs
-        const totalUsers = users.length; // Nombre total d'utilisateurs
-        const contactedUsers = users.filter(user => user.contacted !== 0).length; // Nombre d'utilisateurs contactés
+        const users = await fetchAllUsers(); // Récupérer tous les utilisateurs
+        
+        // Filtrer uniquement les utilisateurs avec le rôle 'user'
+        const filteredUsers = users.filter(user => user.role === 'user');
+        
+        const totalUsers = filteredUsers.length; // Nombre total d'utilisateurs
+        const contactedUsers = filteredUsers.filter(user => user.contacted !== 0).length; // Nombre d'utilisateurs contactés
+  
         setData({ totalUsers, contactedUsers }); // Mettre à jour les statistiques
       } catch (err) {
         console.error("Error fetching statistics:", err.message);
@@ -47,9 +52,10 @@ const Statistic = () => {
         setIsLoading(false); // Fin du chargement
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   if (isLoading) {
     return <Loading />; // מציג את רכיב הטעינה

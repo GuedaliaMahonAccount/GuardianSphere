@@ -67,6 +67,7 @@ const Signup = () => {
       secter: '',
       signaledcount: 0,
       banned: false,
+      role: 'user',
     };
 
     try {

@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   secter: { type: String, default: '' },  
   signaledcount: { type: Number, default: 0 },
   banned: { type: Boolean, default: false },
+  role: { type: String, default: 'user' }, // user, admin
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

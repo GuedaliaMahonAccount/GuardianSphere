@@ -3,6 +3,9 @@
     "assistantInstruction": "Click the button below to start talking with the assistant.",
     "startCall": "Start Call",
     "stopCall": "Stop Call",
-    "defaultUser": "Guest"
+    "defaultUser": "Guest",
+    "current_volume": "Current Volume",
+
+    "home": "Home"
   }
   

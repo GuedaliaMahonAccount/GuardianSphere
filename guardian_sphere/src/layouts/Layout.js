@@ -9,8 +9,9 @@ const Layout = ({ children }) => {
 
   const isLoginPage = location.pathname.toLowerCase() === "/login";
   const isSignUpPage = location.pathname.toLowerCase() === "/signup";
+  const isSignUpAdminPage = location.pathname.toLowerCase() === "/signup-admin";
   const isTerms = location.pathname.toLowerCase() === "/terms";
-  const outPages = !isLoginPage && !isSignUpPage && !isTerms;
+  const outPages = !isLoginPage && !isSignUpPage && !isTerms && !isSignUpAdminPage;
 
   const isDoctorPage = location.pathname.toLowerCase() === "/doctors";
   const isContact = !isDoctorPage;

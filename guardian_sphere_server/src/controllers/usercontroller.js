@@ -4,26 +4,46 @@ const User = require('../models/user');
 
 // Signup
 exports.signup = async (req, res) => {
-    const { realName, email, password, anonymousName, photo } = req.body;
-  
-    try {
-      console.log('Signup request received:', req.body); // Debug
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new User({
-        realName,
-        email,
-        password: hashedPassword,
-        anonymousName: anonymousName || 'Anonymous',
-        photo: photo || '/Pictures/default-avatar.png',
-      });
-      const savedUser = await user.save();
-      console.log('User saved:', savedUser); // Debug
-      res.status(201).json({ message: 'User registered successfully', userId: savedUser._id });
-    } catch (error) {
-      console.error('Error during signup:', error); // Debug
-      res.status(500).json({ message: 'Signup failed', error });
-    }
-  };
+  const {
+    realName,
+    email,
+    password,
+    anonymousName,
+    photo,
+    organization,
+    secter,
+    role,
+  } = req.body;
+
+  try {
+    console.log('Signup request received:', req.body); // Debug
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Include all fields in the User creation
+    const user = new User({
+      realName,
+      email,
+      password: hashedPassword,
+      anonymousName: anonymousName || 'Anonymous',
+      photo: photo || '/Pictures/default-avatar.png',
+      organization: organization || '',
+      secter: secter || '',
+      contacted: 0,
+      points: 0,
+      signaledcount: 0,
+      banned: false,
+      role: role || 'user', // Default to 'user' if role is not provided
+    });
+
+    const savedUser = await user.save();
+    console.log('User saved:', savedUser); // Debug
+    res.status(201).json({ message: 'User registered successfully', userId: savedUser._id });
+  } catch (error) {
+    console.error('Error during signup:', error); // Debug
+    res.status(500).json({ message: 'Signup failed', error });
+  }
+};
+
   
 // Login
 exports.login = async (req, res) => {

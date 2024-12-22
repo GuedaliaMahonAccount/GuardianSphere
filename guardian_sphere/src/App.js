@@ -7,6 +7,7 @@ import Layout from "./layouts/Layout.js";
 import Loader from "./components/Loader/Loader.js"; // probably this is where you 
 import Login from './Pages/Login/Login';
 import Signup from './Pages/SignUp/SignUp.js'; // Import Signup component
+import SignupAdmin from './Pages/SignUpAdmin/SignUpAdmin.js';
 import Home from './Pages/Home/Home';
 import Groups from './Pages/Groups/Groups';
 import FollowUp from './Pages/FollowUp/FollowUp';
@@ -67,6 +68,7 @@ function App() {
                 {/* Public Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/signup-admin" element={<SignupAdmin />} />
 
                 {/* Protected Routes */}
                 <Route

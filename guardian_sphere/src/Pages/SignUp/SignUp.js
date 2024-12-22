@@ -16,7 +16,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({ email: '', anonymousName: '' });
 
   const navigate = useNavigate();
-  const { t } = useTranslation("Home");
+  const { t } = useTranslation("App");
 
   const handleChange = async (e) => {
     const { name, value } = e.target;

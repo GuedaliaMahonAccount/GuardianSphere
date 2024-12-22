@@ -44,3 +44,48 @@
     pointer-events: none;
   }
   
+
+  .generated-code-section {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.generated-code-section h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.generated-code-section .generated-code {
+    font-size: 1.2rem;
+    color: #4682B4;
+    background: #f0f4f8;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    word-break: break-word;
+}
+
+.generated-code-section p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.go-home-button {
+    background: #4682B4;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.go-home-button:hover {
+    background: #87CEFA;
+}

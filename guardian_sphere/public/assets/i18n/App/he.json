@@ -98,6 +98,12 @@
   "mentalHealthAdvocacy": "קידום בריאות הנפש",
   "journalism": "עיתונאות",
   "animalRescue": "הצלת בעלי חיים",
-  "other": "אחר"
+  "other": "אחר",
+
+  "copyCodeInstruction": "אנא העתיקו ושמרו את הקוד הזה. הוא יידרש למשתמשים אחרים להצטרפות לארגון שלכם.",
+  "goToHome": "חזרה לדף הלוגין",
+  "yourGeneratedCode": "הקוד שנוצר עבורכם",
+  "fillAllFields": "אנא מלאו את כל השדות הנדרשים.",
+  "adminSignupSuccess": "המנהל נרשם בהצלחה. הקוד שלכם הוא"
 
 }

@@ -12,9 +12,9 @@ const Signup = () => {
     password: '',
     anonymousName: '',
     photo: '',
+    code: '', // Code field
   });
-  const [errors, setErrors] = useState({ email: '', anonymousName: '' });
-
+  const [errors, setErrors] = useState({ email: '', anonymousName: '', code: '' });
   const navigate = useNavigate();
   const { t } = useTranslation("App");
 
@@ -63,15 +63,13 @@ const Signup = () => {
       ...formData,
       contacted: 0,
       points: 0,
-      organization: '',
-      secter: '',
       signaledcount: 0,
       banned: false,
       role: 'user',
     };
 
     try {
-      await axios.post(`${BASE_URL}/api/user/signup`, payload);
+      await axios.post(`${BASE_URL}/api/user/signup-user`, payload);
 
       const loginResponse = await axios.post(`${BASE_URL}/api/user/login`, {
         email: formData.email,
@@ -81,7 +79,7 @@ const Signup = () => {
       localStorage.setItem('token', loginResponse.data.token);
       localStorage.setItem('userId', loginResponse.data.user._id);
       localStorage.setItem('username', loginResponse.data.user.realName);
-      localStorage.setItem('role', loginResponse.data.user.role); // 'user' ou 'admin'
+      localStorage.setItem('role', loginResponse.data.user.role);
 
       navigate('/home');
     } catch (error) {
@@ -89,8 +87,6 @@ const Signup = () => {
       alert(t('signupError'));
     }
   };
-
-  const defaultAvatar = "/Pictures/default-avatar.png";
 
   return (
     <div className="auth-container">
@@ -100,7 +96,7 @@ const Signup = () => {
           <div className="photo-upload">
             <label htmlFor="photo-input" className="photo-container">
               <img
-                src={formData.photo || defaultAvatar}
+                src={formData.photo || '/Pictures/default-avatar.png'}
                 alt="profile"
                 className="user-avatar"
               />
@@ -142,16 +138,20 @@ const Signup = () => {
             onChange={handleChange}
           />
           {errors.anonymousName && <p className="error-text">{errors.anonymousName}</p>}
+          <input
+            type="text"
+            name="code"
+            placeholder={t('enterCode')}
+            onChange={handleChange}
+            required
+          />
+          {errors.code && <p className="error-text">{errors.code}</p>}
           <button type="submit">{t('signUp')}</button>
         </form>
-        <div className="auth-footer">
-          <p>
-            {t('alreadyAccount')} <a href="/login">{t('logIn')}</a>
-          </p>
-        </div>
       </div>
     </div>
   );
 };
 
 export default Signup;
+

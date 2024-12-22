@@ -93,5 +93,11 @@
   "mentalHealthAdvocacy": "Mental Health Advocacy",
   "journalism": "Journalism",
   "animalRescue": "Animal Rescue",
-  "other": "Other"
+  "other": "Other",
+
+  "copyCodeInstruction": "Please copy and save this code. It will be required for other users to join your organization.",
+  "goToHome": "Go to Login",
+  "yourGeneratedCode": "Your Generated Code",
+  "fillAllFields": "Please fill in all required fields.",
+  "adminSignupSuccess": "Admin registered successfully. Your code is"
 }

@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/user'); // Import the User model
+const Code = require('../models/code'); // Import the Code model
 
-// Signup
-exports.signup = async (req, res) => {
+
+// Admin Signup
+exports.adminSignup = async (req, res) => {
   const {
     realName,
     email,
@@ -12,39 +14,108 @@ exports.signup = async (req, res) => {
     photo,
     organization,
     secter,
-    role,
   } = req.body;
 
   try {
-    console.log('Signup request received:', req.body); // Debug
+    console.log('Admin Signup request received:', req.body);
+
+    // Check if a code already exists for this organization and sector
+    let code = await Code.findOne({ organization, secter });
+    if (!code) {
+      // Generate a unique code for the organization and sector
+      const generatedCode = `${organization}_${secter}_${Date.now()}`;
+      code = new Code({
+        organization,
+        secter,
+        code: generatedCode,
+      });
+      await code.save();
+    }
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Include all fields in the User creation
+    // Create the admin user
     const user = new User({
       realName,
       email,
       password: hashedPassword,
       anonymousName: anonymousName || 'Anonymous',
       photo: photo || '/Pictures/default-avatar.png',
-      organization: organization || '',
-      secter: secter || '',
+      organization,
+      secter,
+      code: code._id, // Reference to the Code model
       contacted: 0,
       points: 0,
       signaledcount: 0,
       banned: false,
-      role: role || 'user', // Default to 'user' if role is not provided
+      role: 'admin', // Explicitly set as admin
     });
 
     const savedUser = await user.save();
-    console.log('User saved:', savedUser); // Debug
-    res.status(201).json({ message: 'User registered successfully', userId: savedUser._id });
+
+    console.log('Admin user saved:', savedUser);
+    res.status(201).json({
+      message: 'Admin registered successfully',
+      userId: savedUser._id,
+      code: code.code, // Return the generated code
+    });
   } catch (error) {
-    console.error('Error during signup:', error); // Debug
-    res.status(500).json({ message: 'Signup failed', error });
+    console.error('Error during admin signup:', error);
+    res.status(500).json({ message: 'Admin signup failed', error });
   }
 };
 
-  
+// Normal User Signup
+exports.userSignup = async (req, res) => {
+  const {
+    realName,
+    email,
+    password,
+    anonymousName,
+    photo,
+    code: userCode, // Code provided by the user
+  } = req.body;
+
+  try {
+    console.log('User Signup request received:', req.body);
+
+    // Verify the code
+    const code = await Code.findOne({ code: userCode });
+    if (!code) {
+      return res.status(400).json({ message: 'Invalid code' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the user with organization and secter from the Code model
+    const user = new User({
+      realName,
+      email,
+      password: hashedPassword,
+      anonymousName: anonymousName || 'Anonymous',
+      photo: photo || '/Pictures/default-avatar.png',
+      organization: code.organization,
+      secter: code.secter,
+      code: code._id, // Reference the Code model
+      contacted: 0,
+      points: 0,
+      signaledcount: 0,
+      banned: false,
+      role: 'user', // Default role for normal users
+    });
+
+    const savedUser = await user.save();
+    console.log('User saved:', savedUser);
+
+    res.status(201).json({ message: 'User registered successfully', userId: savedUser._id });
+  } catch (error) {
+    console.error('Error during user signup:', error);
+    res.status(500).json({ message: 'User signup failed', error });
+  }
+};
+
 // Login
 exports.login = async (req, res) => {
   const { email, password } = req.body;

@@ -1,11 +1,14 @@
 const express = require('express');
-const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted, getAllUsers} = require('../controllers/usercontroller');
+const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted, getAllUsers, adminSignup, userSignup} = require('../controllers/usercontroller');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // To protect routes if necessary
 
 const router = express.Router();
 
+// Route for admin signup
+router.post('/signup-admin', adminSignup);
+
 // Route for user signup
-router.post('/signup', signup);
+router.post('/signup-user', userSignup);
 
 // Route for user login
 router.post('/login', login);

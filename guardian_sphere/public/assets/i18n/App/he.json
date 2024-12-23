@@ -104,6 +104,12 @@
   "goToHome": "חזרה לדף הלוגין",
   "yourGeneratedCode": "הקוד שנוצר עבורכם",
   "fillAllFields": "אנא מלאו את כל השדות הנדרשים.",
-  "adminSignupSuccess": "המנהל נרשם בהצלחה. הקוד שלכם הוא"
+  "adminSignupSuccess": "המנהל נרשם בהצלחה. הקוד שלכם הוא",
+
+  "Landing": "דף הבית",
+  "Testimonials": "עדויות",
+  "Login": "התחברות",
+  "Sign Up": "הרשמה",
+  "Admin Sign Up": "הרשמה למנהל"
 
 }

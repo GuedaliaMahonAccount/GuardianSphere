@@ -10,8 +10,10 @@ const Layout = ({ children }) => {
   const isLoginPage = location.pathname.toLowerCase() === "/login";
   const isSignUpPage = location.pathname.toLowerCase() === "/signup";
   const isSignUpAdminPage = location.pathname.toLowerCase() === "/signup-admin";
+  const isEntryPage = location.pathname.toLowerCase() === "/landing";
+  const isReviewPage = location.pathname.toLowerCase() === "/reviews";
   const isTerms = location.pathname.toLowerCase() === "/terms";
-  const outPages = !isLoginPage && !isSignUpPage && !isTerms && !isSignUpAdminPage;
+  const outPages = !isLoginPage && !isSignUpPage && !isTerms && !isSignUpAdminPage && !isEntryPage && !isReviewPage;
 
   const isDoctorPage = location.pathname.toLowerCase() === "/doctors";
   const isContact = !isDoctorPage;

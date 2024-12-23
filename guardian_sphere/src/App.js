@@ -4,6 +4,7 @@ import store from "./Reducers/index.js";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from "./layouts/Layout.js";
+import LayoutHome from "./LayoutsHome/LayoutsHome.js";
 import Loader from "./components/Loader/Loader.js"; // probably this is where you 
 import Login from './Pages/Login/Login';
 import Signup from './Pages/SignUp/SignUp.js'; // Import Signup component
@@ -18,6 +19,8 @@ import Loading from './components/Loading/Loading.js'; // ייבוא רכיב ה
 import Chat from './Pages/Chat/Chat.js';
 import Call from './Pages/Call/Call.js';
 import Statistic from './Pages/Statistic/Statistic.js';
+import LandingPage from './Pages/LandingPage/LandingPage.js';
+import Reviews from './Pages/Reviews/Reviews.js';
 
 // Define the ProtectedRoute component
 function ProtectedRoute({ element, redirectTo = '/login', roleRequired }) {
@@ -61,14 +64,19 @@ function App() {
         <Suspense fallback={<Loader />}>
           <BrowserRouter>
             <Layout>
+              <LayoutHome>
               <Routes>
                 {/* Redirect to login page if no route matches */}
-                <Route path="/" element={<Navigate to="/login" replace />} />
+                {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
+                <Route path="/" element={<Navigate to="/landing" replace />} />
 
                 {/* Public Routes */}
+                <Route path="/landing" element={<LandingPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/signup-admin" element={<SignupAdmin />} />
+                <Route path="/reviews" element={<Reviews />} />
+
 
                 {/* Protected Routes */}
                 <Route
@@ -108,6 +116,7 @@ function App() {
                   element={<ProtectedRoute element={<Statistic />} roleRequired="admin" />}
                 />
               </Routes>
+              </LayoutHome>
             </Layout>
           </BrowserRouter>
         </Suspense>

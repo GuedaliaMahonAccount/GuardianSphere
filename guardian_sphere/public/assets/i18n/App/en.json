@@ -99,5 +99,13 @@
   "goToHome": "Go to Login",
   "yourGeneratedCode": "Your Generated Code",
   "fillAllFields": "Please fill in all required fields.",
-  "adminSignupSuccess": "Admin registered successfully. Your code is"
+  "adminSignupSuccess": "Admin registered successfully. Your code is",
+
+  "Landing" : "Landing",
+  "Testimonials" : "Testimonials",
+  "Login" : "Login",
+  "Sign Up" : "Sign Up",
+  "Admin Sign Up" : "Admin Sign Up"
+
+  
 }

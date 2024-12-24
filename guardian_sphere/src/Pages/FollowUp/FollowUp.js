@@ -3,9 +3,11 @@ import './FollowUp.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrash, faCheck, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
-import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck } from './followUpReq';
+import { faPen, faTrash, faCheck, faTimes, faSave, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
+
+// Import the API functions for communicating with the server
+import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck } from './followUpReq';
 
 const FollowUp = () => {
   const { t } = useTranslation("FollowUp");
@@ -20,32 +22,73 @@ const FollowUp = () => {
   const [editingTreatmentId, setEditingTreatmentId] = useState(null);
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [editAddDays, setEditAddDays] = useState(''); // New state for "Add Days"
   const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(false); // State to toggle form visibility
+
   const username = localStorage.getItem('username');
   const navigate = useNavigate();
 
-const nothing = error;
-
-
-useEffect(() => {
-  fetchTreatments();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
-
+  useEffect(() => {
+    fetchTreatments();
+  }, []);
 
   const fetchTreatments = async () => {
     try {
       const data = await getByUsername(username);
-      console.log("Fetched treatments:", data); // Debugging
-      const treatmentsArray = Array.isArray(data) ? data : []; // Adjusted
+      const treatmentsArray = Array.isArray(data) ? data : [];
       dispatch({ type: "SET_TREATMENTS", payload: treatmentsArray });
     } catch (error) {
       setError("Error fetching treatments: " + error.message);
     }
-  };    
+  };
+
+  const handleAddTreatment = async (e) => {
+    e.preventDefault();
+    if (!name || !description || !startDate) {
+      alert(t('form_error_fill_all'));
+      return;
+    }
+
+    const tempTreatment = {
+      id: Date.now(),
+      name,
+      description,
+      startDate,
+      endDate,
+      frequency,
+      checks: generateDates(startDate, endDate, frequency),
+    };
+
+    try{
+      // Send the treatment data to the server
+      const username = localStorage.getItem('username'); // Get the username from localStorage
+      const response = await createTreatment(username, tempTreatment);
+
+      // If the server responds successfully, update the local state
+      if (response.status === 201) {
+        // Update the local state with the server's response
+        dispatch({ type: "ADD_TREATMENT", payload: response.data });
+      }
+    } catch(error){
+      console.error("Error adding treatment:", error);
+    alert("Failed to add treatment. Please try again.");
+    }
+
+    //reset and close the form
+    setNewTreatments([...newTreatments, tempTreatment]);
+
+    setName('');
+    setDescription('');
+    setStartDate('');
+    setEndDate('');
+    setFrequency('daily');
+
+    fetchTreatments();
+    setShowForm(false); // Hide form after submission
+  };
 
   const generateDates = (startDate, endDate, frequency) => {
-    console.log(nothing); 
     const start = new Date(startDate);
     let end = endDate ? new Date(endDate) : null;
 
@@ -78,50 +121,11 @@ useEffect(() => {
     return dates;
   };
 
-  const handleAddTreatment = async (e) => {
-    e.preventDefault();
-    if (!name || !description || !startDate) {
-      alert(t('form_error_fill_all'));
-      return;
-    }
-
-    const tempTreatment = {
-      id: Date.now(),
-      name,
-      description,
-      startDate,
-      endDate,
-      frequency,
-      checks: generateDates(startDate, endDate, frequency),
-    };
-
-    setNewTreatments([...newTreatments, tempTreatment]);
-
-    setName('');
-    setDescription('');
-    setStartDate('');
-    setEndDate('');
-    setFrequency('daily');
-
-    fetchTreatments();
-  };
-
-  const handleSaveTreatment = async (treatment) => {
-    try {
-      const createdTreatment = await createTreatment(username, treatment);
-      dispatch({ type: "ADD_TREATMENT", payload: createdTreatment });
-      setNewTreatments(newTreatments.filter((t) => t.id !== treatment.id));
-    } catch (error) {
-      setError("Error creating treatment: " + error.message);
-    }
-
-    fetchTreatments();
-  };
-
   const handleEditTreatment = (treatment) => {
     setEditingTreatmentId(treatment.id);
     setEditName(treatment.name);
     setEditDescription(treatment.description);
+    setEditAddDays(0); // Reset "Add Days" field when entering edit mode
   };
 
   const handleSaveEdit = async (treatmentId) => {
@@ -130,11 +134,32 @@ useEffect(() => {
       return;
     }
     try {
-      const updatedTreatment = await updateTreatment(treatmentId, { name: editName, description: editDescription });
-      dispatch({ type: "UPDATE_TREATMENT", payload: updatedTreatment });
+      // Update the treatment in the backend
+      const updatedTreatment = await updateTreatment(treatmentId, {
+        name: editName,
+        description: editDescription,
+        date: parseInt(editAddDays) || 0, // Send the "Add Days" value to the server
+      });
+
+      // Update the local state
+      const updatedTreatments = [...treatments, ...newTreatments].map((treatment) =>
+        treatment.id === treatmentId ? {
+          ...treatment,
+          name: editName,
+          description: editDescription,
+          startDate: updatedTreatment.startDate, // Update startDate if changed
+          endDate: updatedTreatment.endDate, // Update endDate if changed
+        } : treatment
+      );
+
+      // Update the Redux state
+      dispatch({ type: "SET_TREATMENTS", payload: updatedTreatments });
+
+      // Reset edit state
       setEditingTreatmentId(null);
       setEditName('');
       setEditDescription('');
+      setEditAddDays(''); // Reset "Add Days" field after saving
     } catch (error) {
       setError("Error updating treatment: " + error.message);
     }
@@ -146,33 +171,7 @@ useEffect(() => {
     setEditingTreatmentId(null);
     setEditName('');
     setEditDescription('');
-  };
-
-  const handleToggleCheck = async (treatmentId, date) => {
-    try {
-      // Optimistic update: Toggle locally first
-      dispatch({
-        type: "TOGGLE_CHECK",
-        payload: { treatmentId, date },
-      });
-  
-      // Attempt to toggle the check in the backend
-      const updatedTreatment = await toggleCheck(treatmentId, date);
-  
-      // If successful, update the reducer with the latest backend state
-      dispatch({
-        type: "SET_UPDATED_TREATMENT",
-        payload: updatedTreatment,
-      });
-      fetchTreatments();
-    } catch (error) {
-      // Log the error but keep the optimistic update
-      console.error("Error toggling checkbox:", error.message);
-      alert("Need to save before");
-  
-      // Optionally show a warning to the user
-      setError("Could not sync with server, working offline.");
-    }
+    setEditAddDays(''); // Reset "Add Days" field when canceling
   };
 
   const handleDeleteTreatment = async (treatmentId) => {
@@ -190,150 +189,144 @@ useEffect(() => {
   return (
     <div className="followup-container">
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+      <button onClick={() => setShowForm(!showForm)} className="new-treatment-button">
+        <FontAwesomeIcon icon={faPlus} /> {t("new_treatment")}
+      </button>
       <h2>{t("followup_title")}</h2>
       <p>{t("followup_description")}</p>
 
-
-      <form className="followup-form" onSubmit={handleAddTreatment}>
-        <div className="form-group">
-          <label htmlFor="treatmentName">{t("form_treatmentName")}:</label>
-          <input
-            type="text"
-            id="treatmentName"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder={t("form_treatmentName_placeholder")}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="treatmentDescription">{t("form_description")}:</label>
-          <textarea
-            id="treatmentDescription"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder={t("form_description_placeholder")}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="treatmentStartDate">{t("form_startDate")}:</label>
-          <input
-            type="date"
-            id="treatmentStartDate"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="treatmentEndDate">{t("form_endDate")}:</label>
-          <input
-            type="date"
-            id="treatmentEndDate"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="treatmentFrequency">{t("form_frequency")}:</label>
-          <select
-            id="treatmentFrequency"
-            value={frequency}
-            onChange={(e) => setFrequency(e.target.value)}
-          >
-            <option value="daily">{t("frequency_daily")}</option>
-            <option value="weekly">{t("frequency_weekly")}</option>
-            <option value="monthly">{t("frequency_monthly")}</option>
-          </select>
-        </div>
-
-        <button type="submit" className="add-button">{t("add_button")}</button>
-      </form>
+      {showForm && (
+        <form className="followup-form" onSubmit={handleAddTreatment}>
+          <div className="form-group">
+            <label htmlFor="treatmentName">{t("form_treatmentName")}:</label>
+            <input
+              type="text"
+              id="treatmentName"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t("form_treatmentName_placeholder")}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="treatmentDescription">{t("form_description")}:</label>
+            <textarea
+              id="treatmentDescription"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder={t("form_description_placeholder")}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="treatmentStartDate">{t("form_startDate")}:</label>
+            <input
+              type="date"
+              id="treatmentStartDate"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="treatmentEndDate">{t("form_endDate")}:</label>
+            <input
+              type="date"
+              id="treatmentEndDate"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="treatmentFrequency">{t("form_frequency")}:</label>
+            <select
+              id="treatmentFrequency"
+              value={frequency}
+              onChange={(e) => setFrequency(e.target.value)}
+            >
+              <option value="daily">{t("frequency_daily")}</option>
+              <option value="weekly">{t("frequency_weekly")}</option>
+              <option value="monthly">{t("frequency_monthly")}</option>
+            </select>
+          </div>
+          <button type="submit" className="add-button">{t("add_button")}</button>
+        </form>
+      )}
 
       <div className="treatment-table-container">
-  {[...treatments, ...newTreatments].map((treatment, treatmentIndex) => (
-    <div key={`${treatment.id}-${treatmentIndex}`} className="single-treatment-table">
-      {editingTreatmentId === treatment.id ? (
-        <div className="edit-section">
-          <input
-            type="text"
-            value={editName}
-            onChange={(e) => setEditName(e.target.value)}
-            placeholder={t("form_treatmentName_placeholder")}
-            className="edit-input"
-          />
-          <textarea
-            value={editDescription}
-            onChange={(e) => setEditDescription(e.target.value)}
-            placeholder={t("form_description_placeholder")}
-            className="edit-textarea"
-          />
-          <div className="action-buttons">
-            <button className="save-button" onClick={() => handleSaveEdit(treatment._id)}>
-              <FontAwesomeIcon icon={faCheck} />
-            </button>
-            <button className="cancel-button" onClick={handleCancelEdit}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <h3>{treatment.name}</h3>
-          <div className="action-buttons">
-            <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
-              <FontAwesomeIcon icon={faPen} />
-            </button>
-            <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment._id)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        </>
-      )}
-      <table className="treatment-table">
-        <thead>
-          <tr>
-            <th>{t("table_description")}</th>
-            {treatment.checks.map((check, index) => (
-              <th key={`${check.date}-${index}`}>{check.date}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{treatment.description}</td>
-            {treatment.checks.map((check, index) => (
-              <td key={`${check.date}-${index}`}>
+        {[...treatments, ...newTreatments].map((treatment) => (
+          <div key={treatment.id} className="single-treatment-table">
+            {editingTreatmentId === treatment.id ? (
+              <div className="edit-section">
                 <input
-                  type="checkbox"
-                  checked={check.done}
-                  onChange={() =>
-                    handleToggleCheck(
-                      treatment._id,
-                      check.date,
-                      !treatments.some((t) => t.id === treatment._id)
-                    )
-                  }
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder={t("form_treatmentName_placeholder")}
+                  className="edit-input"
                 />
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-      {!treatments.some((t) => t.id === treatment.id) && (
-        <button className="save-button" onClick={() => handleSaveTreatment(treatment)}>
-          <FontAwesomeIcon icon={faSave} /> {t("save_button")}
-        </button>
-      )}
-    </div>
-  ))}
-</div>
-
+                <textarea
+                  value={editDescription}
+                  onChange={(e) => setEditDescription(e.target.value)}
+                  placeholder={t("form_description_placeholder")}
+                  className="edit-textarea"
+                />
+                <div className="form-group">
+                  <label htmlFor="addDays">{t("form_add_days")}:</label>
+                  <input
+                    type="number"
+                    id="addDays"
+                    value={editAddDays}
+                    onChange={(e) => setEditAddDays(e.target.value)}
+                    placeholder={t("form_add_days_placeholder")}
+                    className="edit-input"
+                  />
+                </div>
+                <div className="action-buttons">
+                  <button className="save-button" onClick={() => handleSaveEdit(treatment.id)}>
+                    <FontAwesomeIcon icon={faCheck} />
+                  </button>
+                  <button className="cancel-button" onClick={handleCancelEdit}>
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <h3>{treatment.name}</h3>
+                <div className="action-buttons">
+                  <button className="icon-button edit-button" onClick={() => handleEditTreatment(treatment)}>
+                    <FontAwesomeIcon icon={faPen} />
+                  </button>
+                  <button className="icon-button delete-button" onClick={() => handleDeleteTreatment(treatment.id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              </>
+            )}
+            <table className="treatment-table">
+              <thead>
+                <tr>
+                  <th>{t("table_description")}</th>
+                  {treatment.checks.map((check, index) => (
+                    <th key={index}>{check.date}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{treatment.description}</td>
+                  {treatment.checks.map((check, index) => (
+                    <td key={index}>
+                      <input type="checkbox" checked={check.done} readOnly />
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

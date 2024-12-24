@@ -253,7 +253,7 @@ const Groups = () => {
   const createNewCall = async () => {
     try {
       // Vérifiez l'accès aux périphériques multimédias avant de créer l'appel
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      // const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       // setMyStream(stream);
 
       const response = await fetch(`${BASE_URL}/api/calls`, {

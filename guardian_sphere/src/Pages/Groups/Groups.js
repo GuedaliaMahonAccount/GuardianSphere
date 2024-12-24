@@ -334,7 +334,7 @@ const Groups = () => {
 
   return (
       <div className="group-container">
-          <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+          <button onClick={() => navigate("/home")} className="home-back-button2">{t("home")}</button>
 
       <div className="group-header">
         {/* Left Panel: Groups */}

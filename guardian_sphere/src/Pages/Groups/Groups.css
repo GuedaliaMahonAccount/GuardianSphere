@@ -11,23 +11,6 @@
   overflow: hidden;
 }
 
-.home-back-button {
-    z-index: 1000;
-    margin-left: 80px;
-    margin-right: 80px;
-    align-self: flex-start;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4682B4;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.home-back-button:hover {
-    background-color: #5A9BD4;
-}
 
 /* Decorative Background */
 .group-container::before {
@@ -451,22 +434,39 @@
 }
 
 .home-back-button {
-  z-index: 1000;
-  margin-left: 80px;
-  margin-right: 80px;
-  align-self: flex-start; 
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #4682B4;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    z-index: 1000;
+    margin-left: 80px;
+    margin-right: 80px;
+    align-self: flex-start;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4682B4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.home-back-button:hover {
-  background-color: #5A9BD4;
+    .home-back-button:hover {
+        background-color: #5A9BD4;
+    }
+.home-back-button2 {
+    z-index: 1000;
+    margin-left: 10px;
+    margin-right: 80px;
+    align-self: flex-start;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4682B4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
+
+    .home-back-button2:hover {
+        background-color: #5A9BD4;
+    }
 
 /* Styling for the report button */
 .report-button {

@@ -27,10 +27,11 @@ const io = new Server(server, {
 // Manage connected users
 const usersByGroup = {};
 
+// Active calls tracking
+const activeCalls = {};
+
 // Socket.IO logic
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
-  logger.info(`User connected: ${socket.id}`);
 
   // Join a group
   socket.on('join group', async (group) => {
@@ -58,8 +59,6 @@ io.on('connection', (socket) => {
 
   // Chat message
 socket.on('chat message', async (msg) => {
-  console.log('Received message:', msg);
-  logger.info(`Received message: ${msg}`);
 
   const { group, sender, content, photo, userId } = msg;
 
@@ -115,15 +114,86 @@ async function cleanOldMessages(group) {
   }
 }
 
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    for (const group in usersByGroup) {
-      usersByGroup[group] = usersByGroup[group].filter((id) => id !== socket.id);
-      io.to(group).emit('user connected', usersByGroup[group]);
+
+
+//call logic
+//
+//
+
+async function cleanupEmptyCalls() {
+  try {
+      const emptyCalls = await Call.find({ participants: { $size: 0 } });
+      for (const call of emptyCalls) {
+          await Call.deleteOne({ id: call.id });
+          console.log(`Deleted empty call: ${call.id}`);
+      }
+  } catch (error) {
+      console.error('Error cleaning up empty calls:', error);
+  }
+}
+
+
+
+socket.on('join call', ({ callId, peerId, userId }) => {
+  if (!activeCalls[callId]) {
+      activeCalls[callId] = [];
+  }
+
+  if (peerId) {
+      activeCalls[callId].push({ peerId, userId, socketId: socket.id });
+      socket.join(callId);
+
+      console.log(`User ${userId} joined call ${callId}`);
+      io.to(callId).emit('update participants', activeCalls[callId]); // Update participants count
+  } else {
+      console.warn(`Peer ID missing for user ${userId}. Cannot join call ${callId}.`);
+  }
+});
+
+socket.on('disconnect', () => {
+  for (const callId in activeCalls) {
+    activeCalls[callId] = activeCalls[callId].filter((user) => user.socketId !== socket.id);
+
+    if (activeCalls[callId].length === 0) {
+      delete activeCalls[callId];
+      console.log(`Call ${callId} deleted.`);
     }
-    console.log('User disconnected:', socket.id);
-    logger.info(`User disconnected: ${socket.id}`);
-  });
+  }
+});
+
+socket.on('leave call', async ({ callId }) => {
+  if (activeCalls[callId]) {
+      activeCalls[callId] = activeCalls[callId].filter(
+          (participant) => participant.socketId !== socket.id
+      );
+      socket.leave(callId);
+
+      if (activeCalls[callId].length === 0) {
+          delete activeCalls[callId];
+          console.log(`Call ${callId} deleted.`);
+          await cleanupEmptyCalls(); // Trigger cleanup
+      } else {
+          io.to(callId).emit('update participants', activeCalls[callId]);
+      }
+  }
+});
+
+socket.on('disconnect', async () => {
+  for (const callId in activeCalls) {
+      activeCalls[callId] = activeCalls[callId].filter(
+          (participant) => participant.socketId !== socket.id
+      );
+
+      if (activeCalls[callId].length === 0) {
+          delete activeCalls[callId];
+          console.log(`Call ${callId} deleted.`);
+          await cleanupEmptyCalls(); // Trigger cleanup
+      } else {
+          io.to(callId).emit('update participants', activeCalls[callId]);
+      }
+  }
+});
+
 });
 
 // Start server

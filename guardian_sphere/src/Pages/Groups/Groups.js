@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from '../../config';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Peer from 'peerjs';
 
 
 
@@ -34,6 +35,13 @@ const Groups = () => {
   const [photo, setPhoto] = useState('');
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [activeCalls, setActiveCalls] = useState([]);
+  const [activeParticipants, setActiveParticipants] = useState([]);
+
+  const [peer, setPeer] = useState(null);
+  const [streams, setStreams] = useState([]); // To manage media streams
+  const [myStream, setMyStream] = useState(null);
+
 
   const messagesEndRef = useRef(null); // Reference for auto-scrolling
   const chatBoxRef = useRef(null); // Reference for the chat box container
@@ -49,23 +57,23 @@ const Groups = () => {
     }
   }, []);
 
+
+  //message section
+  //
+  //
   const reportMessage = (userId) => {
     console.log(`Sender ID: ${userId}`);
     // Additional logic to handle reporting can be added here
   };
-  
-
   // Automatically scroll to the bottom when messages update
   const scrollToBottom = () => {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
   };
-
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
   // Fetch user details from the server
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -97,7 +105,6 @@ const Groups = () => {
 
     fetchUserDetails();
   }, []);
-
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to Socket.IO server');
@@ -129,7 +136,6 @@ const Groups = () => {
       socket.off('user connected');
     };
   }, []);
-
   useEffect(() => {
     if (currentGroup) {
       socket.emit('join group', currentGroup);
@@ -141,7 +147,6 @@ const Groups = () => {
       }
     };
   }, [currentGroup]);
-
   useEffect(() => {
     const loadMessages = async () => {
       if (currentGroup) {
@@ -162,7 +167,6 @@ const Groups = () => {
 
     loadMessages();
   }, [currentGroup]);
-
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -177,7 +181,6 @@ const Groups = () => {
       console.error('Invalid file type. Please upload an image.');
     }
   };
-
   const sendMessage = () => {
     if (input.trim() && currentGroup) {
       const userId = localStorage.getItem('userId');
@@ -200,7 +203,6 @@ const Groups = () => {
       setInput('');
     }
   };
-
   const handleUsernameChange = async (e) => {
     const newUsername = e.target.value;
     setUsername(newUsername);
@@ -213,120 +215,279 @@ const Groups = () => {
     }
   };
 
-  return (
-<div className="group-container">
-  {!currentGroup && (
-    <button onClick={() => navigate("/home")} className="home-back-button">
-      {t("home")}
-    </button>
-  )}
-  {currentGroup && (
-    <button
-      className={`home-back-button ${i18n.language === 'he' ? 'rtl' : 'ltr'}`}
-      onClick={() => setCurrentGroup(null)}
-    >
-      {t('back')}
-    </button>
-  )}
-  {!currentGroup ? (
-    <div className="group-list">
-      <h2 className="group-title-header">{t('groups_title')}</h2>
-      <p>{t('groups_description')}</p>
-      {['stress', 'depression', 'anger', 'trauma', 'fear'].map((group) => (
-        <div key={group} className="group-title" onClick={() => setCurrentGroup(group)}>
-          <h3>{t(`${group}_title`)}</h3>
-        </div>
-      ))}
-    </div>
-  ) : (
-    <>
-      <div className="external-header">
-        <div className="username-header">
-          <input
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder={t('enter_name')}
-            className="username-input"
-          />
-          <div className="photo-upload">
-            <label htmlFor="photo-input" className="photo-container">
-              <img src={photo} alt="profile" className="user-avatar" />
-            </label>
-            <input
-              type="file"
-              id="photo-input"
-              accept="image/*"
-              onChange={handlePhotoUpload}
-              style={{ display: 'none' }}
-            />
-          </div>
-        </div>
-        <h2 className="chat-group-title">{t(`${currentGroup}_title`)}</h2>
-      </div>
 
-      <div className="chat-header">
-        <p>{t('connected_users')}: {connectedUsers.length}</p>
-      </div>
-      <div className="chat-box" ref={chatBoxRef}>
-        {isLoadingMessages ? (
-          <div className="loader-container">
-            <div className="loader"></div>
-          </div>
-        ) : (
-          <div className="messages">
-            {messages[currentGroup]?.map((msg, index) => (
-              <div
-                key={index}
-                className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
+
+
+  // Call section
+  //
+  //
+  useEffect(() => {
+    // Fetch active calls from server
+    const fetchActiveCalls = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/calls`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch active calls.');
+        }
+        const calls = await response.json();
+        setActiveCalls(calls);
+      } catch (error) {
+        console.error('Error fetching active calls:', error);
+      }
+    };
+
+    fetchActiveCalls();
+
+    // Listen for updates to the active calls
+    socket.on('update calls', (calls) => setActiveCalls(calls));
+
+    // Listen for updates to call participants
+    socket.on('update participants', (participants) => {
+      setActiveParticipants(participants);
+    });
+
+    return () => {
+      socket.off('update calls');
+      socket.off('update participants');
+    };
+  }, []);
+  const createNewCall = async () => {
+    try {
+      // Vérifiez l'accès aux périphériques multimédias avant de créer l'appel
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setMyStream(stream);
+
+      const response = await fetch(`${BASE_URL}/api/calls`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          creator: username,
+          participants: [{ userId: localStorage.getItem('userId'), username, photo }],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const newCall = await response.json();
+      setActiveCalls((prev) => [...prev, newCall]);
+      socket.emit('new call', newCall); // Notifie les autres
+    } catch (error) {
+      if (error.name === 'NotFoundError') {
+        alert('No microphone or camera found. Please connect a device and try again.');
+      } else {
+        console.error('Erreur lors de la création de l\'appel:', error);
+      }
+    }
+  };
+  const joinCall = async (callId) => {
+    try {
+      // Vérifiez l'accès aux périphériques multimédias
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setMyStream(stream);
+
+      // Affichez la vidéo localement
+      const myVideo = document.createElement('video');
+      myVideo.srcObject = stream;
+      myVideo.muted = true;
+      myVideo.play();
+      document.getElementById('video-grid').append(myVideo);
+
+      // Initialisez PeerJS et rejoignez l'appel
+      if (!peer) {
+        const newPeer = new Peer(); // Ou configurez l'ID Peer si nécessaire
+        setPeer(newPeer);
+
+        newPeer.on('open', (peerId) => {
+          socket.emit('join call', { callId, peerId, userId: localStorage.getItem('userId') });
+          console.log(`Joined call with Peer ID: ${peerId}`);
+        });
+
+        // Écoutez les connexions entrantes
+        newPeer.on('call', (incomingCall) => {
+          incomingCall.answer(stream); // Partagez votre flux avec l'autre utilisateur
+          incomingCall.on('stream', addVideoStream); // Ajoutez leur flux à l'interface
+        });
+      }
+    } catch (error) {
+      if (error.name === 'NotFoundError') {
+        alert('Aucun microphone ou caméra trouvés. Veuillez connecter un périphérique et réessayer.');
+      } else {
+        console.error('Erreur lors de la tentative de rejoindre l\'appel:', error);
+      }
+    }
+  };
+  const connectToNewUser = (peerId, stream) => {
+    const call = peer.call(peerId, stream);
+
+    call.on('stream', (userStream) => {
+      addVideoStream(userStream);
+    });
+  };
+  const addVideoStream = (stream) => {
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.play();
+    document.getElementById('video-grid').append(video);
+  };
+  const leaveCall = (callId) => {
+    const userId = localStorage.getItem('userId');
+    socket.emit('leave call', { callId, userId });
+  };
+
+
+
+  return (
+    <div className="group-container">
+      <div className="group-header">
+        {/* Left Panel: Groups */}
+        <div className="groups-panel">
+          {!currentGroup ? (
+            <>
+              <h2 className="group-title-header">{t('groups_title')}</h2>
+              <p>{t('groups_description')}</p>
+              {['stress', 'depression', 'anger', 'trauma', 'fear'].map((group) => (
+                <div
+                  key={group}
+                  className="group-title"
+                  onClick={() => setCurrentGroup(group)}
+                >
+                  <h3>{t(`${group}_title`)}</h3>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <button
+                className={`home-back-button ${i18n.language === 'he' ? 'rtl' : 'ltr'}`}
+                onClick={() => setCurrentGroup(null)}
               >
-                <div className="message-header">
-                  {msg.userId !== localStorage.getItem('userId') && (
-                    <button
-                      className="report-button"
-                      onClick={() => reportMessage(msg.userId)}
-                      title={t('report_message_tooltip')}
-                    >
-                      <FontAwesomeIcon icon={faFlag} />
-                    </button>
-                  )}
-                  <div className="profile">
-                    <img src={msg.photo} alt="profile" />
-                    <span>{msg.sender}</span>
+                {t('back')}
+              </button>
+              <div className="external-header">
+                <div className="username-header">
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    placeholder={t('enter_name')}
+                    className="username-input"
+                  />
+                  <div className="photo-upload">
+                    <label htmlFor="photo-input" className="photo-container">
+                      <img src={photo} alt="profile" className="user-avatar" />
+                    </label>
+                    <input
+                      type="file"
+                      id="photo-input"
+                      accept="image/*"
+                      onChange={handlePhotoUpload}
+                      style={{ display: 'none' }}
+                    />
                   </div>
                 </div>
-                <span>{msg.content}</span>
+                <h2 className="chat-group-title">{t(`${currentGroup}_title`)}</h2>
               </div>
-            ))}
-
-            <div ref={messagesEndRef} />
-          </div>
-        )}
-      </div>
-
-      <div className="message-form">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={t('type_message')}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-          className="message-input"
-          disabled={isLoadingMessages || isSending}
-        />
-        <button className="send-button" onClick={sendMessage} disabled={isLoadingMessages || isSending}>
-          {isSending ? (
-            <div className="loader-button"></div>
-          ) : (
-            t('send')
+              <div className="chat-header">
+                <p>{t('connected_users')}: {connectedUsers.length}</p>
+              </div>
+              <div className="chat-box" ref={chatBoxRef}>
+                {isLoadingMessages ? (
+                  <div className="loader-container">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div className="messages">
+                    {messages[currentGroup]?.map((msg, index) => (
+                      <div
+                        key={index}
+                        className={`message ${msg.userId === localStorage.getItem('userId') ? 'my-message' : 'other-message'}`}
+                      >
+                        <div className="message-header">
+                          {msg.userId !== localStorage.getItem('userId') && (
+                            <button
+                              className="report-button"
+                              onClick={() => reportMessage(msg.userId)}
+                              title={t('report_message_tooltip')}
+                            >
+                              <FontAwesomeIcon icon={faFlag} />
+                            </button>
+                          )}
+                          <div className="profile">
+                            <img src={msg.photo} alt="profile" />
+                            <span>{msg.sender}</span>
+                          </div>
+                        </div>
+                        <span>{msg.content}</span>
+                      </div>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </div>
+              <div className="message-form">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={t('type_message')}
+                  onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                  className="message-input"
+                  disabled={isLoadingMessages || isSending}
+                />
+                <button
+                  className="send-button"
+                  onClick={sendMessage}
+                  disabled={isLoadingMessages || isSending}
+                >
+                  {isSending ? (
+                    <div className="loader-button"></div>
+                  ) : (
+                    t('send')
+                  )}
+                </button>
+              </div>
+            </>
           )}
-        </button>
-      </div>
-    </>
-  )}
-</div>
+        </div>
 
+        {/* Right Panel: Active Calls */}
+        <div className="calls-panel">
+          <h2 className="calls-header">{t('active_calls')}</h2>
+          <button onClick={createNewCall} className="create-call-button">
+            {t('create_new_call')}
+          </button>
+          <div className="active-calls-list">
+            {activeCalls.length > 0 ? (
+              activeCalls.map((call) => (
+                <div key={call.id} className="call-item">
+                  <p>{`${t('participants_count')}: ${call.participants.length}`}</p>
+                  <button
+                    onClick={() => joinCall(call.id)}
+                    className="join-call-button"
+                  >
+                    {t('join_call')}
+                  </button>
+                  <button
+                    onClick={() => leaveCall(call.id)}
+                    className="leave-call-button"
+                  >
+                    {t('leave_call')}
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>{t('no_active_calls')}</p>
+            )}
+          </div>
+
+        </div>
+      </div>
+    </div>
   );
+
+
 };
 
 export default Groups;

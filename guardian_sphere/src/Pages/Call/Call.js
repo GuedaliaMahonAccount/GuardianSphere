@@ -18,8 +18,9 @@ const Call = () => {
     const analyserRef = useRef(null);
     const { t } = useTranslation("Call");
     const navigate = useNavigate();
+    const mediaStreamRef = useRef(null);
 
-    
+
     // Initialisation de l'AudioContext
     useEffect(() => {
         try {
@@ -39,27 +40,40 @@ const Call = () => {
     }, []);
 
     const startCall = () => {
-        if (isCalling) {
-            console.log("Call is already in progress.");
-            return;
-        }
+        // if (isCalling) {
+        //     console.log("Call is already in progress.");
+        //     return;
+        // }
 
-        // Vérification du microphone
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then((stream) => {
-                console.log("Microphone access granted");
-                stream.getTracks().forEach(track => track.stop()); // On arrête le stream tout de suite
-            })
-            .catch((err) => {
-                console.error("Microphone not found:", err);
-                alert("No microphone detected. The call will still proceed, but without audio input.");
-            });
+        // navigator.mediaDevices.getUserMedia({ audio: true })
+        //     .then((stream) => {
+        //         console.log("Microphone access granted");
 
-        setIsCalling(true);
-        console.log("Starting Vapi...");
+        //         // Démarrer Vapi avec le stream audio
+        //         vapi.start(assistantId, { audio: { mediaStream: stream } });
+
+        //         // Conserver le stream pour pouvoir l'arrêter plus tard
+        //         mediaStreamRef.current = stream;
+        //     })
+        //     .catch((err) => {
+        //         console.error("Microphone not found:", err);
+        //         alert("No microphone detected. The call will not work without audio input.");
+        //         return;
+        //     });
+
+        // setIsCalling(true);
+        // console.log("Starting Vapi...");
 
         // vapi.start(assistantId);
 
+        // // Ajouter dans la fonction startCall, après vapi.start()
+        // vapi.on("transcription", (transcription) => {
+        //     console.log("Transcription:", transcription);
+        // });
+
+        // vapi.on("message", (message) => {
+        //     console.log("Message from assistant:", message);
+        // });
 
         // vapi.on("error", (error) => {
         //     console.error("Vapi error:", error);
@@ -70,7 +84,7 @@ const Call = () => {
         //     console.log("Assistant started speaking");
         // });
 
-   
+
         // vapi.on("end", () => {
         //     console.log("Assistant stopped speaking");
         //     setVolume(0);
@@ -91,19 +105,19 @@ const Call = () => {
         //             analyserRef.current.connect(audioContextRef.current.destination);
 
         //             const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
-                    
+
         //             const updateVolume = () => {
         //                 analyserRef.current.getByteFrequencyData(dataArray);
         //                 const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
         //                 const normalizedVolume = average / 256;
         //                 console.log("Current volume:", normalizedVolume);
         //                 setVolume(normalizedVolume);
-                        
+
         //                 if (isCalling) {
         //                     requestAnimationFrame(updateVolume);
         //                 }
         //             };
-                    
+
         //             updateVolume();
         //             audioElement.play().catch(error => {
         //                 console.error("Error playing audio:", error);
@@ -131,11 +145,17 @@ const Call = () => {
         setIsCalling(false);
         vapi.stop();
         setVolume(0);
+
+        // Arrêter le stream audio
+        if (mediaStreamRef.current) {
+            mediaStreamRef.current.getTracks().forEach(track => track.stop());
+            mediaStreamRef.current = null;
+        }
     };
 
     return (
         <div className="call-container">
-        <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+            <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
             <h1 className="call-title">{t("assistantWelcome")}</h1>
             <p className="call-subtitle">{t("assistantInstruction")}</p>
 
@@ -154,11 +174,6 @@ const Call = () => {
                     src={isCalling ? "/Pictures/end-call.png" : "/Pictures/start-call.png"}
                     alt={isCalling ? "Hang Up" : "Call"}
                 />
-            </div>
-            
-            {/* Debug info */}
-            <div style={{ position: 'fixed', bottom: 10, left: 10, background: 'rgba(0,0,0,0.7)', padding: '10px', color: 'white', fontSize: '12px' }}>
-            {t("current_volume")}: {volume.toFixed(2)}
             </div>
         </div>
     );

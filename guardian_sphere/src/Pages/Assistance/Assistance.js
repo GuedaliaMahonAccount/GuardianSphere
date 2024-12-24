@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Assistance.css";
 
 const Assistance = () => {
-  const { t , i18n} = useTranslation("Assistance");
+  const { t, i18n } = useTranslation("Assistance");
   const navigate = useNavigate();
   const [currentView, setCurrentView] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,9 +22,9 @@ const Assistance = () => {
       { name: t("Netivot,Merhavim,Bnei-Shimon"), phone: "055-306-3863" },
       { name: t("Ashkelon"), phone: t("*2452") },
       { name: t("Localities_of_Eshkol_Regional_Council"), phone: "08-996-5264" },
-      { name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"), phone: "08-677-5598",},
+      { name: t("Localities_of_the_Ashkelon_Coast_Regional_Council"), phone: "08-677-5598" },
       { name: t("Localities_of_Sdot_Negev_Regional_Council"), phone: "08-994-1091" },
-      { name: t("Settlements_of_Shaar_Hanegev_Regional_Council"), phone: "051-226-6275",},
+      { name: t("Settlements_of_Shaar_Hanegev_Regional_Council"), phone: "051-226-6275" },
       { name: t("Bedouin_Society_Resilience_Center"), phone: "072-221-2788" },
       { name: t("Sderot"), phone: t("08-661-1140/50") },
       { name: t("Resilience_centers_in_the_northern_district-Hebrew"), phone: "04-690-0603" },
@@ -69,6 +69,35 @@ const Assistance = () => {
         (item.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
         (item.phone || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+  const renderResilienceCenters = () => {
+    const generalResilienceCenter = data.resilienceCenters.find(
+      (item) => item.name === t("general_resilience_center")
+    );
+
+    const filteredResilienceCenters = filterData(data.resilienceCenters).filter(
+      (item) => item.name !== t("general_resilience_center")
+    );
+
+    return (
+      <>
+        {generalResilienceCenter && (
+          <li key={generalResilienceCenter.name}>
+            <strong>{generalResilienceCenter.name}</strong>: 📞 {generalResilienceCenter.phone}
+          </li>
+        )}
+        {filteredResilienceCenters.map((item, index) => (
+          <li key={index}>
+            <strong>{item.name}</strong>: 📞 {item.phone}
+            {item.description && <p>{item.description}</p>}
+          </li>
+        ))}
+        {filteredResilienceCenters.length === 0 && searchQuery && (
+          <li className="no-results-message">{t("no_results_found")}</li>
+        )}
+      </>
+    );
+  };
 
   return (
     <div className="assistance-container">
@@ -117,21 +146,23 @@ const Assistance = () => {
             className="search-bar"
           />
           <ul className="contact-list">
-            {filterData(data[currentView] || []).map((item, index) => (
-              <li key={index}>
-                <strong>{item.name}</strong>: 📞 {item.phone}
-                {item.description && <p>{item.description}</p>}
-              </li>
-            ))}
-            {filterData(data[currentView] || []).length === 0 && (
-              <li className="no-results-message">{t("no_results_found")}</li>
-            )}
+            {currentView === "resilienceCenters"
+              ? renderResilienceCenters()
+              : filterData(data[currentView] || []).map((item, index) => (
+                  <li key={index}>
+                    <strong>{item.name}</strong>: 📞 {item.phone}
+                    {item.description && <p>{item.description}</p>}
+                  </li>
+                ))}
+            {currentView !== "resilienceCenters" &&
+              filterData(data[currentView] || []).length === 0 && (
+                <li className="no-results-message">{t("no_results_found")}</li>
+              )}
           </ul>
         </div>
       )}
     </div>
   );
-
 };
 
 export default Assistance;

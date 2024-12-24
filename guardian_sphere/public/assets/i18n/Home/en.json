@@ -24,5 +24,11 @@
     "assistanceSupport": "Numbers Assistance",
     "assistanceDescription": "Get help with various personal and emotional challenges.",
     "callSupport": "Talk to AI",  
-    "callDescription": "Speak with an AI for immediate support."
+    "callDescription": "Speak with an AI for immediate support.",
+    "first_headline": "Chat or talk with an AI",
+    "second_headline": "Follow your Treatments",
+    "third_headline": "Get professionals help",
+    "first_subheadline": "Chat or call with an AI for instant support",
+    "second_subheadline": "Make a progress and achive your goal",
+    "third_subheadline": "Contact expert to assist you"
 }

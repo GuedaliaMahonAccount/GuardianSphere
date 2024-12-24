@@ -24,5 +24,11 @@
     "assistanceSupport": "מספרי תמיכה וחירום",
     "assistanceDescription": "קבל עזרה באתגרים אישיים ורגשיים.",
     "callSupport": "דבר עם AI",
-    "callDescription": "דבר עם מערכת AI לתמיכה מיידית."
+    "callDescription": "דבר עם מערכת AI לתמיכה מיידית.",
+    "first_headline": "התכתב או דבר עם AI",
+    "second_headline": "תעקוב אחרי התרגילים שלך",
+    "third_headline": "קבל עזרה מקצועית",
+    "first_subheadline": "התכתב או דבר עם AI כדי לקבל עזרה מיידית",
+    "second_subheadline": "התקדם על מנת להשיג את המטרה שלך",
+    "third_subheadline": "תיצור קשר עם מומחים כדי לעזור לך"
 }

@@ -36,11 +36,10 @@ const Groups = () => {
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [activeCalls, setActiveCalls] = useState([]);
-  const [activeParticipants, setActiveParticipants] = useState([]);
+  // const [activeParticipants, setActiveParticipants] = useState([]);
 
   const [peer, setPeer] = useState(null);
-  const [streams, setStreams] = useState([]); // To manage media streams
-  const [myStream, setMyStream] = useState(null);
+  // const [myStream, setMyStream] = useState(null);
 
 
   const messagesEndRef = useRef(null); // Reference for auto-scrolling
@@ -243,7 +242,7 @@ const Groups = () => {
 
     // Listen for updates to call participants
     socket.on('update participants', (participants) => {
-      setActiveParticipants(participants);
+      // setActiveParticipants(participants);
     });
 
     return () => {
@@ -255,7 +254,7 @@ const Groups = () => {
     try {
       // Vérifiez l'accès aux périphériques multimédias avant de créer l'appel
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      setMyStream(stream);
+      // setMyStream(stream);
 
       const response = await fetch(`${BASE_URL}/api/calls`, {
         method: 'POST',
@@ -285,7 +284,7 @@ const Groups = () => {
     try {
       // Vérifiez l'accès aux périphériques multimédias
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      setMyStream(stream);
+      // setMyStream(stream);
 
       // Affichez la vidéo localement
       const myVideo = document.createElement('video');

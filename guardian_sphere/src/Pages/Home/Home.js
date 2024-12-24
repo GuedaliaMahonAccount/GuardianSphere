@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from "react-i18next";
 import './Home.css';
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ const Home = () => {
     const username = localStorage.getItem('username') || t("defaultUser");
     const navigate = useNavigate();
 
-    // Array of updates for the Hero Box
     const heroUpdates = [
         {
             type: "headline",
@@ -27,48 +26,43 @@ const Home = () => {
         },
     ];
 
-    // State to track the current update index
     const [currentUpdateIndex, setCurrentUpdateIndex] = useState(0);
+    const intervalRef = useRef(null);
 
-    // Function to handle next update
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         setCurrentUpdateIndex((prevIndex) =>
             prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
         );
-        resetTimer(); // Reset the timer when an arrow is clicked
-    };
+        resetTimer();
+    }, [heroUpdates.length]);
 
-    // Function to handle previous update
-    const handlePrev = () => {
+    const handlePrev = useCallback(() => {
         setCurrentUpdateIndex((prevIndex) =>
             prevIndex === 0 ? heroUpdates.length - 1 : prevIndex - 1
         );
-        resetTimer(); // Reset the timer when an arrow is clicked
-    };
+        resetTimer();
+    }, [heroUpdates.length]);
 
-    // Timer reset function
-    const resetTimer = () => {
-        clearInterval(interval);
+    const resetTimer = useCallback(() => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
         startTimer();
-    };
+    }, []);
 
-    // UseEffect to handle the automatic switching
-    useEffect(() => {
-        startTimer();
-        return () => clearInterval(interval);
-    }, [interval, startTimer]);
-
-    // Start the timer
-    let interval;
-    const startTimer = () => {
-        interval = setInterval(() => {
+    const startTimer = useCallback(() => {
+        intervalRef.current = setInterval(() => {
             setCurrentUpdateIndex((prevIndex) =>
                 prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
             );
         }, 5000); // 5000 milliseconds = 5 seconds
-    };
+    }, [heroUpdates.length]);
 
-    // Get the current update based on the index
+    useEffect(() => {
+        startTimer();
+        return () => clearInterval(intervalRef.current);
+    }, [startTimer]);
+
     const currentUpdate = heroUpdates[currentUpdateIndex];
 
     return (
@@ -78,9 +72,7 @@ const Home = () => {
                 <p>{t("description")}</p>
             </header>
 
-            {/* Add the Stacked Hero Box Here */}
             <div className="hero-container">
-                {/* Navigation Arrows */}
                 <div className="hero-navigation">
                     <button className="hero-arrow prev" onClick={handlePrev}>
                         ←
@@ -90,7 +82,6 @@ const Home = () => {
                     </button>
                 </div>
 
-                {/* Top Section */}
                 <div className="hero-section top-section">
                     {currentUpdate.type === "headline" && (
                         <>
@@ -100,9 +91,8 @@ const Home = () => {
                     )}
                 </div>
 
-                {/* Indicator for Current Headline */}
                 <div className="hero-indicator">
-                    {heroUpdates.map((update, index) => (
+                    {heroUpdates.map((_, index) => (
                         <span
                             key={index}
                             className={`hero-indicator-dot ${index === currentUpdateIndex ? "active" : ""}`}
@@ -112,7 +102,6 @@ const Home = () => {
             </div>
 
             <div className="home-actions">
-                {/* Row 1 */}
                 <div className="action-row">
                     <div className="action-card" onClick={() => navigate("/chat")}>
                         <h3>{t("chatSupport")}</h3>
@@ -120,7 +109,7 @@ const Home = () => {
                     </div>
                     <div className="action-card" onClick={() => navigate("/call")}>
                         <h3>{t("callSupport")}</h3>
-                        <p>{t("chatDescription")}</p>
+                        <p>{t("callDescription")}</p>
                     </div>
                     <div className="action-card" onClick={() => navigate("/groups")}>
                         <h3>{t("groupsSupport")}</h3>
@@ -131,7 +120,6 @@ const Home = () => {
                         <p>{t("resourcesDescription")}</p>
                     </div>
                 </div>
-                {/* Row 2: Groups */}
                 <div className="action-row">
                     <div className="action-card" onClick={() => navigate("/follow-up")}>
                         <h3>{t("followUpSupport")}</h3>
@@ -155,4 +143,4 @@ const Home = () => {
     );
 };
 
-export default Home;//
+export default Home;

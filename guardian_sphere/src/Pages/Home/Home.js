@@ -29,18 +29,12 @@ const Home = () => {
     const [currentUpdateIndex, setCurrentUpdateIndex] = useState(0);
     const intervalRef = useRef(null);
 
-    const handleNext = useCallback(() => {
-        setCurrentUpdateIndex((prevIndex) =>
-            prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
-        );
-        resetTimer();
-    }, [heroUpdates.length]);
-
-    const handlePrev = useCallback(() => {
-        setCurrentUpdateIndex((prevIndex) =>
-            prevIndex === 0 ? heroUpdates.length - 1 : prevIndex - 1
-        );
-        resetTimer();
+    const startTimer = useCallback(() => {
+        intervalRef.current = setInterval(() => {
+            setCurrentUpdateIndex((prevIndex) =>
+                prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
+            );
+        }, 5000);
     }, [heroUpdates.length]);
 
     const resetTimer = useCallback(() => {
@@ -48,15 +42,21 @@ const Home = () => {
             clearInterval(intervalRef.current);
         }
         startTimer();
-    }, []);
+    }, [startTimer]);
 
-    const startTimer = useCallback(() => {
-        intervalRef.current = setInterval(() => {
-            setCurrentUpdateIndex((prevIndex) =>
-                prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
-            );
-        }, 5000); // 5000 milliseconds = 5 seconds
-    }, [heroUpdates.length]);
+    const handleNext = useCallback(() => {
+        setCurrentUpdateIndex((prevIndex) =>
+            prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
+        );
+        resetTimer();
+    }, [heroUpdates.length, resetTimer]);
+
+    const handlePrev = useCallback(() => {
+        setCurrentUpdateIndex((prevIndex) =>
+            prevIndex === 0 ? heroUpdates.length - 1 : prevIndex - 1
+        );
+        resetTimer();
+    }, [heroUpdates.length, resetTimer]);
 
     useEffect(() => {
         startTimer();

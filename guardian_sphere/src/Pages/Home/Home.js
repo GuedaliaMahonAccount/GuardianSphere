@@ -56,7 +56,7 @@ const Home = () => {
     useEffect(() => {
         startTimer();
         return () => clearInterval(interval);
-    }, []);
+    }, [interval, startTimer]);
 
     // Start the timer
     let interval;

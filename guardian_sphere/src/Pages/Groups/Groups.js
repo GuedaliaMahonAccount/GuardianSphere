@@ -3,7 +3,7 @@ import './Groups.css';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
 import { fetchGroupMessages, updateUserData } from './GroupsReq';
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from '../../config';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,9 @@ const socket = io(`${BASE_URL}`, {
 });
 
 const Groups = () => {
-  const { t, i18n } = useTranslation('Groups');
+    const { t, i18n } = useTranslation('Groups');
+    const navigate = useNavigate();
+
   // const navigate = useNavigate();
   const [messages, setMessages] = useState({
     stress: [],
@@ -331,7 +333,9 @@ const Groups = () => {
 
 
   return (
-    <div className="group-container">
+      <div className="group-container">
+          <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+
       <div className="group-header">
         {/* Left Panel: Groups */}
         <div className="groups-panel">

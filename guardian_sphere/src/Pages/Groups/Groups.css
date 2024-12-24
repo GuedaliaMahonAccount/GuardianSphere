@@ -3,7 +3,7 @@
   flex-direction: row; /* Side-by-side layout for groups and calls */
   min-height: 100vh;
   background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
-  padding: 50px;
+  padding: 40px;
   color: #ffffff;
   font-family: Arial, sans-serif;
   width: 100%;
@@ -11,6 +11,23 @@
   overflow: hidden;
 }
 
+.home-back-button {
+    z-index: 1000;
+    margin-left: 80px;
+    margin-right: 80px;
+    align-self: flex-start;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4682B4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.home-back-button:hover {
+    background-color: #5A9BD4;
+}
 
 /* Decorative Background */
 .group-container::before {

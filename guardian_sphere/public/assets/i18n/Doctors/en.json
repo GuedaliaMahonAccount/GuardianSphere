@@ -1,11 +1,18 @@
 {
   "doctors_title": "Doctors",
   "doctors_description": "Welcome to the Doctors page.",
-  "doctor_1_name": "Dr. John Smith",
-  "doctor_1_description": "Specialist in Cardiology with over 20 years of experience.",
-  "doctor_2_name": "Dr. Emily White",
-  "doctor_2_description": "Renowned Pediatrician who loves working with children.",
-  "doctor_3_name": "Dr. Ahmed Khan",
-  "doctor_3_description": "Expert in Orthopedics with innovative surgical techniques.",
-  "home": "Home"
+  "home": "Home",
+  "doctor_1_name": "Dr. Ehud Ruzitsky",
+  "doctor_1_location": "Rishon LeZion, Israel",
+  "doctor_1_description": "A specialist psychiatrist specializing in the treatment of anxiety, depression, and trauma. Experienced in treating anxiety disorders and post-trauma.",
+  "doctor_1_link": "https://drruzitsky.co.il/",
+  "doctor_2_name": "Prof. Leon Grunhaus",
+  "doctor_2_location": "Jerusalem, Israel",
+  "doctor_2_description": "A specialist psychiatrist in the treatment of depression, anxiety, and mood disorders. Offers a combination of psychological and pharmacological treatment.",
+  "doctor_2_link": "https://www.grunhaus.co.il/%D7%98%D7%99%D7%A4%D7%95%D7%9C-%D7%91%D7%93%D7%99%D7%9B%D7%90%D7%95%D7%9F/",
+  "doctor_3_name": "Dr. Finkel",
+  "doctor_3_location": "Hod HaSharon, Israel",
+  "doctor_3_description": "A psychogeriatrician specializing in the treatment of post-trauma, depression, and anxiety among the elderly population.",
+  "doctor_3_link": "https://www.facebook.com/Drfinkel.md.il/",
+  "learn_more": "Learn More"
 }

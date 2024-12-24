@@ -83,11 +83,16 @@
 }
 
 .doctor-name {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black;
 }
 
+.doctor-location {
+    margin-bottom: 10px;
+    color: black;
+}
 .doctor-description {
   font-size: 16px;
   color: #555;

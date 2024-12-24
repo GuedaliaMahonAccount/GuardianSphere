@@ -3,7 +3,7 @@ import './Groups.css';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
 import { fetchGroupMessages, updateUserData } from './GroupsReq';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { BASE_URL } from '../../config';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +20,7 @@ const socket = io(`${BASE_URL}`, {
 
 const Groups = () => {
   const { t, i18n } = useTranslation('Groups');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [messages, setMessages] = useState({
     stress: [],
     depression: [],
@@ -317,13 +317,6 @@ const Groups = () => {
         console.error('Erreur lors de la tentative de rejoindre l\'appel:', error);
       }
     }
-  };
-  const connectToNewUser = (peerId, stream) => {
-    const call = peer.call(peerId, stream);
-
-    call.on('stream', (userStream) => {
-      addVideoStream(userStream);
-    });
   };
   const addVideoStream = (stream) => {
     const video = document.createElement('video');

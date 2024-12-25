@@ -99,3 +99,16 @@ export const incrementUserPoints = async () => {
     throw error;
   }
 };
+
+
+// Fetch a single treatment by its ID
+export const fetchTreatmentById = async (treatmentId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/follow/${treatmentId}`);
+    console.log("Fetched treatment by ID successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching treatment with ID ${treatmentId}:`, error.message);
+    throw error;
+  }
+};

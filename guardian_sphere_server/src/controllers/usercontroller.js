@@ -232,8 +232,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-
-
+// Increment user points
 exports.incrementPoints = async (req, res) => {
   const userId = req.userId; // Extract userId from authMiddleware
 
@@ -255,5 +254,24 @@ exports.incrementPoints = async (req, res) => {
   } catch (error) {
     console.error('Error incrementing points:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Fetch a single treatment by ID
+exports.getTreatmentById = async (req, res) => {
+  try {
+    const treatmentId = req.params.id;
+
+    // Find the treatment by its ID
+    const treatment = await Treatment.findById(treatmentId);
+
+    if (!treatment) {
+      return res.status(404).json({ message: 'Treatment not found' });
+    }
+
+    res.status(200).json(treatment);
+  } catch (error) {
+    console.error('Error fetching treatment by ID:', error.message);
+    res.status(500).json({ message: 'Failed to fetch treatment', error });
   }
 };

@@ -13,17 +13,20 @@ const Navbar = () => {
   const [score, setScore] = useState(0);
   const username = localStorage.getItem('username') || t("defaultUser");
 
-  useEffect(() => {
-    const fetchScore = async () => {
-      try {
-        const points = await getPointsOfMe();
-        setScore(points.points); // Assurez-vous que `points.points` contient la valeur correcte
-      } catch (error) {
-        console.error('Failed to fetch score:', error);
-      }
-    };
+  const fetchScore = async () => {
+    try {
+      const points = await getPointsOfMe();
+      setScore(points.points);
+    } catch (error) {
+      console.error('Failed to fetch score:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchScore();
+    // Poll every 5 seconds for score updates
+    const interval = setInterval(fetchScore, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleLogout = () => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = process.env.REACT_APP_API_URL?.replace(/["']/g, '').trim();
+const apiUrl = process.env.REACT_APP_API_URL_DEV?.replace(/["']/g, '').trim();
 
 console.log('API URL being used:', apiUrl); // Debug log
 

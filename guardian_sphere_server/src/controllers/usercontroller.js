@@ -232,3 +232,28 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+
+
+exports.incrementPoints = async (req, res) => {
+  const userId = req.userId; // Extract userId from authMiddleware
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $inc: { points: 1 } }, // Incrémente 'points' de 1
+      { new: true } // Retourne l'utilisateur mis à jour
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      message: 'Points incremented successfully.',
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error('Error incrementing points:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

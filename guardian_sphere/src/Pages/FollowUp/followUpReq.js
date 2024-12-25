@@ -82,3 +82,20 @@ export const deleteTreatment = async (treatmentId) => {
     throw error;
   }
 };
+
+// Increment user points
+export const incrementUserPoints = async () => {
+  try {
+    const response = await axios.put(`${BASE_URL}/api/user/increment-points`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    console.log("User points incremented successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error incrementing user points:", error.message);
+    throw error;
+  }
+};

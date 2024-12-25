@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted, getAllUsers, adminSignup, userSignup} = require('../controllers/usercontroller');
+const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted, getAllUsers, adminSignup, userSignup, incrementPoints} = require('../controllers/usercontroller');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // To protect routes if necessary
 
 const router = express.Router();
@@ -27,5 +27,8 @@ router.put('/increment-contacted', authMiddleware, incrementContacted);
 
 // Route to fetch all users
 router.get('/all-users', getAllUsers);
+
+// Route pour incrémenter les points de l'utilisateur
+router.put('/increment-points', authMiddleware, incrementPoints);
 
 module.exports = router;

@@ -32,7 +32,6 @@ const Navbar = () => {
   const { t, i18n } = useTranslation("App");
   const isRtl = i18n.language === "he";
   const navigate = useNavigate();
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [score, setScore] = useState(0);
   const username = localStorage.getItem('username') || t("defaultUser");
 

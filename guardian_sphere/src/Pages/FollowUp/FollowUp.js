@@ -3,8 +3,8 @@ import './FollowUp.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrash, faCheck, faTimes, faSave, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
-import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck } from './followUpReq';
+import { faPen, faTrash, faCheck, faTimes, faSave, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck, incrementUserPoints } from './followUpReq';
 import { useNavigate } from 'react-router-dom';
 
 const FollowUp = () => {
@@ -124,12 +124,18 @@ const FollowUp = () => {
 
   const handleToggleCheck = async (treatmentId, date) => {
     try {
+      // Toggle the checkbox
       const updatedTreatment = await toggleCheck(treatmentId, date);
       dispatch({ type: 'SET_UPDATED_TREATMENT', payload: updatedTreatment });
-      fetchTreatments();
+
+      // Increment user points
+      await incrementUserPoints();
+
     } catch (error) {
       setError(`Error toggling checkbox: ${error.message}`);
     }
+    // Refresh treatments
+    fetchTreatments();
   };
 
   const handleDeleteTreatment = async (treatmentId) => {

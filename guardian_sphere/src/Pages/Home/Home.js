@@ -72,7 +72,7 @@ const Home = () => {
                 <p>{t("description")}</p>
             </header>
 
-            <div className="hero-container">
+            {/* <div className="hero-container">
                 <div className="hero-navigation">
                     <button className="hero-arrow prev" onClick={handlePrev}>
                         ←
@@ -99,7 +99,23 @@ const Home = () => {
                         ></span>
                     ))}
                 </div>
-            </div>
+            </div> */}
+
+<div className="hero-updates-container">
+    <div className="hero-content">
+        <h1>{currentUpdate.content}</h1>
+        <p>{currentUpdate.description}</p>
+    </div>
+    <div className="hero-pagination">
+        {heroUpdates.map((_, index) => (
+            <span
+                key={index}
+                className={`pagination-dot ${index === currentUpdateIndex ? "active" : ""}`}
+                onClick={() => setCurrentUpdateIndex(index)}
+            ></span>
+        ))}
+    </div>
+</div>
 
             <div className="home-actions">
                 <div className="action-row">

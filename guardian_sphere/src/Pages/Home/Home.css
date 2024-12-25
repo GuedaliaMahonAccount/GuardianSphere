@@ -266,3 +266,55 @@
 .hero-indicator-dot.active {
   background: #4682B4;
 }
+
+
+
+.hero-updates-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  background: linear-gradient(to bottom, #4682B4, #87CEFA);
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  box-sizing: border-box;
+  z-index: 100000;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.hero-pagination {
+  display: flex;
+  gap: 10px;
+}
+
+.pagination-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pagination-dot.active {
+  background: white;
+  transform: scale(1.2);
+}

@@ -4,29 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { BASE_URL } from "../../config";
-
-// Get points by username
-export const getPointsOfMe = async () => {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
-    const response = await fetch(`${BASE_URL}/api/user/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json(); // Assurez-vous de bien parser la réponse en JSON
-    console.log('Score updated successfully:', data);
-    return data; // Assurez-vous que `data` contient le champ `points`
-  } catch (error) {
-    console.error('Error in get score:', error.message);
-    throw error;
-  }
-};
+import { getPointsOfMe } from "./navbarReq";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation("App");

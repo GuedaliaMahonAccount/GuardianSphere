@@ -107,7 +107,10 @@
   "Testimonials" : "Testimonials",
   "Login" : "Login",
   "Sign Up" : "Sign Up",
-  "Admin Sign Up" : "Admin Sign Up"
+  "Admin Sign Up" : "Admin Sign Up",
+
+  "you_get": "You Get ",
+  "points": " Points"
 
   
 }

@@ -153,6 +153,18 @@ const Call = () => {
         }
     };
 
+
+    const simulateVolume = () => {
+        const interval = setInterval(() => {
+            const randomVolume = Math.random() * 0.2; // Petites variations entre 0 et 0.2
+            setVolume(randomVolume);
+        }, 200); // Mise à jour toutes les 200ms
+
+        return () => clearInterval(interval); // Nettoyage lorsque le composant est démonté
+    };
+
+    useEffect(simulateVolume, []); // Appeler simulateVolume une seule fois
+
     return (
         <div className="call-container">
             <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
@@ -163,8 +175,8 @@ const Call = () => {
                 <div
                     className="call-circle"
                     style={{
-                        transform: `scale(${1 + volume * 2})`,
-                        opacity: 0.6 + volume * 0.4,
+                        transform: `scale(${1 + volume * 0.5})`, // Ajustement pour petits mouvements
+                        opacity: 0.8 + volume * 0.2, // Subtil changement d'opacité
                     }}
                 ></div>
             </div>

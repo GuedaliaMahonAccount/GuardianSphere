@@ -24,12 +24,12 @@ const Groups = () => {
 
   // const navigate = useNavigate();
   const [messages, setMessages] = useState({
-    stress: [],
-    depression: [],
-    anger: [],
-    trauma: [],
-    fear: [],
-  });
+    PTSD: [], // Trouble de stress post-traumatique
+    burnout: [], // Burnout
+    depression: [], // Dépression
+    anxiety: [], // Trouble anxieux généralisé
+    sleep_disorder: [], // Trouble du sommeil
+});
   const [input, setInput] = useState('');
   const [currentGroup, setCurrentGroup] = useState(null);
   const [connectedUsers, setConnectedUsers] = useState([]);
@@ -343,7 +343,7 @@ const Groups = () => {
             <>
               <h2 className="group-title-header">{t('groups_title')}</h2>
               <p>{t('groups_description')}</p>
-              {['stress', 'depression', 'anger', 'trauma', 'fear'].map((group) => (
+              {['PTSD', 'burnout', 'depression', 'anxiety', 'sleep_disorder'].map((group) => (
                 <div
                   key={group}
                   className="group-title"

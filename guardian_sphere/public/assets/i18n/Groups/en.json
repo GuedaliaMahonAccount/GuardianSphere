@@ -22,5 +22,9 @@
   "call_in_group": "Call in group: {{group}}",
   "participants_count": "Participants: {{count}}",
   "join_call": "Join Call",
-  "leave_call": "Leave Call"
+  "leave_call": "Leave Call",
+  "PTSD_title": "Post-Traumatic Stress Disorder (PTSD)",
+  "burnout_title": "Burnout",
+  "anxiety_title": "Generalized Anxiety",
+  "sleep_disorder_title": "Sleep Disorder"
 }

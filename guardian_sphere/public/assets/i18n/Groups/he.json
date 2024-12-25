@@ -22,5 +22,9 @@
   "call_in_group": "שיחה בקבוצה: {{group}}",
   "participants_count": "משתתפים: {{count}}",
   "join_call": "הצטרף לשיחה",
-  "leave_call": "צא מהשיחה"
+  "leave_call": "צא מהשיחה",
+  "PTSD_title": "הפרעת דחק פוסט-טראומטית (PTSD)",
+  "burnout_title": "שחיקה (Burnout)",
+  "anxiety_title": "חרדה כללית",
+  "sleep_disorder_title": "הפרעת שינה"
 }

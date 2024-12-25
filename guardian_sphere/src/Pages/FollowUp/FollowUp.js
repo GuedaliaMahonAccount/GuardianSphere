@@ -157,6 +157,7 @@ const FollowUp = () => {
   return (
     <div className="followup-container">
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+      <img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
       <h2>{t("followup_title")}</h2>
       <p>{t("followup_description")}</p>
 

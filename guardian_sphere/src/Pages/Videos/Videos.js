@@ -23,7 +23,7 @@ const Videos = () => {
                     {t("home")}
                 </button>
             )}
-
+<img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
             {/* Titre et description de la section vidéos */}
             <h2>{t("videos_title")}</h2>
             <p>{t("videos_description")}</p>

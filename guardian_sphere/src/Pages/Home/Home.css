@@ -82,33 +82,6 @@
     box-sizing: border-box;
 }
 
-/* Action Card */
-.action-card {
-    padding: 20px;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #87CEFA, #4682B4);
-    color: white;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: left;
-}
-
-.action-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-}
-
-.action-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.action-card p {
-    font-size: 1rem;
-    line-height: 1.4;
-}
-
 /* Footer */
 .home-footer {
     margin-top: 40px;
@@ -317,4 +290,104 @@
 .pagination-dot.active {
   background: white;
   transform: scale(1.2);
+}
+
+
+
+
+/* Action Card */
+.action-card {
+  padding: 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #87CEFA, #4682B4);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.action-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.action-card p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+
+
+/* Action Card */
+.action-card1 {
+  height: 150px;
+  padding: 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #87CEFA, #4682B4);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  width: 30%;
+  z-index: 100000;
+}
+
+.action-card1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.action-card1 h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.action-card1 p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+
+
+/* Action Card */
+.action-card2 {
+  padding: 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #87CEFA, #4682B4);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  height: 140px;
+  width: 25%;
+}
+
+.action-card2:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.action-card2 h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.action-card2 p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+
+.landing-logo1 {
+  width: 100px;
+  height: 130px;
+  margin-bottom: 20px;
 }

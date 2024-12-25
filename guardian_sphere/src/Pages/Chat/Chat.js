@@ -149,6 +149,7 @@ const Chat = () => {
   return (
     <div className="chat-container">
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+      <img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
       <div className="chat-header">
       <h2>{t("hello_i_m_here_for_you")}</h2>
       </div>

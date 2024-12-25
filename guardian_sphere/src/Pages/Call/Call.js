@@ -179,6 +179,7 @@ const Call = () => {
     return (
         <div className="call-container">
             <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+            <img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
             <h1 className="call-title">{t("assistantWelcome")}</h1>
             <p className="call-subtitle">{t("assistantInstruction")}</p>
 

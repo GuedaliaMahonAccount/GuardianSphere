@@ -34,6 +34,7 @@ const Doctors = () => {
     return (
         <div className="doctors-container">
             <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
+            <img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
             <h2>{t("doctors_title")}</h2>
             <p>{t("doctors_description")}</p>
             {doctors.map((doctor, index) => (

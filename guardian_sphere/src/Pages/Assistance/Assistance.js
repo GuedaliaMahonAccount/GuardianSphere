@@ -106,6 +106,7 @@ const Assistance = () => {
           {t("home")}
         </button>
       )}
+      <img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
       {currentView && (
         <button
           className={`home-back-button ${i18n.language === "he" ? "rtl" : "ltr"}`}

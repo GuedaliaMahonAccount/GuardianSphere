@@ -107,3 +107,9 @@
 .menu_arrow_button:hover {
   cursor: pointer;
 }
+
+/* Highlight the active link */
+.link.active {
+  background-color: rgba(255, 255, 255, 0.2); /* Change the color as needed */
+  border-radius: 8px;
+}

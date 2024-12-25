@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./SideMenu.css";
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +9,6 @@ function SideMenu() {
 
   const isRtl = i18n.language === "he";
 
-  // Récupérer le rôle de l'utilisateur depuis localStorage
   const userRole = localStorage.getItem("role");
 
   const toggleMenu = () => {
@@ -30,7 +29,6 @@ function SideMenu() {
     { label: t("videos"), path: "/videos", icon: "Pictures/videos_icon.png", className: "icon" },
     { label: t("doctors"), path: "/doctors", icon: "Pictures/doctors_icon.png", className: "icon" },
     { label: t("assistance"), path: "/assistance", icon: "Pictures/assistance_icon.png", className: "icon" },
-    // Ajouter la statistique uniquement si l'utilisateur est admin
     ...(userRole === "admin"
       ? [{ label: t("statistic"), path: "/statistic", icon: "Pictures/statistic_icon.png", className: "icon" }]
       : []),
@@ -52,10 +50,11 @@ function SideMenu() {
       </div>
       <nav className="menu_links">
         {menuItems.map((item, index) => (
-          <Link
+          <NavLink
             key={index}
             to={item.path}
             className={`link ${menuExpand ? "hover_width_fullsize" : "hover_width_small"} ${item.className || ""}`}
+            activeClassName="active"
           >
             <img className="logo_tab" src={item.icon} alt={item.label} />
             <span
@@ -63,7 +62,7 @@ function SideMenu() {
             >
               {item.label}
             </span>
-          </Link>
+          </NavLink>
         ))}
       </nav>
     </div>

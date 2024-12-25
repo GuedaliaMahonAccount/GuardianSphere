@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
 import { useTranslation } from "react-i18next";
 import { sendMessageToAI, getChatHistory, addNewChat, deleteChat, updateChatTitle, updateChatFeedback } from './ChatReq';
@@ -18,13 +18,27 @@ const Chat = () => {
   const [showHistory, setShowHistory] = useState(false); // Toggle for showing/hiding chat history
   const [editingChatId, setEditingChatId] = useState(null); // ID of the chat being edited
   const [newTitle, setNewTitle] = useState(''); // New title for the chat
+  const [chatHeight, setChatHeight] = useState(100); // Initial height
+   const chatBoxRef = useRef(null); // Reference for the chat box container
+
+  useEffect(() => {
+    const newHeight = Math.min(100 + messages.length * 20, 400); // Increase by 20px per message up to 400px
+    setChatHeight(newHeight);
+    scrollToBottom();
+  }, [messages]);
+
+    const scrollToBottom = () => {
+      if (chatBoxRef.current) {
+        chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+      }
+    };
 
   // Load chat history when the component mounts
   useEffect(() => {
     const fetchHistory = async () => {
       const history = await getChatHistory(username);
       setChatHistory(history); // Update chat history
-  
+
       if (history && history.length > 0) {
         const latestChat = history[history.length - 1]; // Get the latest chat
         setActiveChatId(latestChat._id); // Set the latest chat as active
@@ -36,7 +50,7 @@ const Chat = () => {
     };
     fetchHistory();
   }, [username]);
-  
+
 
   // Start a new chat
   const startNewChat = async () => {
@@ -151,7 +165,7 @@ const Chat = () => {
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <img src="logo192guardian.png" alt="Guardian Sphere Logo" className="landing-logo1" />
       <div className="chat-header">
-      <h2>{t("hello_i_m_here_for_you")}</h2>
+        <h2>{t("hello_i_m_here_for_you")}</h2>
       </div>
 
       {/* New Chat Button */}
@@ -160,18 +174,18 @@ const Chat = () => {
       </button>
 
       {/* Chat Box */}
-      <div className="chat-box">
-        <div className="messages">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={msg.sender === 'user' ? 'user-message' : 'ai-message'}
-            >
-              <p>{msg.text}</p>
-            </div>
-          ))}
-        </div>
+      <div className="chat-box" style={{ height: `${chatHeight}px` }} ref={chatBoxRef}>
+  <div className="messages">
+    {messages.map((msg, index) => (
+      <div
+        key={index}
+        className={msg.sender === 'user' ? 'user-message' : 'ai-message'}
+      >
+        <p>{msg.text}</p>
       </div>
+    ))}
+  </div>
+</div>
 
       {/* Message Form */}
       <form onSubmit={handleSendToAi} className="message-form">

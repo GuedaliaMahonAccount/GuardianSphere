@@ -58,14 +58,16 @@
 .chat-box {
   width: 100%;
   max-width: 600px;
-  height: 400px;
+  max-height: 500px; /* Maximum height */
+  min-height: 100px; /* Initial minimum height */
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 15px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
+  transition: height 0.3s ease-in-out; /* Smooth height change */
 }
 
 /* Messages Container */

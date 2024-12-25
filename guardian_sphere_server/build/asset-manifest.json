@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/static/css/main.b79b1379.css",
-    "main.js": "/static/js/main.37cb2e74.js",
+    "main.js": "/static/js/main.8d132162.js",
     "static/js/38.f076885e.chunk.js": "/static/js/38.f076885e.chunk.js",
     "static/js/453.d1497801.chunk.js": "/static/js/453.d1497801.chunk.js",
     "static/media/maleDoctor.png": "/static/media/maleDoctor.2ff7e669d873304b4e87.png",
     "index.html": "/index.html",
     "main.b79b1379.css.map": "/static/css/main.b79b1379.css.map",
-    "main.37cb2e74.js.map": "/static/js/main.37cb2e74.js.map",
+    "main.8d132162.js.map": "/static/js/main.8d132162.js.map",
     "38.f076885e.chunk.js.map": "/static/js/38.f076885e.chunk.js.map",
     "453.d1497801.chunk.js.map": "/static/js/453.d1497801.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b79b1379.css",
-    "static/js/main.37cb2e74.js"
+    "static/js/main.8d132162.js"
   ]
 }

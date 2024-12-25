@@ -1,4 +1,29 @@
 {
-    "statistic_title": "סטטיסטיקה",
-    "statistic_description": "דף זה מציג את הסטטיסטיקה של המערכת"
-}
+    "statistic_title": "סטטיסטיקת מנהל",
+    "statistic_description": "דף זה מציג את הסטטיסטיקה של המערכת",
+    "total_users": "סה\"כ משתמשים",
+    "contacted_users": "משתמשים שיצרו קשר",
+    "non_contacted_users": "משתמשים שלא יצרו קשר",
+    "user_statistics": "סטטיסטיקת משתמשים",
+    "bar_chart_title": "סקירת משתמשים",
+    "pie_chart_title": "משתמשים שיצרו קשר מול אלו שלא",
+    "doughnut_chart_title": "פיזור משתמשים",
+    "line_chart_title": "השלמות בזמן לפי שבוע",
+    "pie_chart_ai_title": "אינטראקציות עם AI",
+    "group_activity_chart_title": "פעילות קבוצת משתמשים",
+    "resigned_or_fired_title": "אחוזי התפטרות או פיטורים",
+    "resigned_or_fired_this_month": "התפטרו או פוטרו החודש",
+    "still_employed": "עדיין מועסקים",
+    "previous_month": "חודש קודם",
+    "next_month": "חודש זה",
+    "admin_data_entry_chart_title": "פעילות הזנת נתונים של מנהל",
+    "admin_data_entry": "הזנת נתוני מנהל",
+    "home": "בית",
+    "average_on_time_completion": "ממוצע השלמה בזמן",
+    "messages_sent_to_ai": "הודעות שנשלחו לAI",
+    "ai_calls": "שיחות AI",
+    "active_group_users": "משתמשי קבוצה פעילים",
+    "inactive_group_users": "משתמשי קבוצה לא פעילים",
+    "group_activity": "פעילות קבוצה"
+  }
+  

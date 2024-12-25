@@ -3,7 +3,7 @@ import './FollowUp.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrash, faCheck, faTimes, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrash, faCheck, faTimes, faSave, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck } from './followUpReq';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,6 +24,10 @@ const FollowUp = () => {
   const [error, setError] = useState(null);
   const username = localStorage.getItem('username');
   const navigate = useNavigate();
+  const [formVisible, setFormVisible] = useState(false);
+
+  const nothing = error;
+  console.log(nothing);
 
   useEffect(() => {
     fetchTreatments();
@@ -66,7 +70,7 @@ const FollowUp = () => {
       alert(t("form_error_fill_all"));
       return;
     }
-  
+
     // Create a new treatment object without `_id` for MongoDB
     const newTreatment = {
       name,
@@ -76,30 +80,31 @@ const FollowUp = () => {
       frequency,
       checks: generateDates(startDate, endDate, frequency),
     };
-  
+
     // Temporarily add to UI
     setNewTreatments([...newTreatments, { ...newTreatment, tempId: `temp-${Date.now()}` }]);
     setFormFields({ name: "", description: "", startDate: "", endDate: "", frequency: "daily" });
   };
-  
+
   const handleSaveTreatment = async (treatment) => {
     try {
       // Remove temporary ID before sending to backend
       const { tempId, ...treatmentToSave } = treatment;
-  
+
       const savedTreatment = await createTreatment(username, treatmentToSave);
-  
+
       // Add the saved treatment to Redux state
       dispatch({ type: "ADD_TREATMENT", payload: savedTreatment });
-  
+
       // Remove the temporary treatment and replace it with the saved treatment
       setNewTreatments(newTreatments.filter((t) => t.tempId !== tempId));
       fetchTreatments();
+      setFormVisible(false);
     } catch (error) {
       setError(`Error creating treatment: ${error.message}`);
     }
   };
-  
+
   const handleEditTreatment = (treatment) => {
     setEditingTreatmentId(treatment._id);
     setEditFields({ name: treatment.name, description: treatment.description });
@@ -147,68 +152,79 @@ const FollowUp = () => {
       <button onClick={() => navigate("/home")} className="home-back-button">{t("home")}</button>
       <h2>{t("followup_title")}</h2>
       <p>{t("followup_description")}</p>
-  
-      <form className="followup-form" onSubmit={handleAddTreatment}>
-        <div className="form-group">
-          <label htmlFor="treatmentName">{t("form_treatmentName")}:</label>
-          <input
-            type="text"
-            id="treatmentName"
-            value={formFields.name}
-            onChange={(e) => setFormFields({ ...formFields, name: e.target.value })}
-            placeholder={t("form_treatmentName_placeholder")}
-            required
-          />
-        </div>
-  
-        <div className="form-group">
-          <label htmlFor="treatmentDescription">{t("form_description")}:</label>
-          <textarea
-            id="treatmentDescription"
-            value={formFields.description}
-            onChange={(e) => setFormFields({ ...formFields, description: e.target.value })}
-            placeholder={t("form_description_placeholder")}
-            required
-          />
-        </div>
-  
-        <div className="form-group">
-          <label htmlFor="treatmentStartDate">{t("form_startDate")}:</label>
-          <input
-            type="date"
-            id="treatmentStartDate"
-            value={formFields.startDate}
-            onChange={(e) => setFormFields({ ...formFields, startDate: e.target.value })}
-            required
-          />
-        </div>
-  
-        <div className="form-group">
-          <label htmlFor="treatmentEndDate">{t("form_endDate")}:</label>
-          <input
-            type="date"
-            id="treatmentEndDate"
-            value={formFields.endDate}
-            onChange={(e) => setFormFields({ ...formFields, endDate: e.target.value })}
-          />
-        </div>
-  
-        <div className="form-group">
-          <label htmlFor="treatmentFrequency">{t("form_frequency")}:</label>
-          <select
-            id="treatmentFrequency"
-            value={formFields.frequency}
-            onChange={(e) => setFormFields({ ...formFields, frequency: e.target.value })}
-          >
-            <option value="daily">{t("frequency_daily")}</option>
-            <option value="weekly">{t("frequency_weekly")}</option>
-            <option value="monthly">{t("frequency_monthly")}</option>
-          </select>
-        </div>
-  
-        <button type="submit" className="add-button">{t("add_button")}</button>
-      </form>
-  
+
+      {/* Bouton pour afficher ou masquer le formulaire */}
+      <button
+        onClick={() => setFormVisible(!formVisible)}
+        className="toggle-form-button"
+      >
+        <FontAwesomeIcon icon={formVisible ? faMinus : faPlus} />
+        {formVisible ? t("hide_form_button") : t("show_form_button")}
+      </button>
+
+      {formVisible && (
+        <form className="followup-form" onSubmit={handleAddTreatment}>
+          <div className="form-group">
+            <label htmlFor="treatmentName">{t("form_treatmentName")}:</label>
+            <input
+              type="text"
+              id="treatmentName"
+              value={formFields.name}
+              onChange={(e) => setFormFields({ ...formFields, name: e.target.value })}
+              placeholder={t("form_treatmentName_placeholder")}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="treatmentDescription">{t("form_description")}:</label>
+            <textarea
+              id="treatmentDescription"
+              value={formFields.description}
+              onChange={(e) => setFormFields({ ...formFields, description: e.target.value })}
+              placeholder={t("form_description_placeholder")}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="treatmentStartDate">{t("form_startDate")}:</label>
+            <input
+              type="date"
+              id="treatmentStartDate"
+              value={formFields.startDate}
+              onChange={(e) => setFormFields({ ...formFields, startDate: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="treatmentEndDate">{t("form_endDate")}:</label>
+            <input
+              type="date"
+              id="treatmentEndDate"
+              value={formFields.endDate}
+              onChange={(e) => setFormFields({ ...formFields, endDate: e.target.value })}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="treatmentFrequency">{t("form_frequency")}:</label>
+            <select
+              id="treatmentFrequency"
+              value={formFields.frequency}
+              onChange={(e) => setFormFields({ ...formFields, frequency: e.target.value })}
+            >
+              <option value="daily">{t("frequency_daily")}</option>
+              <option value="weekly">{t("frequency_weekly")}</option>
+              <option value="monthly">{t("frequency_monthly")}</option>
+            </select>
+          </div>
+
+          <button type="submit" className="add-button">{t("add_button")}</button>
+        </form>
+      )}
+
       <div className="treatment-table-container">
         {[...treatments, ...newTreatments].map((treatment, index) => (
           <div key={treatment._id || `temp-${index}`} className="single-treatment-table">
@@ -283,7 +299,7 @@ const FollowUp = () => {
       </div>
     </div>
   );
-  
+
 };
 
 export default FollowUp;

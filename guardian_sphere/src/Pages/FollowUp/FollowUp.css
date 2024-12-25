@@ -297,3 +297,26 @@
   background: rgba(255,255,255,0.2);
   padding: 15px;
 }
+
+/* Bouton pour afficher/masquer le formulaire */
+.toggle-form-button {
+  position: fixed;
+  top: 250px;
+  inset-inline-end: 200px; 
+  z-index: 1000000;
+  background: linear-gradient(135deg, #a0d7f1, #70b6f7);
+  color: #007bff;
+  padding: 20px 30px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.5;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggle-form-button:hover {
+  background-color: #218838;
+}

@@ -24,5 +24,8 @@
   "form_endDate": "תאריך סיום",
   "no_end_date": "לא הוגדר תאריך סיום.",
 
-  "home": "בית"
+  "home": "בית",
+
+  "show_form_button": "הוסף",
+  "hide_form_button": "הסתר"
 }

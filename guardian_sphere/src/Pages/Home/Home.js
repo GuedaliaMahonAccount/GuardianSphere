@@ -37,26 +37,26 @@ const Home = () => {
         }, 5000);
     }, [heroUpdates.length]);
 
-    const resetTimer = useCallback(() => {
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-        startTimer();
-    }, [startTimer]);
+    // const resetTimer = useCallback(() => {
+    //     if (intervalRef.current) {
+    //         clearInterval(intervalRef.current);
+    //     }
+    //     startTimer();
+    // }, [startTimer]);
+    //
+    // const handleNext = useCallback(() => {
+    //     setCurrentUpdateIndex((prevIndex) =>
+    //         prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
+    //     );
+    //     resetTimer();
+    // }, [heroUpdates.length, resetTimer]);
 
-    const handleNext = useCallback(() => {
-        setCurrentUpdateIndex((prevIndex) =>
-            prevIndex === heroUpdates.length - 1 ? 0 : prevIndex + 1
-        );
-        resetTimer();
-    }, [heroUpdates.length, resetTimer]);
-
-    const handlePrev = useCallback(() => {
-        setCurrentUpdateIndex((prevIndex) =>
-            prevIndex === 0 ? heroUpdates.length - 1 : prevIndex - 1
-        );
-        resetTimer();
-    }, [heroUpdates.length, resetTimer]);
+    // const handlePrev = useCallback(() => {
+    //     setCurrentUpdateIndex((prevIndex) =>
+    //         prevIndex === 0 ? heroUpdates.length - 1 : prevIndex - 1
+    //     );
+    //     resetTimer();
+    // }, [heroUpdates.length, resetTimer]);
 
     useEffect(() => {
         startTimer();

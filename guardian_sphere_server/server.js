@@ -16,7 +16,7 @@ const io = new Server(server, {
       'https://guardian-sphere.azurewebsites.net',
       'http://localhost:3000',
       'https://guardianspheres.com',
-      'https://guardian-sphere-python-dybjfqfkgwd0aegy.israelcentral-01.azurewebsites.net'
+      'https://guardian-sphere-python-new-c7csa3dzetg9ckdp.israelcentral-01.azurewebsites.net'
     ],
     methods: ['GET', 'POST'],
     credentials: true

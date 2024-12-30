@@ -34,14 +34,22 @@
     background-color: #eaf4ff;
 }
 
-.floating-card::before {
+/* .floating-card::before {
     content: "🩺";
     display: block;
     font-size: 28px;
     margin-bottom: 10px;
-}
+} */
 
 /* Animation pour le sautillement */
 .bouncing {
     animation: bounce 1s ease;
+}
+
+.logo-atsala {
+    max-width: 200px; /* Limite la largeur de l'image */
+    max-height: 200px; /* Limite la hauteur de l'image */
+    margin-bottom: 10px; /* Espace entre l'image et le texte */
+    border-radius: 50%; /* Donne un effet circulaire à l'image */
+    object-fit: cover; /* S'assure que l'image reste bien cadrée */
 }

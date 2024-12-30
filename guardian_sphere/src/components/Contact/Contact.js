@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { incrementContacted } from "./contactReq";
 import './Contact.css';
 
 const Contact = () => {
     const { t } = useTranslation("Contact"); // Namespace 'Contact' for translations
-    const navigate = useNavigate();
     const [isBouncing, setIsBouncing] = useState(false);
-
-
 
     const handleContact = async () => {
         try {
@@ -19,9 +15,10 @@ const Contact = () => {
         } catch (error) {
             console.error('Failed to increment contacted field:', error);
         }
-        navigate("/doctors"); // Navigate to the doctors route
-    };
 
+        // Redirige pour appeler le 1221
+        window.location.href = "tel:1221";
+    };
 
     useEffect(() => {
         // Déclenche l'animation à des intervalles aléatoires
@@ -33,15 +30,18 @@ const Contact = () => {
         return () => clearInterval(interval); // Nettoie l'intervalle
     }, []);
 
-
-
     return (
         <div className="contact-container">
             <div 
                 className={`floating-card ${isBouncing ? "bouncing" : ""}`} 
                 onClick={handleContact}
             >
-                {t("contact_professional")}
+                <img 
+                    src="/Pictures/logo_atsala.png" 
+                    alt="Atsala Logo" 
+                    className="logo-atsala" 
+                />
+                {/* <p>{t("contact_professional")}</p> */}
             </div>
         </div>
     );

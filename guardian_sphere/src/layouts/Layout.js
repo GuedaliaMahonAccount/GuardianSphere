@@ -16,14 +16,14 @@ const Layout = ({ children }) => {
   const outPages = !isLoginPage && !isSignUpPage && !isTerms && !isSignUpAdminPage && !isEntryPage && !isReviewPage;
 
   const isDoctorPage = location.pathname.toLowerCase() === "/doctors";
-  const isContact = !isDoctorPage;
+  // const isContact = !isDoctorPage;
   const isStatistic = location.pathname.toLowerCase() === "/statistic";
   const adminPages = !isStatistic;
 
   return (
     <div className="app-container">
       {/* Card flottante */}
-      {outPages && isContact && adminPages && <Contact />}
+      {outPages  && adminPages && <Contact />}
 
       {/* Navbar si ce n'est pas une page de connexion/inscription */}
       {outPages && <Navbar />}

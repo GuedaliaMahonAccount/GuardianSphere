@@ -198,25 +198,30 @@ exports.checkAvailability = async (req, res) => {
 
 // Increment 'contacted' field
 exports.incrementContacted = async (req, res) => {
-  const userId = req.userId; // Extract userId from authMiddleware
+  console.log('incrementPoints called with userId:', req.userId);
+  const userId = req.userId;
 
   try {
+    console.log('Attempting to update points for user:', userId);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $inc: { contacted: 1 } }, // Increment 'contacted' by 1
-      { new: true } // Return the updated user
+      { $inc: { points: 1 } },
+      { new: true }
     );
+    
+    console.log('Points update result:', updatedUser);
 
     if (!updatedUser) {
+      console.log('User not found for ID:', userId);
       return res.status(404).json({ message: 'User not found' });
     }
 
     res.status(200).json({
-      message: 'Contacted field incremented successfully.',
+      message: 'Points incremented successfully.',
       user: updatedUser,
     });
   } catch (error) {
-    console.error('Error incrementing contacted field:', error);
+    console.error('Detailed error in incrementPoints:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

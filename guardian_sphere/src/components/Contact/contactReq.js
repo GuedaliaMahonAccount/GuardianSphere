@@ -4,13 +4,14 @@ import { BASE_URL } from '../../config';
 // Increment 'contacted' for the user
 export const incrementContacted = async () => {
   try {
-    const response = await axios.put(`${BASE_URL}/api/user/increment-contacted`, null, {
+    console.log('Token for points increment:', localStorage.getItem('token'));
+    const response = await axios.put(`${BASE_URL}/api/user/increment-points`, null, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    console.log('Contacted incremented successfully:', response.data);
+    console.log('Points increment response:', response);
     return response.data;
   } catch (error) {
-    console.error('Error incrementing contacted:', error.message);
+    console.error('Points increment error:', error.response || error);
     throw error;
   }
 };

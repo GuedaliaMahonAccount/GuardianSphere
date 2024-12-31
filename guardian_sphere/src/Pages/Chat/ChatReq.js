@@ -13,20 +13,20 @@ const getAuthHeaders = () => ({
 axios.defaults.withCredentials = true;
 
 export const sendMessageToAI = async (username, chatId, message) => {
-  try {
-    const response = await axios.post(
-      `${apiUrl}/chat`,
-      { username, chatId, message },
-      {
-        headers: getAuthHeaders(),
-        withCredentials: true
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
+  // try {
+  //   const response = await axios.post(
+  //     `${apiUrl}/chat`,
+  //     { username, chatId, message },
+  //     {
+  //       headers: getAuthHeaders(),
+  //       withCredentials: true
+  //     }
+  //   );
+  //   return response.data;
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   throw error;
+  // }
 };
 
 export const getChatHistory = async (username) => {

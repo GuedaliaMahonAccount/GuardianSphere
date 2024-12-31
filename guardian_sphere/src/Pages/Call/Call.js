@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const apiKey = "2e5afc98-21a2-4665-96d5-c067a5e20b75";
-//const assistantId = "a673aba3-7453-4adc-b10a-4fc6cbcd7310";
+const assistantId = "a673aba3-7453-4adc-b10a-4fc6cbcd7310";
 
 const vapi = new Vapi(apiKey);
 
@@ -41,102 +41,102 @@ const Call = () => {
     }, []);
 
     const startCall = () => {
-        // if (isCalling) {
-        //     console.log("Call is already in progress.");
-        //     return;
-        // }
+        if (isCalling) {
+            console.log("Call is already in progress.");
+            return;
+        }
 
-        // simulateVolume();
+        simulateVolume();
 
-        // navigator.mediaDevices.getUserMedia({ audio: true })
-        //     .then((stream) => {
-        //         console.log("Microphone access granted");
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then((stream) => {
+                console.log("Microphone access granted");
 
-        //         // Démarrer Vapi avec le stream audio
-        //         vapi.start(assistantId, { audio: { mediaStream: stream } });
+                // Démarrer Vapi avec le stream audio
+                vapi.start(assistantId, { audio: { mediaStream: stream } });
 
-        //         // Conserver le stream pour pouvoir l'arrêter plus tard
-        //         mediaStreamRef.current = stream;
-        //     })
-        //     .catch((err) => {
-        //         console.error("Microphone not found:", err);
-        //         alert("No microphone detected. The call will not work without audio input.");
-        //         return;
-        //     });
+                // Conserver le stream pour pouvoir l'arrêter plus tard
+                mediaStreamRef.current = stream;
+            })
+            .catch((err) => {
+                console.error("Microphone not found:", err);
+                alert("No microphone detected. The call will not work without audio input.");
+                return;
+            });
 
-        // setIsCalling(true);
-        // console.log("Starting Vapi...");
+        setIsCalling(true);
+        console.log("Starting Vapi...");
 
-        // vapi.start(assistantId);
+        vapi.start(assistantId);
 
-        // // Ajouter dans la fonction startCall, après vapi.start()
-        // vapi.on("transcription", (transcription) => {
-        //     console.log("Transcription:", transcription);
-        // });
+        // Ajouter dans la fonction startCall, après vapi.start()
+        vapi.on("transcription", (transcription) => {
+            console.log("Transcription:", transcription);
+        });
 
-        // vapi.on("message", (message) => {
-        //     console.log("Message from assistant:", message);
-        // });
+        vapi.on("message", (message) => {
+            console.log("Message from assistant:", message);
+        });
 
-        // vapi.on("error", (error) => {
-        //     console.error("Vapi error:", error);
-        // });
-
-
-        // vapi.on("start", () => {
-        //     console.log("Assistant started speaking");
-        // });
+        vapi.on("error", (error) => {
+            console.error("Vapi error:", error);
+        });
 
 
-        // vapi.on("end", () => {
-        //     console.log("Assistant stopped speaking");
-        //     setVolume(0);
-        // });
+        vapi.on("start", () => {
+            console.log("Assistant started speaking");
+        });
 
 
-        // vapi.on("speech", (audioData) => {
-        //     console.log("Received speech data from assistant");
-        //     try {
-        //         const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-        //         const audioUrl = URL.createObjectURL(audioBlob);
-        //         const audioElement = new Audio(audioUrl);
+        vapi.on("end", () => {
+            console.log("Assistant stopped speaking");
+            setVolume(0);
+        });
 
-        //         audioElement.oncanplaythrough = () => {
-        //             console.log("Audio ready to play");
-        //             const source = audioContextRef.current.createMediaElementSource(audioElement);
-        //             source.connect(analyserRef.current);
-        //             analyserRef.current.connect(audioContextRef.current.destination);
 
-        //             const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
+        vapi.on("speech", (audioData) => {
+            console.log("Received speech data from assistant");
+            try {
+                const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audioElement = new Audio(audioUrl);
 
-        //             const updateVolume = () => {
-        //                 analyserRef.current.getByteFrequencyData(dataArray);
-        //                 const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
-        //                 const normalizedVolume = average / 256;
-        //                 console.log("Current volume:", normalizedVolume);
-        //                 setVolume(normalizedVolume);
+                audioElement.oncanplaythrough = () => {
+                    console.log("Audio ready to play");
+                    const source = audioContextRef.current.createMediaElementSource(audioElement);
+                    source.connect(analyserRef.current);
+                    analyserRef.current.connect(audioContextRef.current.destination);
 
-        //                 if (isCalling) {
-        //                     requestAnimationFrame(updateVolume);
-        //                 }
-        //             };
+                    const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
 
-        //             updateVolume();
-        //             audioElement.play().catch(error => {
-        //                 console.error("Error playing audio:", error);
-        //             });
-        //         };
+                    const updateVolume = () => {
+                        analyserRef.current.getByteFrequencyData(dataArray);
+                        const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
+                        const normalizedVolume = average / 256;
+                        console.log("Current volume:", normalizedVolume);
+                        setVolume(normalizedVolume);
 
-        //         audioElement.onended = () => {
-        //             console.log("Audio ended");
-        //             URL.revokeObjectURL(audioUrl);
-        //         };
+                        if (isCalling) {
+                            requestAnimationFrame(updateVolume);
+                        }
+                    };
 
-        //     } catch (error) {
-        //         console.error("Error processing audio:", error);
-        //     }
+                    updateVolume();
+                    audioElement.play().catch(error => {
+                        console.error("Error playing audio:", error);
+                    });
+                };
+
+                audioElement.onended = () => {
+                    console.log("Audio ended");
+                    URL.revokeObjectURL(audioUrl);
+                };
+
+            } catch (error) {
+                console.error("Error processing audio:", error);
+            }
       
-        // });
+        });
     };
 
     const stopCall = () => {
@@ -159,13 +159,13 @@ const Call = () => {
     };
 
 
-    // const simulateVolume = () => {
-    //     if (intervalRef.current) return; // Prevent multiple intervals
-    //     intervalRef.current = setInterval(() => {
-    //         const randomVolume = Math.random() * 0.2; // Small variations between 0 and 0.2
-    //         setVolume(randomVolume);
-    //     }, 200); // Update every 200ms
-    // };
+    const simulateVolume = () => {
+        if (intervalRef.current) return; // Prevent multiple intervals
+        intervalRef.current = setInterval(() => {
+            const randomVolume = Math.random() * 0.2; // Small variations between 0 and 0.2
+            setVolume(randomVolume);
+        }, 200); // Update every 200ms
+    };
 
     const endSimulateVolume = () => {
         clearInterval(intervalRef.current);

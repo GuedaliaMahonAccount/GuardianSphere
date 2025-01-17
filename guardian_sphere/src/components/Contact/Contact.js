@@ -8,17 +8,23 @@ const Contact = () => {
     const [isBouncing, setIsBouncing] = useState(false);
 
     const handleContact = async () => {
-        try {
-            // Increment 'contacted' field in the backend
-            await incrementContacted();
-            console.log('Contacted incremented');
-        } catch (error) {
-            console.error('Failed to increment contacted field:', error);
-        }
-
+        // Incrémente le nombre de points de l'utilisateur
+        await increasePoints();
         // Redirige pour appeler le 1221
         window.location.href = "tel:1221";
     };
+
+    const increasePoints = async () => {
+        try {
+            // Increment 'contacted' field in the backend
+            await incrementContacted();
+            console.log('incremented');
+        } catch (error) {
+            console.error('Failed to increment:', error);
+        }
+
+    };
+
 
     useEffect(() => {
         // Déclenche l'animation à des intervalles aléatoires

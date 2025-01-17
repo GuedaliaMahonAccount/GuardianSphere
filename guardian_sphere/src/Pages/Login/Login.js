@@ -31,6 +31,7 @@ const Login = () => {
       localStorage.setItem('userId', response.data.user._id);
       localStorage.setItem('username', response.data.user.realName);
       localStorage.setItem('role', response.data.user.role); // 'user' ou 'admin'
+      localStorage.setItem('secter', response.data.user.secter);
 
       navigate('/home');
     } catch (error) {

@@ -362,3 +362,51 @@
   display: none; /* Remove arrow since the pop-up is centered */
 }
 
+
+
+.banned-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #ffe6e6; /* Couleur d'arrière-plan douce pour signaler un problème */
+  border: 1px solid #ff4d4d; /* Bordure rouge pour accentuer */
+  border-radius: 10px;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.banned-container h2 {
+  color: #d32f2f; /* Rouge pour attirer l'attention */
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.banned-container p {
+  color: #555; /* Texte secondaire */
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.request-unban-button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Bleu pour indiquer une action possible */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.request-unban-button:hover {
+  background-color: #0056b3; /* Couleur légèrement plus sombre au survol */
+}
+
+.request-unban-button:focus {
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}

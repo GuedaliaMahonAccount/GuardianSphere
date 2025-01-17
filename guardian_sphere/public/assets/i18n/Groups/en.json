@@ -30,5 +30,9 @@
   "report_acknowledgment": "Thank you for reporting this message. Our team will review it shortly.",
   "confirm_report": "Are you sure you want to report this message?",
   "confirm_report_yes": "Yes",
-  "confirm_report_no": "No"
+  "confirm_report_no": "No",
+  "banned_message": "You are banned",
+  "banned_explanation": "You cannot send messages because your account has been banned. If you believe this is a mistake, you can request a review.",
+  "request_unban": "Request Unban",
+  "request_unban_message": "Your request for unban has been recorded. We'll review it shortly."
 }

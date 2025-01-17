@@ -3,20 +3,22 @@ const Message = require('../models/groups');
 
 // Fonction utilitaire pour nettoyer les anciens messages
 async function cleanOldMessages(group) {
+  console.log('Cleaning old messages for group:', group);
   try {
-    // Compte le nombre total de messages dans le groupe
+    const bannedUsers = await User.find({ banned: true }).select('_id');
+    const bannedUserIds = bannedUsers.map((user) => user._id);
+    console.log('Banned users:', bannedUserIds);
+
+    await Message.deleteMany({ userId: { $in: bannedUserIds } });
+
     const count = await Message.countDocuments({ group });
-    
     if (count > 20) {
-      // Trouve les messages à supprimer (les plus anciens au-delà des 20 plus récents)
       const messagesToDelete = await Message.find({ group })
         .sort({ timestamp: 1 })
         .limit(count - 20);
-        
-      // Supprime les messages
       if (messagesToDelete.length > 0) {
         await Message.deleteMany({
-          _id: { $in: messagesToDelete.map(msg => msg._id) }
+          _id: { $in: messagesToDelete.map((msg) => msg._id) },
         });
       }
     }
@@ -25,26 +27,39 @@ async function cleanOldMessages(group) {
   }
 }
 
+
 // Fetch messages by group
 exports.getMessagesByGroup = async (req, res) => {
   const { group } = req.params;
   const { language, secter } = req.query; // Get language and secter from query params
 
   console.log(`Fetching messages for group: ${group}, language: ${language}, secter: ${secter}`);
-  
+
   try {
     const groupKey = `${group}_${language}_${secter}`; // Combine group, language, and secter
+
+    // Find messages and filter out those from banned users
     const messages = await Message.find({ group: groupKey })
       .sort({ timestamp: -1 })
-      .limit(20);
-    
-    console.log(`Found ${messages.length} messages for group: ${groupKey}`);
-    res.status(200).json(messages.reverse());
+      .limit(20)
+      .populate({
+        path: 'userId', // Assuming `userId` references the User model
+        match: { banned: false }, // Exclude banned users
+        select: 'banned', // Fetch only necessary fields
+      })
+      .lean();
+
+    // Filter out messages where userId is null (user was banned)
+    const filteredMessages = messages.filter((msg) => msg.userId !== null);
+
+    console.log(`Found ${filteredMessages.length} messages for group: ${groupKey}`);
+    res.status(200).json(filteredMessages.reverse());
   } catch (error) {
     console.error('Error fetching messages:', error);
     res.status(500).json({ message: 'Error fetching messages', error });
   }
 };
+
 
 // Create a new message
 exports.createMessage = async (req, res) => {

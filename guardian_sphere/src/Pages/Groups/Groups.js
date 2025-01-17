@@ -26,6 +26,7 @@ const Groups = () => {
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [reportPopups, setReportPopups] = useState({});
+  const [isBanned, setIsBanned] = useState(false);
 
   const messagesEndRef = useRef(null);
   const chatBoxRef = useRef(null);
@@ -47,6 +48,23 @@ const Groups = () => {
       console.error('No userId found in localStorage. Please log in.');
     }
   }, []);
+
+  useEffect(() => {
+    socket.on('user banned', ({ userId }) => {
+      setMessages((prevMessages) => {
+        const updatedMessages = {};
+        for (const [groupKey, groupMessages] of Object.entries(prevMessages)) {
+          updatedMessages[groupKey] = groupMessages.filter((msg) => msg.userId !== userId);
+        }
+        return updatedMessages;
+      });
+    });
+  
+    return () => {
+      socket.off('user banned');
+    };
+  }, []);
+  
 
   // Report message functionality
   const reportMessage = async (userId, messageId) => {
@@ -277,16 +295,63 @@ const Groups = () => {
     }
   };
 
+
+  useEffect(() => {
+    // Vérifiez si l'utilisateur est banni au chargement
+    const checkBanStatus = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found.');
+          return;
+        }
+
+        const response = await fetch(`${BASE_URL}/api/user/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          console.error('Failed to fetch user data.');
+          return;
+        }
+
+        const user = await response.json();
+        setIsBanned(user.banned || false);
+      } catch (error) {
+        console.error('Error checking ban status:', error);
+      }
+    };
+
+    checkBanStatus();
+  }, []);
+
+  const requestUnban = () => {
+    alert(t('request_unban_message')); // Message d'alerte temporaire
+    // À implémenter plus tard pour demander une levée de bannissement
+  };
+
+
+
   return (
     <div className="group-container">
       <button onClick={() => navigate("/home")} className="home-back-button">
         {t("home")}
       </button>
-
-      <div className="group-header">
-        <div className="groups-panel">
+  
+      {isBanned ? (
+        <div className="banned-container">
+          <h2>{t('banned_message')}</h2>
+          <p>{t('banned_explanation')}</p>
+          <button onClick={requestUnban} className="request-unban-button">
+            {t('request_unban')}
+          </button>
+        </div>
+      ) : (
+        <div className="group-header">
           {!currentGroup ? (
-            <>
+            <div className="groups-panel">
               <h2 className="group-title-header">{t('groups_title')}</h2>
               <p>{t('groups_description')}</p>
               {['PTSD', 'burnout', 'depression', 'anxiety', 'sleep_disorder'].map((group) => (
@@ -298,9 +363,9 @@ const Groups = () => {
                   <h3>{t(`${group}_title`)}</h3>
                 </div>
               ))}
-            </>
+            </div>
           ) : (
-            <>
+            <div className="chat-container">
               <button
                 className={`home-back-button ${i18n.language === 'he' ? 'rtl' : 'ltr'}`}
                 onClick={() => setCurrentGroup(null)}
@@ -397,12 +462,12 @@ const Groups = () => {
                   )}
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
-};
+}
 
 export default Groups;

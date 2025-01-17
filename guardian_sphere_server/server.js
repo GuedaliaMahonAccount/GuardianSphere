@@ -3,6 +3,7 @@ const { Server } = require('socket.io');
 const app = require('./src/app'); // Preconfigured Express app
 const connectDB = require('./src/config/db');
 const Message = require('./src/models/groups'); // Message model
+const User = require('./src/models/user'); // User model
 const logger = require('./logger'); // Logger
 
 // Connect to MongoDB
@@ -27,6 +28,7 @@ const io = new Server(server, {
 
 // Manage connected users
 const usersByGroup = {};
+
 
 // Socket.IO logic
 io.on('connection', (socket) => {
@@ -63,11 +65,19 @@ io.on('connection', (socket) => {
   socket.on('chat message', async (msg) => {
     console.log('Received message:', msg);
     logger.info(`Received message: ${msg}`);
-
+  
     const { group, sender, content, photo, userId, language, secter } = msg;
     const groupKey = `${group}_${language}_${secter}`;
-
+  
     try {
+      const user = await User.findById(userId);
+  
+      if (user.banned) {
+        console.log('Message rejected: User is banned');
+        logger.info('Message rejected: User is banned');
+        return;
+      }
+  
       const newMessage = new Message({
         group: groupKey,
         sender,
@@ -75,15 +85,10 @@ io.on('connection', (socket) => {
         content,
         photo,
       });
-
+  
       await newMessage.save();
-
-      // Clean old messages
       await cleanOldMessages(groupKey);
-
-      console.log('Broadcasting message to group:', groupKey, newMessage);
-      logger.info(`Broadcasting message to group: ${groupKey}, ${newMessage}`);
-
+  
       io.to(groupKey).emit('chat message', {
         group: groupKey,
         sender,
@@ -97,7 +102,24 @@ io.on('connection', (socket) => {
       logger.error(`Error saving message: ${error}`);
     }
   });
-
+  
+  socket.on('ban user', async (userId) => {
+    try {
+      const user = await User.findByIdAndUpdate(userId, { banned: true }, { new: true });
+      if (user) {
+        const userGroups = Object.keys(usersByGroup).filter((group) =>
+          usersByGroup[group].includes(userId)
+        );
+  
+        userGroups.forEach((group) => {
+          io.to(group).emit('user banned', { userId });
+        });
+      }
+    } catch (error) {
+      console.error('Error banning user:', error);
+    }
+  });
+  
   // Handle disconnection
   socket.on('disconnect', () => {
     for (const groupKey in usersByGroup) {

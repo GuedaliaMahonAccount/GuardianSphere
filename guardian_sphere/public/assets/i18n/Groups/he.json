@@ -30,5 +30,9 @@
   "report_acknowledgment": "תודה על הדיווח על ההודעה הזו. צוותנו יבדוק אותה בקרוב.",
   "confirm_report": "האם אתה בטוח שברצונך לדווח על ההודעה הזו?",
   "confirm_report_yes": "כן",
-  "confirm_report_no": "לא"
+  "confirm_report_no": "לא",
+  "banned_message": "נחסמת",
+  "banned_explanation": "אינך יכול לשלוח הודעות מכיוון שחשבונך נחסם. אם אתה חושב שזה טעות, תוכל לבקש בדיקה.",
+  "request_unban": "בקש ביטול חסימה",
+  "request_unban_message": "הבקשה שלך לביטול החסימה נרשמה. נבדוק אותה בקרוב."
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Groups.css';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client';
-import { fetchGroupMessages, updateUserData } from './GroupsReq';
+import { fetchGroupMessages, updateUserData, reportMessageRequest } from './GroupsReq';
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from '../../config';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,7 @@ const Groups = () => {
   const [photo, setPhoto] = useState('');
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [reportPopups, setReportPopups] = useState({});
 
   const messagesEndRef = useRef(null);
   const chatBoxRef = useRef(null);
@@ -48,8 +49,33 @@ const Groups = () => {
   }, []);
 
   // Report message functionality
-  const reportMessage = (userId) => {
-    console.log(`Reported message from user: ${userId}`);
+  const reportMessage = async (userId, messageId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No token found. Please log in.');
+      return;
+    }
+
+    try {
+      const data = await reportMessageRequest(userId, token);
+      console.log(data.message);
+
+      // Show the pop-up for the reported message
+      setReportPopups((prevPopups) => ({
+        ...prevPopups,
+        [messageId]: true,
+      }));
+
+      // Automatically hide the pop-up after 3 seconds
+      setTimeout(() => {
+        setReportPopups((prevPopups) => {
+          const { [messageId]: _, ...rest } = prevPopups; // Remove specific pop-up
+          return rest;
+        });
+      }, 3000);
+    } catch (error) {
+      console.error(error.message || 'Failed to report the message. Please try again.');
+    }
   };
 
   // Auto-scroll functionality
@@ -138,7 +164,7 @@ const Groups = () => {
     if (currentGroup) {
       const userLanguage = i18n.language;
       const userSecter = localStorage.getItem('secter');
-      
+
       socket.emit('join group', {
         group: currentGroup,
         language: userLanguage,
@@ -160,6 +186,7 @@ const Groups = () => {
   }, [currentGroup, i18n.language]);
 
   // Load messages for current group
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const loadMessages = async () => {
       if (currentGroup) {
@@ -169,7 +196,7 @@ const Groups = () => {
           const userSecter = localStorage.getItem('secter');
           const data = await fetchGroupMessages(currentGroup, userLanguage, userSecter);
           const groupKey = getGroupKey(currentGroup);
-          
+
           setMessages((prevMessages) => ({
             ...prevMessages,
             [groupKey]: data
@@ -180,10 +207,12 @@ const Groups = () => {
           setIsLoadingMessages(false);
         }
       }
-    };    
+    };
 
     loadMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentGroup, i18n.language]);
+
 
   // Handle photo upload
   const handlePhotoUpload = (event) => {
@@ -313,13 +342,20 @@ const Groups = () => {
                       >
                         <div className="message-header">
                           {msg.userId !== localStorage.getItem('userId') && (
-                            <button
-                              className="report-button"
-                              onClick={() => reportMessage(msg.userId)}
-                              title={t('report_message_tooltip')}
-                            >
-                              <FontAwesomeIcon icon={faFlag} />
-                            </button>
+                            <div className="report-section">
+                              <button
+                                className="report-button"
+                                onClick={() => reportMessage(msg.userId, msg.id)}
+                                title={t('report_message_tooltip')}
+                              >
+                                <FontAwesomeIcon icon={faFlag} />
+                              </button>
+                              {reportPopups[msg.id] && (
+                                <div className="report-popup">
+                                  {t('report_acknowledgment')}
+                                </div>
+                              )}
+                            </div>
                           )}
                           <div className="profile">
                             <img src={msg.photo} alt="profile" />

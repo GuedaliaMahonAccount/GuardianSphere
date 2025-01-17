@@ -334,3 +334,31 @@
 .message .message-content {
   margin-top: 5px; /* Add vertical spacing */
 }
+
+
+.report-section {
+  position: relative; /* To position the pop-up relative to the button */
+}
+
+.report-popup {
+  position: fixed; /* Position relative to the viewport */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for perfect centering */
+  background-color: #ffffff; /* White background for better contrast */
+  color: green; /* Green text for success */
+  padding: 20px 40px; /* Larger padding for a bigger message box */
+  border-radius: 10px; /* More rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow for prominence */
+  font-size: 1.2rem; /* Larger font size for readability */
+  text-align: center; /* Center-align text */
+  z-index: 1000; /* Higher than other elements */
+  width: 50%; /* Optional: Adjust width to fit more text */
+  max-width: 600px; /* Constrain the maximum width */
+  line-height: 1.5; /* Improve readability */
+}
+
+.report-popup::after {
+  display: none; /* Remove arrow since the pop-up is centered */
+}
+

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash, faCheck, faTimes, faSave, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck, incrementUserPoints  } from './followUpReq';
+import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck} from './followUpReq';
 //import {fetchTreatmentById} from './followUpReq';
 import { useNavigate } from 'react-router-dom';
 import { incrementContacted } from "../../components/Contact/contactReq";

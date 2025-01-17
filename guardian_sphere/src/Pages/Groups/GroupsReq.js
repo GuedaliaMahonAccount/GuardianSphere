@@ -39,3 +39,27 @@ export const updateUserData = async (userData) => {
     throw error; // Rethrow the error for further handling
   }
 };
+
+export const reportMessageRequest = async (userId, token) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/messages/report`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to report the message.');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error in reportMessageRequest:', error.message);
+    throw error;
+  }
+};

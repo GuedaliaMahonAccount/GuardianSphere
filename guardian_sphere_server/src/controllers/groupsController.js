@@ -1,3 +1,4 @@
+const User = require('../models/user');
 const Message = require('../models/groups');
 
 // Fonction utilitaire pour nettoyer les anciens messages
@@ -68,5 +69,39 @@ exports.createMessage = async (req, res) => {
   } catch (error) {
     console.error('Error saving message:', error);
     res.status(500).json({ message: 'Error saving message', error });
+  }
+};
+
+// Report a message
+exports.reportMessage = async (req, res) => {
+  const { userId } = req.body; // User ID of the reported user
+  const reporterId = req.userId; // ID of the user reporting the message
+
+  try {
+    // Ensure the user exists
+    const reportedUser = await User.findById(userId);
+    if (!reportedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Increment the reported user's signal count
+    reportedUser.signaledcount += 1;
+
+    // Check if the user should be banned
+    if (reportedUser.signaledcount >= 3) {
+      reportedUser.banned = true;
+      console.log(`User ${reportedUser.realName} has been banned due to reports.`);
+    }
+
+    // Save the updated user
+    await reportedUser.save();
+
+    res.status(200).json({ 
+      message: `User ${reportedUser.realName} has been reported. Current reports: ${reportedUser.signaledcount}`,
+      banned: reportedUser.banned,
+    });
+  } catch (error) {
+    console.error('Error reporting user:', error);
+    res.status(500).json({ message: 'Failed to report user', error });
   }
 };

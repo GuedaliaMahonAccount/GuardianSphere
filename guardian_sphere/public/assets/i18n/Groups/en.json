@@ -34,5 +34,7 @@
   "banned_message": "You are banned",
   "banned_explanation": "You cannot send messages because your account has been banned. If you believe this is a mistake, you can request a review.",
   "request_unban": "Request Unban",
-  "request_unban_message": "Your request for unban has been recorded. We'll review it shortly."
+  "request_unban_message": "Your request for unban has been recorded. We'll review it shortly.",
+  "unban_request_sent": "Unban request sent",
+  "unban_request_failed": "Failed to send unban request"
 }

@@ -3,18 +3,18 @@ import { BASE_URL } from '../../config';
 
 
 
-export const fetchGroupMessages = async (group) => {
+export const fetchGroupMessages = async (group, language, secter) => {
   try {
-    const token = localStorage.getItem('token'); // Retrieve the token
-    const response = await axios.get(`${BASE_URL}/api/messages/${group}`, {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${BASE_URL}/api/messages/${group}?language=${language}&secter=${secter}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Attach the token directly in headers
+        Authorization: `Bearer ${token}`,
       },
     });
-    return response.data; // Return the data from the response
+    return response.data;
   } catch (error) {
-    console.error('Error fetching group messages:', error.message); // Log the error
-    throw error; // Rethrow the error for further handling
+    console.error('Error fetching group messages:', error.message);
+    throw error;
   }
 };
 

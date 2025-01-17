@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const groupsController = require('../controllers/groupsController');
 
-// Route to fetch messages by group
+// Route to fetch messages by group, language, and secter
 router.get('/:group', groupsController.getMessagesByGroup);
 
 // Route to create a new message

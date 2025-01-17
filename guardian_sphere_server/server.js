@@ -3,7 +3,7 @@ const { Server } = require('socket.io');
 const app = require('./src/app'); // Preconfigured Express app
 const connectDB = require('./src/config/db');
 const Message = require('./src/models/groups'); // Message model
-const logger = require('./logger'); //logger
+const logger = require('./logger'); // Logger
 
 // Connect to MongoDB
 connectDB();
@@ -34,79 +34,93 @@ io.on('connection', (socket) => {
   logger.info(`User connected: ${socket.id}`);
 
   // Join a group
-  socket.on('join group', async (group) => {
-    console.log(`User ${socket.id} joined group: ${group}`);
-    logger.info(`User ${socket.id} joined group: ${group}`);
-    socket.join(group);
-    usersByGroup[group] = usersByGroup[group] || [];
-    usersByGroup[group].push(socket.id);
+  socket.on('join group', ({ group, language, secter }) => {
+    const groupKey = `${group}_${language}_${secter}`;
+    console.log(`User ${socket.id} joined group: ${groupKey}`);
+    logger.info(`User ${socket.id} joined group: ${groupKey}`);
+    socket.join(groupKey);
+    usersByGroup[groupKey] = usersByGroup[groupKey] || [];
+    usersByGroup[groupKey].push(socket.id);
 
     // Notify all users in the group about connected users
-    io.to(group).emit('user connected', usersByGroup[group]);
+    io.to(groupKey).emit('user connected', usersByGroup[groupKey]);
   });
 
   // Leave a group
-  socket.on('leave group', (group) => {
-    console.log(`User ${socket.id} left group: ${group}`);
-    logger.info(`User ${socket.id} left group: ${group}`);
-    socket.leave(group);
+  socket.on('leave group', ({ group, language, secter }) => {
+    const groupKey = `${group}_${language}_${secter}`;
+    console.log(`User ${socket.id} left group: ${groupKey}`);
+    logger.info(`User ${socket.id} left group: ${groupKey}`);
+    socket.leave(groupKey);
 
-    if (usersByGroup[group]) {
-      usersByGroup[group] = usersByGroup[group].filter((id) => id !== socket.id);
-      io.to(group).emit('user connected', usersByGroup[group]);
+    if (usersByGroup[groupKey]) {
+      usersByGroup[groupKey] = usersByGroup[groupKey].filter((id) => id !== socket.id);
+      io.to(groupKey).emit('user connected', usersByGroup[groupKey]);
     }
   });
 
   // Chat message
-socket.on('chat message', async (msg) => {
-  console.log('Received message:', msg);
-  logger.info(`Received message: ${msg}`);
+  socket.on('chat message', async (msg) => {
+    console.log('Received message:', msg);
+    logger.info(`Received message: ${msg}`);
 
-  const { group, sender, content, photo, userId } = msg;
+    const { group, sender, content, photo, userId, language, secter } = msg;
+    const groupKey = `${group}_${language}_${secter}`;
 
-  try {
-    const newMessage = new Message({
-      group,
-      sender,
-      userId,
-      content,
-      photo,
-    });
+    try {
+      const newMessage = new Message({
+        group: groupKey,
+        sender,
+        userId,
+        content,
+        photo,
+      });
 
-    await newMessage.save();
+      await newMessage.save();
 
-    // Nettoie les anciens messages
-    await cleanOldMessages(group);
+      // Clean old messages
+      await cleanOldMessages(groupKey);
 
-    console.log('Broadcasting message to group:', group, newMessage);
-    logger.info(`Broadcasting message to group: ${group}, ${newMessage}`);
+      console.log('Broadcasting message to group:', groupKey, newMessage);
+      logger.info(`Broadcasting message to group: ${groupKey}, ${newMessage}`);
 
-    io.to(group).emit('chat message', {
-      group,
-      sender,
-      userId, 
-      content,
-      photo,
-      _id: newMessage._id,
-    });
-  } catch (error) {
-    console.error('Error saving message:', error);
-    logger.error(`Error saving message: ${error}`);
-  }
+      io.to(groupKey).emit('chat message', {
+        group: groupKey,
+        sender,
+        userId,
+        content,
+        photo,
+        _id: newMessage._id,
+      });
+    } catch (error) {
+      console.error('Error saving message:', error);
+      logger.error(`Error saving message: ${error}`);
+    }
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    for (const groupKey in usersByGroup) {
+      usersByGroup[groupKey] = usersByGroup[groupKey].filter((id) => id !== socket.id);
+      io.to(groupKey).emit('user connected', usersByGroup[groupKey]);
+    }
+    console.log('User disconnected:', socket.id);
+    logger.info(`User disconnected: ${socket.id}`);
+  });
 });
 
-// Ajouter la fonction cleanOldMessages
-async function cleanOldMessages(group) {
+// Clean old messages function
+async function cleanOldMessages(groupKey) {
   try {
-    const count = await Message.countDocuments({ group });
+    const count = await Message.countDocuments({ group: groupKey });
     if (count > 20) {
-      const messagesToDelete = await Message.find({ group })
+      const messagesToDelete = await Message.find({ group: groupKey })
         .sort({ timestamp: 1 })
         .limit(count - 20);
-      
+
       if (messagesToDelete.length > 0) {
         await Message.deleteMany({
-          _id: { $in: messagesToDelete.map(msg => msg._id) }
+          _id: { $in: messagesToDelete.map((msg) => msg._id) }
         });
       }
     }
@@ -116,18 +130,9 @@ async function cleanOldMessages(group) {
   }
 }
 
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    for (const group in usersByGroup) {
-      usersByGroup[group] = usersByGroup[group].filter((id) => id !== socket.id);
-      io.to(group).emit('user connected', usersByGroup[group]);
-    }
-    console.log('User disconnected:', socket.id);
-    logger.info(`User disconnected: ${socket.id}`);
-  });
-});
-
 // Start server
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });

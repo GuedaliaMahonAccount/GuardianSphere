@@ -27,12 +27,17 @@ async function cleanOldMessages(group) {
 // Fetch messages by group
 exports.getMessagesByGroup = async (req, res) => {
   const { group } = req.params;
-  console.log(`Fetching messages for group: ${group}`);
+  const { language, secter } = req.query; // Get language and secter from query params
+
+  console.log(`Fetching messages for group: ${group}, language: ${language}, secter: ${secter}`);
+  
   try {
-    const messages = await Message.find({ group })
+    const groupKey = `${group}_${language}_${secter}`; // Combine group, language, and secter
+    const messages = await Message.find({ group: groupKey })
       .sort({ timestamp: -1 })
       .limit(20);
-    console.log(`Found ${messages.length} messages for group: ${group}`);
+    
+    console.log(`Found ${messages.length} messages for group: ${groupKey}`);
     res.status(200).json(messages.reverse());
   } catch (error) {
     console.error('Error fetching messages:', error);
@@ -42,20 +47,22 @@ exports.getMessagesByGroup = async (req, res) => {
 
 // Create a new message
 exports.createMessage = async (req, res) => {
-  const { group, sender, content, photo, userId } = req.body;
-
-  console.log('Creating message:', { group, sender, content, userId });
+  const { group, sender, content, photo, userId, language, secter } = req.body;
 
   if (!userId) {
     return res.status(400).json({ message: 'User ID is required to create a message.' });
   }
 
+  const groupKey = `${group}_${language}_${secter}`; // Combine group, language, and secter
+  
+  console.log('Creating message for group:', groupKey);
+
   try {
-    const message = new Message({ group, sender, userId, content, photo });
+    const message = new Message({ group: groupKey, sender, userId, content, photo });
     await message.save();
     
-    // Nettoie les anciens messages après avoir sauvegardé le nouveau
-    await cleanOldMessages(group);
+    // Clean old messages for the group
+    await cleanOldMessages(groupKey);
 
     res.status(201).json(message);
   } catch (error) {

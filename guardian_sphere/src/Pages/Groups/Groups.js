@@ -327,12 +327,35 @@ const Groups = () => {
     checkBanStatus();
   }, []);
 
-  const requestUnban = () => {
-    alert(t('request_unban_message')); // Message d'alerte temporaire
-    // À implémenter plus tard pour demander une levée de bannissement
+  const requestUnban = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert(t('please_login'));
+        return;
+      }
+  
+      const response = await fetch(`${BASE_URL}/api/user/request-unban`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error:', errorData.message);
+        alert(t('unban_request_failed'));
+        return;
+      }
+  
+      alert(t('unban_request_sent'));
+    } catch (error) {
+      console.error('Error requesting unban:', error);
+      alert(t('unban_request_failed'));
+    }
   };
-
-
+  
 
   return (
     <div className="group-container">

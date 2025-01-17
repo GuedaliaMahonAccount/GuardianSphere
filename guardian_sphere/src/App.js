@@ -21,6 +21,7 @@ import Call from './Pages/Call/Call.js';
 import Statistic from './Pages/Statistic/Statistic.js';
 import LandingPage from './Pages/LandingPage/LandingPage.js';
 import Reviews from './Pages/Reviews/Reviews.js';
+import UnbanPage from './Pages/UnbanPage/UnbanPage.js';
 
 // Define the ProtectedRoute component
 function ProtectedRoute({ element, redirectTo = '/login', roleRequired }) {
@@ -65,57 +66,64 @@ function App() {
           <BrowserRouter>
             <Layout>
               <LayoutHome>
-              <Routes>
-                {/* Redirect to login page if no route matches */}
-                {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
-                <Route path="/" element={<Navigate to="/landing" replace />} />
+                <Routes>
+                  {/* Redirect to login page if no route matches */}
+                  {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
+                  <Route path="/" element={<Navigate to="/landing" replace />} />
 
-                {/* Public Routes */}
-                <Route path="/landing" element={<LandingPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/signup-admin" element={<SignupAdmin />} />
-                <Route path="/reviews" element={<Reviews />} />
+                  {/* Public Routes */}
+                  <Route path="/landing" element={<LandingPage />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/signup-admin" element={<SignupAdmin />} />
+                  <Route path="/reviews" element={<Reviews />} />
 
 
-                {/* Protected Routes */}
-                <Route
-                  path="/home"
-                  element={<ProtectedRoute element={<Home />} />}
-                />
-                <Route
-                  path="/chat"
-                  element={<ProtectedRoute element={<Chat />} />}
-                />
-                <Route
-                  path="/call"
-                  element={<ProtectedRoute element={<Call />} />}
-                />
-                <Route
-                  path="/groups"
-                  element={<ProtectedRoute element={<Groups />} />}
-                />
-                <Route
-                  path="/follow-up"
-                  element={<ProtectedRoute element={<FollowUp />} />}
-                />
-                <Route
-                  path="/videos"
-                  element={<ProtectedRoute element={<Videos />} />}
-                />
-                <Route
-                  path="/doctors"
-                  element={<ProtectedRoute element={<Doctors />} />}
-                />
-                <Route
-                  path="/assistance"
-                  element={<ProtectedRoute element={<Assistance />} />}
-                />
-                <Route
-                  path="/statistic"
-                  element={<ProtectedRoute element={<Statistic />} roleRequired="admin" />}
-                />
-              </Routes>
+                  {/* Protected Routes */}
+                  <Route
+                    path="/home"
+                    element={<ProtectedRoute element={<Home />} />}
+                  />
+                  <Route
+                    path="/chat"
+                    element={<ProtectedRoute element={<Chat />} />}
+                  />
+                  <Route
+                    path="/call"
+                    element={<ProtectedRoute element={<Call />} />}
+                  />
+                  <Route
+                    path="/groups"
+                    element={<ProtectedRoute element={<Groups />} />}
+                  />
+                  <Route
+                    path="/follow-up"
+                    element={<ProtectedRoute element={<FollowUp />} />}
+                  />
+                  <Route
+                    path="/videos"
+                    element={<ProtectedRoute element={<Videos />} />}
+                  />
+                  <Route
+                    path="/doctors"
+                    element={<ProtectedRoute element={<Doctors />} />}
+                  />
+                  <Route
+                    path="/assistance"
+                    element={<ProtectedRoute element={<Assistance />} />}
+                  />
+                  <Route
+                    path="/statistic"
+                    element={<ProtectedRoute element={<Statistic />} roleRequired="admin" />}
+                  />
+
+                  <Route
+                    path="/unban/:userId"
+                    element={<ProtectedRoute element={<UnbanPage />} roleRequired="admin" />}
+                  />
+
+
+                </Routes>
               </LayoutHome>
             </Layout>
           </BrowserRouter>

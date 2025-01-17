@@ -1,5 +1,19 @@
 const express = require('express');
-const { signup, login, getUser ,updateUserProfile, checkAvailability, incrementContacted, getAllUsers, adminSignup, userSignup, incrementPoints ,getTreatmentById} = require('../controllers/usercontroller');
+const {
+    signup,
+    login,
+    getUser,
+    updateUserProfile,
+    checkAvailability,
+    incrementContacted,
+    getAllUsers,
+    adminSignup,
+    userSignup,
+    incrementPoints,
+    getTreatmentById,
+    requestUnban,
+    unbanUser
+} = require('../controllers/usercontroller');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // To protect routes if necessary
 
 const router = express.Router();
@@ -33,5 +47,12 @@ router.put('/increment-points', authMiddleware, incrementPoints);
 
 // Route to fetch a treatment by ID
 router.get('/:id', getTreatmentById);
+
+// Request unban route
+router.post('/request-unban', authMiddleware, requestUnban);
+
+// Unban user route (admin action)
+router.get('/unban/:userId', unbanUser);
+
 
 module.exports = router;

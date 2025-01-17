@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user'); // Import the User model
 const Code = require('../models/code'); // Import the Code model
+const nodemailer = require('nodemailer');
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 
 // Admin Signup
@@ -280,3 +282,76 @@ exports.getTreatmentById = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch treatment', error });
   }
 };
+
+
+
+exports.requestUnban = async (req, res) => {
+  const userId = req.userId; // ID of the banned user
+  try {
+    const user = await User.findById(userId);
+    if (!user || !user.banned) {
+      return res.status(400).json({ message: 'User is not banned or does not exist.' });
+    }
+
+    const admin = await User.findOne({ organization: user.organization, role: 'admin' });
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found for the user\'s organization.' });
+    }
+
+    const unbanLink = `${BASE_URL}/unban/${userId}`;
+
+    // Send email to admin
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: admin.email,
+      subject: 'Unban Request for User',
+      html: `
+        <p>The user <strong>${user.realName}</strong> (${user.email}) has been banned.</p>
+        <p>They are requesting to be unbanned. Click the link below to unban the user:</p>
+        <a href="${unbanLink}">Unban User</a>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'Unban request sent to admin.' });
+  } catch (error) {
+    console.error('Error handling unban request:', error);
+    res.status(500).json({ message: 'Failed to handle unban request.', error });
+  }
+};
+
+exports.unbanUser = async (req, res) => {
+  const { userId } = req.params;
+
+  console.log('Unban request received for user ID:', userId);
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('<h1>User not found</h1>');
+    }
+
+    // Update the user's banned status
+    user.banned = false;
+    user.signaledcount = 0;
+    await user.save();
+
+    res.send(`
+      <h1>User Unbanned</h1>
+      <p>The user <strong>${user.realName}</strong> has been successfully unbanned.</p>
+    `);
+  } catch (error) {
+    console.error('Error unbanning user:', error);
+    res.status(500).send('<h1>Failed to unban user. Please try again later.</h1>');
+  }
+};
+

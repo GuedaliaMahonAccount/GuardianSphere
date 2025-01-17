@@ -1,0 +1,7 @@
+{
+    "loading": "Processing the unban request...",
+    "success": "User has been successfully unbanned!",
+    "error": "Failed to unban the user.",
+    "tryAgain": "Please check the link or try again later.",
+    "back": "Go Back to Dashboard"
+}

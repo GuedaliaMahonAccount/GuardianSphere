@@ -7,6 +7,8 @@ import { faPen, faTrash, faCheck, faTimes, faSave, faMinus, faPlus } from '@fort
 import { getByUsername, createTreatment, updateTreatment, deleteTreatment, toggleCheck, incrementUserPoints  } from './followUpReq';
 //import {fetchTreatmentById} from './followUpReq';
 import { useNavigate } from 'react-router-dom';
+import { incrementContacted } from "../../components/Contact/contactReq";
+
 
 const FollowUp = () => {
   const { t } = useTranslation('FollowUp');
@@ -68,24 +70,31 @@ const FollowUp = () => {
     e.preventDefault();
     const { name, description, startDate, endDate, frequency } = formFields;
     if (!name || !description || !startDate) {
-      alert(t("form_error_fill_all"));
-      return;
+        alert(t("form_error_fill_all"));
+        return;
     }
 
-    // Create a new treatment object without `_id` for MongoDB
     const newTreatment = {
-      name,
-      description,
-      startDate,
-      endDate,
-      frequency,
-      checks: generateDates(startDate, endDate, frequency),
+        name,
+        description,
+        startDate,
+        endDate,
+        frequency,
+        checks: generateDates(startDate, endDate, frequency),
     };
 
-    // Temporarily add to UI
+    // Ajouter temporairement l'élément à l'UI
     setNewTreatments([...newTreatments, { ...newTreatment, tempId: `temp-${Date.now()}` }]);
     setFormFields({ name: "", description: "", startDate: "", endDate: "", frequency: "daily" });
-  };
+
+    try {
+        // Incrémenter les points
+        await incrementContacted();
+        console.log("Points incremented for creating a follow-up.");
+    } catch (error) {
+        console.error("Failed to increment points after creating a follow-up:", error);
+    }
+};
 
   const handleSaveTreatment = async (treatment) => {
     try {
@@ -125,19 +134,21 @@ const FollowUp = () => {
 
   const handleToggleCheck = async (treatmentId, date) => {
     try {
-      // Toggle the checkbox
-      const updatedTreatment = await toggleCheck(treatmentId, date);
-      dispatch({ type: 'SET_UPDATED_TREATMENT', payload: updatedTreatment });
+        // Basculer l'état de la case à cocher
+        const updatedTreatment = await toggleCheck(treatmentId, date);
+        dispatch({ type: 'SET_UPDATED_TREATMENT', payload: updatedTreatment });
 
-      // Increment user points
-      await incrementUserPoints();
-
+        // Incrémenter les points
+        await incrementContacted();
+        console.log("Points incremented for toggling a checkbox.");
     } catch (error) {
-      setError(`Error toggling checkbox: ${error.message}`);
+        setError(`Error toggling checkbox: ${error.message}`);
     }
-    // Refresh treatments
+
+    // Rafraîchir les traitements
     fetchTreatments();
-  };
+};
+  
 
   const handleDeleteTreatment = async (treatmentId) => {
     try {

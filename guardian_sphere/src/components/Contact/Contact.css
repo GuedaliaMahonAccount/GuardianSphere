@@ -26,6 +26,7 @@
     text-align: center;
     line-height: 1.5;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 50%;
 }
 
 .floating-card:hover {
@@ -47,9 +48,9 @@
 }
 
 .logo-atsala {
-    max-width: 200px; /* Limite la largeur de l'image */
-    max-height: 200px; /* Limite la hauteur de l'image */
-    margin-bottom: 10px; /* Espace entre l'image et le texte */
-    border-radius: 50%; /* Donne un effet circulaire à l'image */
+    max-width: 100px; /* Limite la largeur de l'image */
+    max-height: 100px; /* Limite la hauteur de l'image */
+    /* margin-bottom: 10px;*/ /*Espace entre l'image et le texte */
+    /* border-radius: 50%;*/ /*Donne un effet circulaire à l'image */
     object-fit: cover; /* S'assure que l'image reste bien cadrée */
 }

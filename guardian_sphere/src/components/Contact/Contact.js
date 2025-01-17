@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { incrementContacted } from "./contactReq";
 import './Contact.css';
 
 const Contact = () => {
-    const { t } = useTranslation("Contact"); // Namespace 'Contact' for translations
+    // const { t } = useTranslation("Contact");
     const [isBouncing, setIsBouncing] = useState(false);
 
     const handleContact = async () => {
@@ -37,7 +37,7 @@ const Contact = () => {
                 onClick={handleContact}
             >
                 <img 
-                    src="/Pictures/logo_atsala.png" 
+                    src="/Pictures/call_emergency.png" 
                     alt="Atsala Logo" 
                     className="logo-atsala" 
                 />

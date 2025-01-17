@@ -55,17 +55,23 @@ const Groups = () => {
       console.error('No token found. Please log in.');
       return;
     }
-
+  
+    const confirmation = window.confirm(t('confirm_report'));
+  
+    if (!confirmation) {
+      return; // Exit if the user cancels the action
+    }
+  
     try {
       const data = await reportMessageRequest(userId, token);
       console.log(data.message);
-
+  
       // Show the pop-up for the reported message
       setReportPopups((prevPopups) => ({
         ...prevPopups,
         [messageId]: true,
       }));
-
+  
       // Automatically hide the pop-up after 3 seconds
       setTimeout(() => {
         setReportPopups((prevPopups) => {
@@ -77,7 +83,7 @@ const Groups = () => {
       console.error(error.message || 'Failed to report the message. Please try again.');
     }
   };
-
+  
   // Auto-scroll functionality
   const scrollToBottom = () => {
     if (chatBoxRef.current) {

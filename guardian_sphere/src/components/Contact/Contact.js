@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { incrementContacted } from "./contactReq";
 import './Contact.css';
 
 const Contact = () => {
-    // const { t } = useTranslation("Contact");
+    const { t } = useTranslation("Contact");
     const [isBouncing, setIsBouncing] = useState(false);
 
     const handleContact = async () => {
+        // Obtenez le numéro de téléphone selon la langue
+        const phoneNumber = t("contactNumber");
+    
         // Incrémente le nombre de points de l'utilisateur
         await increasePoints();
-        // Redirige pour appeler le 1221
-        window.location.href = "tel:1221";
+    
+        // Redirige pour appeler le numéro
+        window.location.href = `tel:${phoneNumber}`;
     };
 
     const increasePoints = async () => {

@@ -67,7 +67,6 @@
   "checkFailed": "בדיקה נכשלה",
   "userNotFoundPleaseSignUp": "משתמש לא נמצא. נא להירשם",
   "signUpAdmin": "הרשמה למנהל",
-
   "emergencyMedicine": "רפואה דחופה",
   "intensiveCare": "טיפול נמרץ",
   "surgery": "ניתוח",
@@ -105,20 +104,19 @@
   "journalism": "עיתונאות",
   "animalRescue": "הצלת בעלי חיים",
   "other": "אחר",
-
   "copyCodeInstruction": "אנא העתיקו ושמרו את הקוד הזה. הוא יידרש למשתמשים אחרים להצטרפות לארגון שלכם.",
   "goToHome": "חזרה לדף הלוגין",
   "yourGeneratedCode": "הקוד שנוצר עבורכם",
   "fillAllFields": "אנא מלאו את כל השדות הנדרשים.",
   "adminSignupSuccess": "המנהל נרשם בהצלחה. הקוד שלכם הוא",
-
   "Landing": "דף הבית",
   "Testimonials": "עדויות",
   "Login": "התחברות",
   "Sign Up": "הרשמה",
   "Admin Sign Up": "הרשמה למנהל",
-
   "you_get": "קבלת ",
-  "points": " נקודות"
-
+  "points": " נקודות",
+  "organisation": "ארגון",  
+  "unban": "ביטול חסימה",
+  "admin": "מנהל"
 }

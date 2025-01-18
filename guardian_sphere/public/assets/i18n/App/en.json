@@ -67,7 +67,6 @@
   "checkFailed": "Failed to check availability.",
   "userNotFoundPleaseSignUp": "User not found. Please sign up.",
   "signUpAdmin": "Sign Up Admin",
-
   "emergencyMedicine": "Emergency Medicine",
   "intensiveCare": "Intensive Care",
   "surgery": "Surgery",
@@ -96,21 +95,19 @@
   "journalism": "Journalism",
   "animalRescue": "Animal Rescue",
   "other": "Other",
-
   "copyCodeInstruction": "Please copy and save this code. It will be required for other users to join your organization.",
   "goToHome": "Go to Login",
   "yourGeneratedCode": "Your Generated Code",
   "fillAllFields": "Please fill in all required fields.",
   "adminSignupSuccess": "Admin registered successfully. Your code is",
-
-  "Landing" : "Landing",
-  "Testimonials" : "Testimonials",
-  "Login" : "Login",
-  "Sign Up" : "Sign Up",
-  "Admin Sign Up" : "Admin Sign Up",
-
+  "Landing": "Landing",
+  "Testimonials": "Testimonials",
+  "Login": "Login",
+  "Sign Up": "Sign Up",
+  "Admin Sign Up": "Admin Sign Up",
   "you_get": "You Get ",
-  "points": " Points"
-
-  
+  "points": " Points",
+  "organisation": "Organisation",
+  "unban": "Unban User",
+  "admin": "Admin"
 }

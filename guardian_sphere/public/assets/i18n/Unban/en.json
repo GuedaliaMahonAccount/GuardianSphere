@@ -3,5 +3,9 @@
     "success": "User has been successfully unbanned!",
     "error": "Failed to unban the user.",
     "tryAgain": "Please check the link or try again later.",
-    "back": "Go Back to Dashboard"
+    "back": "Go Back to home",
+    "title": "Unban Users",
+    "noBannedUsers": "There are no banned users.",
+    "selectUser": "Select a user to unban.",
+    "errorlist": "Can't find users to unban."
 }

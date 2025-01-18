@@ -113,3 +113,92 @@
   background-color: rgba(255, 255, 255, 0.2); /* Change the color as needed */
   border-radius: 8px;
 }
+
+
+/* Section Admin */
+.admin_section {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* En-tête Admin */
+.admin_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: clamp(2px, 0.5vh, 10px);
+  background-color: #2c5373;
+  border-radius: 8px;
+  color: aliceblue;
+  font-size: clamp(8px, 1vw, 16px);
+  transition: background-color 0.3s ease, font-size 0.3s ease;
+}
+
+.admin_header:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+/* Icône dans l'en-tête Admin */
+.admin_header img {
+  width: clamp(20px, 2vw, 40px);
+  height: clamp(20px, 2vw, 40px);
+  margin-inline-end: clamp(8px, 1vw, 16px);
+  transition: transform 0.3s ease;
+}
+
+.admin_header img:hover {
+  transform: scale(1.1);
+}
+
+/* Liens de la section Admin */
+.admin_links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.admin_link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: clamp(2px, 0.5vh, 10px);
+  text-decoration: none;
+  color: aliceblue;
+  font-size: clamp(8px, 1vw, 16px);
+  background-color: transparent;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, font-size 0.3s ease;
+}
+
+.admin_link img {
+  width: clamp(20px, 2vw, 40px);
+  height: clamp(20px, 2vw, 40px);
+  margin-inline-end: clamp(8px, 1vw, 16px);
+  transition: transform 0.3s ease;
+}
+
+.admin_link:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.admin_link img:hover {
+  transform: scale(1.1);
+}
+
+.small_size .admin_header span,
+.small_size .admin_link span {
+  display: none; /* Masque le texte lorsque le menu est réduit */
+}
+
+.full_size .admin_header span,
+.full_size .admin_link span {
+  display: inline-block; /* Affiche le texte lorsque le menu est élargi */
+}

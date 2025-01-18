@@ -32,7 +32,7 @@ ChartJS.register(
 
 const Statistic = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation("Statistic", { fallbackLng: "en" });
+  const { t } = useTranslation("Statistic");
   const [data, setData] = useState({
     totalUsers: 0,
     contactedUsers: 0,

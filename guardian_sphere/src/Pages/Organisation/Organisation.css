@@ -1,0 +1,148 @@
+/* organisation.css */
+.organisation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f0f4f8, #87CEFA, #4682B4);
+    padding: 40px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    /* Étend le conteneur à la largeur de la page */
+    position: relative;
+    /* Nécessaire pour les pseudo-éléments */
+    overflow: hidden;
+    /* Pour éviter les débordements */
+}
+
+
+/* Decorative Background */
+.organisation-container::before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    z-index: 0;
+    animation: floating 6s ease-in-out infinite;
+}
+
+.organisation-container::after {
+    content: "";
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    z-index: 0;
+    animation: floating 8s ease-in-out infinite reverse;
+}
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(20px);
+    }
+}
+  
+  .organisation-container h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .organisation-container p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .add-row-button,
+  .submit-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #4682b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-row-button:hover,
+  .submit-button:hover {
+    background-color: #315f7a;
+  }
+  
+  .organisation-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .organisation-table th,
+  .organisation-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .organisation-table th {
+    background-color: #4682b4;
+    color: white;
+  }
+  
+  .organisation-table td input,
+  .organisation-table td select {
+    width: 90%;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .organisation-table td input:focus,
+  .organisation-table td select:focus {
+    outline: none;
+    border-color: #4682b4;
+  }
+  
+  .summary-container {
+    margin-top: 20px;
+  }
+  
+  .summary-container h2 {
+    color: #333;
+  }
+  
+  .summary-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .summary-container li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+  }
+  

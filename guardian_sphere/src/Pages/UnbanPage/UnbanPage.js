@@ -1,59 +1,76 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // Pour la traduction
 import { BASE_URL } from '../../config';
 import './UnbanPage.css'; // Importation du fichier CSS
 
-const UnbanPage = () => {
-  const { userId } = useParams(); // Récupère l'ID de l'utilisateur depuis l'URL
+const UnbanPageEmpty = () => {
+  const [bannedUsers, setBannedUsers] = useState([]); // Liste des utilisateurs bannis
   const [status, setStatus] = useState('loading'); // Statut de la requête
   const { t } = useTranslation("Unban"); // Hook pour les traductions
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unbanUser = async () => {
+    const fetchBannedUsers = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/user/unban/${userId}`, {
+        const response = await fetch(`${BASE_URL}/api/users/banned`, {
           method: 'GET',
         });
 
         if (response.ok) {
+          const data = await response.json();
+          setBannedUsers(data); // Mettre à jour la liste des utilisateurs bannis
           setStatus('success');
         } else {
-          const errorData = await response.json();
           setStatus('error');
-          console.error('Error unbanning user:', errorData.message);
+          console.error('Error fetching banned users');
         }
       } catch (error) {
-        console.error('Error unbanning user:', error);
+        console.error('Error fetching banned users:', error);
         setStatus('error');
       }
     };
 
-    unbanUser();
-  }, [userId]);
+    fetchBannedUsers();
+  }, []);
+
+  const handleUnbanClick = (userId) => {
+    navigate(`/unban/${userId}`); // Redirige vers la page unban/:userid
+  };
 
   const handleBack = () => {
-    navigate('/home'); // Redirige vers le tableau de bord ou une autre page admin
+    navigate('/home'); // Redirige vers la page d'accueil
   };
 
   return (
     <div className="unban-container">
-      {status === 'loading' && <h2>{t('unban.loading')}</h2>}
-      {status === 'success' && (
-        <>
-          <h2>{t('unban.success')}</h2>
-          <button className="unban-button" onClick={handleBack}>
-            {t('unban.back')}
-          </button>
-        </>
-      )}
+      <h1>{t('title')}</h1>
+      {status === 'loading' && <p>{t('loading')}</p>}
       {status === 'error' && (
         <>
-          <h2>{t('unban.error')}</h2>
-          <p>{t('unban.tryAgain')}</p>
+          <p>{t('error')}</p>
+          <button onClick={handleBack}>{t('back')}</button>
+        </>
+      )}
+      {status === 'success' && (
+        <>
+          {bannedUsers.length === 0 ? (
+            <p>{t('noBannedUsers')}</p>
+          ) : (
+            <ul className="banned-users-list">
+              {bannedUsers.map((user) => (
+                <li
+                  key={user.id}
+                  className="banned-user-item"
+                  onClick={() => handleUnbanClick(user.id)}
+                >
+                  {user.name} ({user.email})
+                </li>
+              ))}
+            </ul>
+          )}
           <button className="unban-button" onClick={handleBack}>
-            {t('unban.back')}
+            {t('back')}
           </button>
         </>
       )}
@@ -61,4 +78,4 @@ const UnbanPage = () => {
   );
 };
 
-export default UnbanPage;
+export default UnbanPageEmpty;

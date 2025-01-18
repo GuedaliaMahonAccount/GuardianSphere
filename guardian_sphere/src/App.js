@@ -22,6 +22,8 @@ import Statistic from './Pages/Statistic/Statistic.js';
 import LandingPage from './Pages/LandingPage/LandingPage.js';
 import Reviews from './Pages/Reviews/Reviews.js';
 import UnbanPage from './Pages/UnbanPage/UnbanPage.js';
+import Organisation from './Pages/Organisation/Organisation.js';
+import BannedUsersList from './Pages/UnbanPage/UnbanPageEmpty.js';
 
 // Define the ProtectedRoute component
 function ProtectedRoute({ element, redirectTo = '/login', roleRequired }) {
@@ -112,14 +114,24 @@ function App() {
                     path="/assistance"
                     element={<ProtectedRoute element={<Assistance />} />}
                   />
+
+
+                  {/* admin */}
                   <Route
                     path="/statistic"
                     element={<ProtectedRoute element={<Statistic />} roleRequired="admin" />}
                   />
-
                   <Route
                     path="/unban/:userId"
                     element={<ProtectedRoute element={<UnbanPage />} roleRequired="admin" />}
+                  />
+                  <Route
+                    path="/unban"
+                    element={<ProtectedRoute element={<BannedUsersList />} roleRequired="admin" />}
+                  />
+                  <Route
+                    path="/organisation"
+                    element={<ProtectedRoute element={<Organisation />} roleRequired="admin" />}
                   />
 
 

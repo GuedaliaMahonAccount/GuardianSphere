@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 
 function SideMenu() {
   const [menuExpand, setMenuExpand] = useState(false);
+  const [adminExpand, setAdminExpand] = useState(false); // État pour développer/réduire la section admin
   const { t, i18n } = useTranslation("App");
 
   const isRtl = i18n.language === "he";
-
   const userRole = localStorage.getItem("role");
 
   const toggleMenu = () => {
@@ -20,6 +20,10 @@ function SideMenu() {
     }
   };
 
+  const toggleAdminMenu = () => {
+    setAdminExpand(!adminExpand);
+  };
+
   const menuItems = [
     { label: t("home"), path: "/home", icon: "Pictures/home_icon.png", className: "home_icon_margin" },
     { label: t("chat"), path: "/chat", icon: "Pictures/chat_icon.png", className: "icon" },
@@ -29,9 +33,12 @@ function SideMenu() {
     { label: t("videos"), path: "/videos", icon: "Pictures/videos_icon.png", className: "icon" },
     { label: t("doctors"), path: "/doctors", icon: "Pictures/doctors_icon.png", className: "icon" },
     { label: t("assistance"), path: "/assistance", icon: "Pictures/assistance_icon.png", className: "icon" },
-    ...(userRole === "admin"
-      ? [{ label: t("statistic"), path: "/statistic", icon: "Pictures/statistic_icon.png", className: "icon" }]
-      : []),
+  ];
+
+  const adminItems = [
+    { label: t("statistic"), path: "/statistic", icon: "Pictures/statistic_icon.png", className: "icon" },
+    { label: t("organisation"), path: "/organisation", icon: "Pictures/organisation_icon.png", className: "icon" },
+    { label: t("unban"), path: "/unban", icon: "Pictures/unbaned_icon.png", className: "icon" },
   ];
 
   return (
@@ -64,6 +71,42 @@ function SideMenu() {
             </span>
           </NavLink>
         ))}
+
+        {/* Admin Section */}
+        {userRole === "admin" && (
+          <div className="admin_section">
+            <div
+              className={`admin_header ${menuExpand ? "full_size" : "small_size"}`}
+              onClick={toggleAdminMenu}
+            >
+              <img
+                src="Pictures/admin_icon.png"
+                alt={t("admin")}
+                className="admin_icon"
+              />
+              <span>{menuExpand && t("admin")}</span>
+              <span>{menuExpand && (adminExpand ? "\u276E" : "\u276F")}</span>
+            </div>
+            {adminExpand &&
+              adminItems.map((item, index) => (
+                <NavLink
+                  key={index}
+                  to={item.path}
+                  className={`link admin_link ${menuExpand ? "hover_width_fullsize" : "hover_width_small"} ${
+                    item.className || ""
+                  }`}
+                  activeClassName="active"
+                >
+                  <img className="logo_tab" src={item.icon} alt={item.label} />
+                  <span
+                    className={`router_link_home ${isRtl ? "margin_right_link" : "margin_left_link"}`}
+                  >
+                    {item.label}
+                  </span>
+                </NavLink>
+              ))}
+          </div>
+        )}
       </nav>
     </div>
   );
